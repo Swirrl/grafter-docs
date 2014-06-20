@@ -1,0 +1,23 @@
+<header>
+	<div class="pmd_wrapper">
+		<div class="pmd_row">
+			<div class="pmd_box_full">
+				<h1>
+					<a href="/">PublishMyData Documentation</a>
+				</h1>
+				<nav>
+					<ul>
+						{% for c in site.collections %}
+							{% comment %}
+								WORKAROUND: c is [key,object], so we need to pull out its contents.
+							{% endcomment %}
+							{% assign collection = c.last%}
+							<li>{% include _link_to_collection_home.html %}</li>
+						{% endfor %}
+						<li><a href="http://link-to-api-docs-here.com/">Grafter API Docs</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</header>

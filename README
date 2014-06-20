@@ -1,0 +1,7 @@
+To run locally:
+
+bundle exec jekyll serve --watch
+
+Smooth Yak policy:
+- to use syntax colouring, we require Pygments https://pypi.python.org/pypi/Pygments
+- locally, maybe use Rouge to get a similar effect?

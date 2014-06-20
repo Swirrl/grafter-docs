@@ -1,0 +1,23 @@
+{% comment %}
+
+Render a menu of all the documents in a collection
+
+Requires collection to be assigned to an item from site.collections before this is included.
+
+eg
+
+	{% assign collection = site.collections.developers %}
+	{% include menu_for_collection.html %}
+
+{% endcomment %}
+
+<h4>{% include _link_to_collection_home.html %}</h4>
+
+<ol>
+	{% for document in collection.docs %}
+		{% assign file = (document.url | split:"/" | last) %}
+		{% if file != "index.html" %}
+			<li><a href={{ document.url }}>{{ document.title }}</a></li>
+		{% endif %}
+	{% endfor %}
+</ol>

@@ -1,0 +1,38 @@
+# Site settings
+title: Documentation
+email: hello@swirrl.com
+description: "Documentation for users of Swirrl's PublishMyData platform and related software"
+baseurl: ""
+url: "http://developer.swirrl.com"
+
+# Build settings
+markdown: kramdown
+relative_permalinks: true
+highlighter: rouge
+exclude: [README, Gemfile, Gemfile.lock] # if only this worked
+
+# Stylesheet settings
+sass:
+    sass_dir: _scss
+    style: :compressed
+    full_exception: true
+
+# Collections
+collections:
+    about:
+      label: About Grafter
+      output: true
+
+    quick-start:
+      label: Quick Start Guide
+
+    # tutorials:
+    #   label: Tutorials
+    #   output: false
+
+    howto:
+      label: How To
+      output: true
+
+    api:
+      label: Grafter API Docs

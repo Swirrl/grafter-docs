@@ -1,0 +1,113 @@
+---
+---
+
+/* ==========================================================================
+	FRAMEWORK
+   ========================================================================== */
+
+@import "vendor/bootstrap";
+@import "vendor/syntax";
+
+/* ==========================================================================
+	READERS DIGEST version of the PMD Bootstrap facade
+   ========================================================================== */
+
+.pmd_wrapper{ @extend .container; }
+.pmd_row{ @extend .row; }
+.pmd_box_full{ @extend .col-md-12; }
+.pmd_box_has_sidebar{ @extend .col-md-9; }
+.pmd_box_sidebar{ @extend .col-md-3; }
+
+/* ==========================================================================
+	DOCUMENTATION STYLES
+   ========================================================================== */
+
+body{
+	background: #fafafa;
+	font-family: Helvetica;
+	font-size: 16px;
+	line-height: 1.6em;
+}
+
+main {
+	background: #fff;
+	padding: 48px 0;
+}
+
+p { margin-bottom: 1.3em; }
+
+h1, h2, h3, h4 {
+	font-weight: inherit;
+	line-height: 1.2;
+	// margin-top:48px;
+}
+
+h1 {
+	margin-top: 0;
+	font-size: 2.827em;
+}
+
+h2 {font-size: 1.999em; }
+h3 {font-size: 1.414em; }
+h4 {font-weight: bold;}
+
+header, footer {
+	padding: 24px 0;
+	h1 {
+		font-size: 1em;
+		font-weight: bold;
+		a { color: black !important; }
+	}
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		display: inline;
+		margin-right: 2em;
+		text-transform: uppercase;
+	}
+}
+
+.pmd_box_sidebar{
+	padding-bottom: 48px;
+	ol {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		padding-left: 1em;
+		text-indent:-1em;
+		margin-bottom: 0.5em;
+	}
+	h4 {
+		text-transform: uppercase;
+	}
+}
+
+code, pre code, pre{
+	background: rgba(255, 250, 205, 0.4);
+	border:0;
+	color: #000;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 24px 0;
+	width: 100%;
+}
+
+th, td{
+	font-size: 1em;
+	padding: 8px;
+	text-align: left;
+	vertical-align: top;
+	border: 1px solid #f2f2f2;
+}
+
+thead, th {
+	font-weight: normal;
+	background: #fafafa;
+}

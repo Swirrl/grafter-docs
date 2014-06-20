@@ -1,0 +1,23 @@
+{% comment %}
+
+Figures out to which collection the current page belongs,
+then displays the appropraite collection menu.
+
+{% endcomment %}
+
+<div>
+
+{% for c in site.collections %}
+	{% comment %}
+		WORKAROUND: c is [key,object], so we need to pull out its contents.
+	{% endcomment %}
+	{% assign contents = c.last %}
+	{% for document in contents.docs %} 
+		{% if document.url == page.url %}
+			{% assign collection = contents %}
+			{% include _menu_for_collection.html %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+
+</div>

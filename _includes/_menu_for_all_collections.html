@@ -1,0 +1,13 @@
+{% comment %}
+
+Render menus for all collections in site
+
+{% endcomment %}
+
+{% for c in site.collections %}
+	{% comment %}
+		WORKAROUND: c is [key,object], so we need to pull out its contents.
+	{% endcomment %}
+	{% assign collection = c.last%}
+	{% include _menu_for_collection.html %}
+{% endfor %}
