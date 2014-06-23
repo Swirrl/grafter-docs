@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Publishers
+title: Quick Start
 ---
 
 # PUBLISHERS HOMEPAGE

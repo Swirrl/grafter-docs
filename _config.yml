@@ -1,7 +1,7 @@
 # Site settings
-title: Documentation
+title: Grafter Documentation
 email: hello@swirrl.com
-description: "Documentation for users of Swirrl's PublishMyData platform and related software"
+description: "Documentation for Grafter"
 baseurl: ""
 url: "http://developer.swirrl.com"
 
@@ -25,10 +25,7 @@ collections:
 
     quick-start:
       label: Quick Start Guide
-
-    # tutorials:
-    #   label: Tutorials
-    #   output: false
+      output: true
 
     howto:
       label: How To
