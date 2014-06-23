@@ -2,7 +2,7 @@
 title: Grafter Documentation
 email: hello@swirrl.com
 description: "Documentation for Grafter"
-baseurl: ""
+baseurl: "/grafter-docs"
 url: "http://developer.swirrl.com"
 
 # Build settings
