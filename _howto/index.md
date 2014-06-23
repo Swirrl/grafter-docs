@@ -7,8 +7,6 @@ title: HowTo Guides
 
 Here we provide some how to guides on performing common tasks with Grafter.
 
-These guides are split into the following categories:
-
 ## General
 
 - Transformations and the art of preserving source data
