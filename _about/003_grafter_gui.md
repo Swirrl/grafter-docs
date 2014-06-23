@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The Grafter GUI
+title: The GUI
 ---
 
 # The Grafter GUI

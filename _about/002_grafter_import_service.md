@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The Grafter Importer
+title: The Importer
 ---
 
 # The Grafter Importer

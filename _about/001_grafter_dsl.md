@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The Grafter DSL
+title: The DSL
 ---
 
 # The Grafter DSL
