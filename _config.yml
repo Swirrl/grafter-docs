@@ -1,7 +1,9 @@
+
 # Site settings
 title: Grafter Documentation
 email: hello@swirrl.com
 description: "Documentation for Grafter"
+#baseurl: "/grafter-docs"
 baseurl: ""
 url: "http://developer.swirrl.com"
 
