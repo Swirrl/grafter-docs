@@ -84,6 +84,29 @@ and get
 
 ![Swap Screenshot](/assets/921_pipeline_4.png)
 
-###
+### Type
+
+Next we would like to get the type: in this case we want to have: "museums". Instead of modifying source data we will just add a new column with the modified data:
+
+{% highlight clojure %}
+
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)))
+     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_5.png)
+
+We have defined uriify-type function before:
+
+{% highlight clojure %}
+cmd-line.prefixers=> (uriify-type "Museums")
+"museums"
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_6.png)
 
 ## Conclusion 
