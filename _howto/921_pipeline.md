@@ -204,12 +204,6 @@ cmd-line.prefixers=> (uriify-refFacility "museums" "riverside-museum")
 
 ![Swap Screenshot](/assets/921_pipeline_13.png)
 
-{% highlight clojure %}
-
-cmd-line.prefixers=> (uriify-pcode "#<sesame$s$reify__448 G3 8RS>")
-"http://data.ordnancesurvey.co.uk/id/postcodeunit/#<SESAME$S$REIFY__448G38RS>"
-
-{% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_14.png)
 
