@@ -233,6 +233,61 @@ cmd-line.prefixers=> (date-time 2013 9)
 
 ![Swap Screenshot](/assets/921_pipeline_16.png)
 
+Nothing really new from now, but still interesting!
+
+### Monthly attendance
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])
+     (derive-column uriify-refFacility 9 10)
+     (derive-column uriify-pcode 7)
+     (fuse date-time 3 4)
+     (derive-column prefix-monthly-attendance 3)))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_17.png)
+
+
+![Swap Screenshot](/assets/921_pipeline_18.png)
+
+### Last step!
+
+Actually we combine two steps here but it should be two really easy steps now:
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])
+     (derive-column uriify-refFacility 9 10)
+     (derive-column uriify-pcode 7)
+     (fuse date-time 3 4)
+     (derive-column prefix-monthly-attendance 3)
+     (derive-column slug-combine 8 9)
+     (fuse str 12 13)
+     ))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_19.png)
+
+{% highlight clojure %}
+cmd-line.prefixers=> (slug-combine "museums" "riverside-museum")
+"museums/riverside-museum"
+cmd-line.prefixers=> (str "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/2013-9/" "museums/riverside-museum")
+"http://linked.glasgow.gov.uk/data/glasgow-life-attendances/2013-9/museums/riverside-museum"
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_20.png)
+
 ## Conclusion 
 
 
