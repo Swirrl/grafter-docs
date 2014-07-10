@@ -40,12 +40,10 @@ And also every prefixies we have defined [at the last step](911_prefixies.html)
 
 
 {% highlight clojure %}
-
 (ns cmd-line.pipeline
   (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
             [grafter.parse :refer [date-time]]
             [cmd-line.prefixers :refer :all]))
-
 {% endhighlight %}
 
 ## Step by step process
@@ -55,11 +53,9 @@ And also every prefixies we have defined [at the last step](911_prefixies.html)
 First step is to parse the csv and drop the header:
 
 {% highlight clojure %}
-
 (defn pipeline [path-csv] 
  (-> (parse-csv path-csv)
-     (drop-rows 1)))
-     
+     (drop-rows 1)))     
 {% endhighlight %}
 
 ![Drop header Screenshot](/assets/921_pipeline_2.png)
@@ -70,12 +66,10 @@ First step is to parse the csv and drop the header:
 Then we want to prepare the date, thus we would like to swap the month and the year:
 
 {% highlight clojure %}
-
 (defn pipeline [path-csv] 
  (-> (parse-csv path-csv)
      (drop-rows 1)
-     (swap {3 4})))
-     
+     (swap {3 4})))     
 {% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_3.png)
@@ -86,16 +80,14 @@ and get
 
 ### Type
 
-Next we would like to get the type: in this case we want to have: "museums". Instead of modifying source data we will just add a new column with the modified data:
+Next we would like to get the type: in this case we want to have: "museums". Instead of modifying source data we will just add a new column with the modified data. Basically we take the column 0 data, apply the function uriify-type, and add the result to a new column:
 
 {% highlight clojure %}
-
 (defn pipeline [path-csv] 
  (-> (parse-csv path-csv)
      (drop-rows 1)
      (swap {3 4})
-     (derive-column uriify-type 0)))
-     
+     (derive-column uriify-type 0)))     
 {% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_5.png)
@@ -109,4 +101,149 @@ cmd-line.prefixers=> (uriify-type "Museums")
 
 ![Swap Screenshot](/assets/921_pipeline_6.png)
 
+### Name
+
+We are going to need to have the name in an nice format to make URI. Same way to do: 
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_7.png)
+
+{% highlight clojure %}
+cmd-line.prefixers=> (slugify-facility "Riverside Museum")
+"riverside-museum"
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_8.png)
+
+### Mapc
+
+This one is a bit different: we will use mapc to apply a different function to each column:
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_9.png)
+
+{% highlight clojure %}
+cmd-line.prefixers=> (uriify-facility "Museums")
+"http://linked.glasgow.gov.uk/def/urban-assets/Museum"
+cmd-line.prefixers=> (trim "Riverside Museum")
+"Riverside Museum"
+cmd-line.prefixers=> (parse-attendance 48521)
+48521
+cmd-line.prefixers=> (parse-year 2013)
+2013
+cmd-line.prefixers=> (convert-month "September")
+9
+cmd-line.prefixers=> (address-line "100 Pointhouse Place")
+#<sesame$s$reify__448 100 Pointhouse Place>
+cmd-line.prefixers=> (city "Glasgow")
+#<sesame$s$reify__448 Glasgow>
+cmd-line.prefixers=> (post-code "G3 8RS")
+#<sesame$s$reify__448 G3 8RS>
+md-line.prefixers=> (url "http://www.glasgowlife.org.uk/museums/riverside/Pages/default.aspx")
+#<URL http://www.glasgowlife.org.uk/museums/riverside/Pages/default.aspx>
+cmd-line.prefixers=> (_ "museums")
+"museums"
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_10.png)
+
+We have changed a lot of things, but each transformation is easy to understand and what is important is that you can apply easily different transofrmations to each column.
+
+### Facilities uri
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])
+     (derive-column uriify-refFacility 9 10)))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_11.png)
+
+{% highlight clojure %}
+cmd-line.prefixers=> (uriify-refFacility "museums" "riverside-museum")
+"http://linked.glasgow.gov.uk/id/urban-assets/museums/riverside-museum"
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_12.png)
+
+### Postcode
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])
+     (derive-column uriify-refFacility 9 10)
+     (derive-column uriify-pcode 7)))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_13.png)
+
+{% highlight clojure %}
+
+cmd-line.prefixers=> (uriify-pcode "#<sesame$s$reify__448 G3 8RS>")
+"http://data.ordnancesurvey.co.uk/id/postcodeunit/#<SESAME$S$REIFY__448G38RS>"
+
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_14.png)
+
+### Date time
+
+We are now going to create a nice date-time. date-time takes two arguments here, on column 3 and 4, fuse take the result of the function and put it in the first column concerned (here 3):
+
+{% highlight clojure %}
+(defn pipeline [path-csv] 
+ (-> (parse-csv path-csv)
+     (drop-rows 1)
+     (swap {3 4})
+     (derive-column uriify-type 0)
+     (derive-column slugify-facility 1)
+     (mapc [uriify-facility trim parse-attendance parse-year convert-month address-line city post-code url _ _])
+     (derive-column uriify-refFacility 9 10)
+     (derive-column uriify-pcode 7)
+     (fuse date-time 3 4)))     
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_15.png)
+
+{% highlight clojure %}
+cmd-line.prefixers=> (date-time 2013 9)
+#<DateTime 2013-09-01T00:00:00.000Z>
+{% endhighlight %}
+
+![Swap Screenshot](/assets/921_pipeline_16.png)
+
 ## Conclusion 
+
+
+
+
+
+
+
