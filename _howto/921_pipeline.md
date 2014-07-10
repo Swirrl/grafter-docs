@@ -273,8 +273,7 @@ Actually we combine two steps here but it should be two really easy steps now:
      (fuse date-time 3 4)
      (derive-column prefix-monthly-attendance 3)
      (derive-column slug-combine 8 9)
-     (fuse str 12 13)
-     ))     
+     (fuse str 12 13)))     
 {% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_19.png)
@@ -290,9 +289,4 @@ cmd-line.prefixers=> (str "http://linked.glasgow.gov.uk/data/glasgow-life-attend
 
 ## Conclusion 
 
-
-
-
-
-
-
+We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with the creation of the graphs (FIXME link to graph)
