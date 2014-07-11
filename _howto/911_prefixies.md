@@ -83,6 +83,72 @@ So you just have to check the final graph and define every bases of uri:
 {% endhighlight %}
 
 
+## Useful functions
+We will also need some functions to transform and adapt data
 
+#### uriify-facility
+{% highlight clojure %}
+(def uriify-facility {"Museums" (urban "Museum")
+                      "Arts" (urban "ArtsCentre")
+                      "Community Facility" (urban "CommunityFacility")
+                      "Libraries" (urban "Library")
+                      "Music" (urban "MusicVenue")
+                      "Sport Centres" (urban "SportsCentre")})
 
+cmd-line.prefixers=> (uriify-facility "Libraries")
+"http://linked.glasgow.gov.uk/def/urban-assets/Library"
+{% endhighlight %}
+
+#### uriify-refFacility
+{% highlight clojure %}
+(defn uriify-refFacility [type name] 
+  (str (urban-id type) "/" name))
+    
+cmd-line.prefixers=> (uriify-refFacility "foo" "bar")
+"http://linked.glasgow.gov.uk/id/urban-assets/foo/bar"
+{% endhighlight %}
+
+#### slug-combine
+{% highlight clojure %}
+(defn slug-combine [& args]
+  (apply str (interpose "/" args)))
+    
+cmd-line.prefixers=> (slug-combine "foo" "bar" "baz")
+"foo/bar/baz"
+{% endhighlight %}
+
+#### uriify-type
+{% highlight clojure %}
+(def uriify-type {"Museums" "museums"
+                  "Arts" "arts-centres"
+                  "Community Facility" "community-facilities"
+                  "Libraries" "libraries"
+                  "Music" "music-venues"
+                  "Sport Centres" "sports-centres"})
+    
+cmd-line.prefixers=> (uriify-type "Community Facility")
+"community-facilities"
+{% endhighlight %}
+
+#### date-slug
+{% highlight clojure %}
+(defn date-slug [date]
+  (str (.getYear date) "-" (.getMonthOfYear date) "/"))
+{% endhighlight %}
+
+#### slugify-facility
+{% highlight clojure %}
+(def slugify-facility
+  (js-fn "function(name) {
+              var lower = name.toLowerCase();
+              return lower.replace(/\\ /g, '-');
+         }"))
+
+cmd-line.prefixers=> (slugify-facility "Foo bAr")
+"foo-bar"
+{% endhighlight %}
+
+## Monads
+
+This part is a bit more tricky.
 
