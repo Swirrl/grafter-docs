@@ -24,6 +24,7 @@ For each row the process will be the same so I will just show the two first line
 ![Data Screenshot](/assets/921_pipeline_1.png)
 
 ### Dependencies
+The whole code will be in a src/cmd-line/pipeline.clj file.
 
 The pipeline function is going to require some Grafter functions:
 
@@ -51,8 +52,6 @@ And also every prefixies we have defined [at the last step](911_prefixies.html)
 ## Step by step process
 
 ### Parse CSV and header
-
-The whole code will be in a src/cmd-line/pipeline.clj file.
 First step is to parse the csv and drop the header:
 
 {% highlight clojure %}

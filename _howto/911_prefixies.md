@@ -34,24 +34,28 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 {% endhighlight %}
 
 ## Dependencies
+In a src/cmd-line/prefixers.clj file.
 
 We are going to need every ontologies defined in Grafter, some functions from grafter.parse grafter.protocols and grafter.js. We also need the [Clojure algo.monads API](http://clojure.github.io/algo.monads/) and the clojure string API:
 
 {% highlight clojure %}
-(ns cmd-line.make-graph
-  (:require [clojure.string :as st]
-            [grafter.rdf :refer [prefixer s graph graphify]]
-            [grafter.rdf.sesame :as ses]
-            [grafter.rdf.ontologies.rdf :refer :all]
-            [grafter.rdf.ontologies.void :refer :all]
-            [grafter.rdf.ontologies.dcterms :refer :all]
-            [grafter.rdf.ontologies.vcard :refer :all]
-            [grafter.rdf.ontologies.pmd :refer :all]
-            [grafter.rdf.ontologies.qb :refer :all]
-            [grafter.rdf.ontologies.os :refer :all]
-            [grafter.rdf.ontologies.sdmx-measure :refer :all]
-            [cmd-line.prefixers :refer :all]
-            [cmd-line.pipeline :refer [pipeline]]))
+(ns cmd-line.prefixers
+  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
+           [grafter.rdf.protocols :as pr]
+           [clojure.string :as st]
+           [grafter.rdf :refer [prefixer s]]
+           [grafter.rdf.ontologies.rdf :refer :all]
+           [grafter.rdf.ontologies.void :refer :all]
+           [grafter.rdf.ontologies.dcterms :refer :all]
+           [grafter.rdf.ontologies.vcard :refer :all]
+           [grafter.rdf.ontologies.pmd :refer :all]
+           [grafter.rdf.ontologies.qb :refer :all]
+           [grafter.rdf.ontologies.os :refer :all]
+           [grafter.rdf.ontologies.sdmx-measure :refer :all]
+           [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
+           [grafter.js :refer [js-fn]]
+           [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
+
 {% endhighlight %}
 
 ## Base prefixies

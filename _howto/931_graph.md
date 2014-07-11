@@ -8,12 +8,13 @@ title: Graph
 We [now have every thing we needed](921_pipeline.html) to make our graphs!
 
 ## Dependencies
+In a src/cmd-line/make_graph.clj file.
+
 {% highlight clojure %}
-(ns cmd-line.prefixers
-  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
-            [grafter.rdf.protocols :as pr]
-            [clojure.string :as st]
-            [grafter.rdf :refer [prefixer s]]
+(ns cmd-line.make-graph
+  (:require [clojure.string :as st]
+            [grafter.rdf :refer [prefixer s graph graphify]]
+            [grafter.rdf.sesame :as ses]
             [grafter.rdf.ontologies.rdf :refer :all]
             [grafter.rdf.ontologies.void :refer :all]
             [grafter.rdf.ontologies.dcterms :refer :all]
@@ -22,9 +23,8 @@ We [now have every thing we needed](921_pipeline.html) to make our graphs!
             [grafter.rdf.ontologies.qb :refer :all]
             [grafter.rdf.ontologies.os :refer :all]
             [grafter.rdf.ontologies.sdmx-measure :refer :all]
-            [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
-            [grafter.js :refer [js-fn]]
-            [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
+            [cmd-line.prefixers :refer :all]
+            [cmd-line.pipeline :refer [pipeline]]))
 {% endhighlight %}
 
 ## Graphify
