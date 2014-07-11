@@ -13,8 +13,10 @@ Behind this there is the Grafter philosophy of transformations and preservation 
 ### Clojure 
 
 #### -> macro
+[The "thread-first" macro](http://clojuredocs.org/clojure_core/clojure.core/-%3E) is often used in clojure and makes code more readable.
 
 #### let
+[The "let" special form](http://clojuredocs.org/clojure_core/clojure.core/let) makes the binding, and therefore the ability to resolve the binding, available only within the lexical context of the let (still the idea of transformations and preservation of source data).
 
 ### Data
 For each row the process will be the same so I will just show the two first lines:
@@ -50,6 +52,7 @@ And also every prefixies we have defined [at the last step](911_prefixies.html)
 
 ### Parse CSV and header
 
+The whole code will be in a src/cmd-line/pipeline.clj file.
 First step is to parse the csv and drop the header:
 
 {% highlight clojure %}
@@ -289,4 +292,4 @@ cmd-line.prefixers=> (str "http://linked.glasgow.gov.uk/data/glasgow-life-attend
 
 ## Conclusion 
 
-We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with the creation of the graphs (FIXME link to graph)
+We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graphs](931_graph.html)
