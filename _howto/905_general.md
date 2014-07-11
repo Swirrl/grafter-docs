@@ -35,6 +35,11 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 	a <http://purl.org/linked-data/cube#Observation> .
 {% endhighlight %}
 
+And basically, we would like to get it from the command line with something like:
+
+{% highlight shell %}
+$ lein run my-csv-file my-output-graph
+{% endhighlight %}
 
 ## Global process
 - The first part of the process is going to be the [definition of every prefixies](911_prefixies.html) we are going to need for our triples
