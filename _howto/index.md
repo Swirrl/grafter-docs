@@ -9,28 +9,28 @@ Here we provide some how to guides on performing common tasks with Grafter.
 
 ## General
 
-- Transformations and the art of preserving source data
+- [Transformations and the art of preserving source data](101_transformations.html)
 
 ## Row & Cell level
 
-- How to convert cell level values
-- How to perform row level transformations
-- How to filter rows
+- [How to convert cell level values](210_convert_cell_level_values.html )
+- [How to perform row level transformations](220_row_level_transformations.html)
+- [How to filter rows](230_filter_rows.html)
 
 ## Graph level
 
-- How to build a Linked Data template
-- How to denormalise a table
+- [How to build a Linked Data template](310_linked_data_template.html)
+- [How to denormalise a table](320_denormalise_table.html)
 
 ## Data modelling
 
-- URI patterns and the art of the URI
-- Choosing an ontology
-- Making a data cube
+- [URI patterns and the art of the URI](410_uri_patterns.html)
+- [Choosing an ontology](420_ontology_choice.html)
+- [Making a data cube](430_data_cube.html)
 
 ## Miscelaneous Tips & Tricks
 
-- The art of lookup tables
+- [The art of lookup tables](510_lookup_tables.html)
 
 ## Example
-- Glasgow Life Facilities
+- [Glasgow Life Facilities](905_general.html)

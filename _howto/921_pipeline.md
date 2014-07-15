@@ -8,7 +8,7 @@ title: The Pipeline function
 ## Principle
 As its name indicates, the pipeline function, aims to link the data we are working on and the graph we want. Basically, pipeline modifies, for each row of the CSV file we are working on, the columns, so we can access or add the exact data we need.
 
-Behind this there is the Grafter philosophy of transformations and preservation of source data.(FIXME: link_to Transformations and the art of preserving source data)
+Behind this there is the Grafter philosophy of [transformations and preservation of source data.](101_transformations.html)
 
 
 ### Data
