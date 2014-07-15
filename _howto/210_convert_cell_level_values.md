@@ -11,6 +11,8 @@ Mapc function allows you to transform and modify each cell differently.
 
 Let's take a basic CSV:
 
+![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
+
 {% highlight CSV %}
 
 " Grafter ", "csv", 4
