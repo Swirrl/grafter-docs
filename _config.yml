@@ -33,5 +33,9 @@ collections:
       label: How To
       output: true
 
+    tutorials:
+      label: Tutorials
+      output: true
+
     api:
       label: Grafter API Docs
