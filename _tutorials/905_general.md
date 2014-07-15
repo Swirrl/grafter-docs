@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Exemple Glasgow life facilities
+title: General
 ---
 
 # Example Glasgow life facilities
-This exemple aims, with a concrete case, both to present you how you can use Grafter for your RDFization projects and to help you understand what is happening in the engine.
+This example aims, with a concrete case, both to present you how you can use Grafter for your RDFization projects and to help you understand what is happening in the engine.
 
 ## Data presentation
 We are going to use the dataset "test-data/glasgow-life-facilities.csv".
@@ -35,38 +35,5 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 	a <http://purl.org/linked-data/cube#Observation> .
 {% endhighlight %}
 
-And basically, we would like to get it from the command line with something like:
 
-{% highlight shell %}
-$ lein run my-csv-file my-output-graph
-{% endhighlight %}
-
-## Global process
-- The first part of the process is going to be the [definition of every prefixies](911_prefixies.html) we are going to need for our triples
-- Then we will [work and transform the data](921_pipeline.html) we have to make them usable
-- After that we will be able to [create the graphs we want](931_graph.html)
-- There will therefore be only one little step: [filter and export](941_filter_import.html)
-
-## Leiningen project
-As a step 0, let's configure a Leiningen project:
-
-{% highlight shell %}
-$ lein new cmd-line
-$ cd cmd-line
-{% endhighlight %}
-
-TOFIX: and in project.clj:
-
-{% highlight clojure %}
-(defproject cmd-line "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.1.0"]]
-  :main cmd-line.core
-  :plugins [[s3-wagon-private "1.1.2"]])
-{% endhighlight %}
-
-[Now let's graft some CSV!](911_prefixies.html)
+[Now let's clean some data!](908_cleaning.html)
