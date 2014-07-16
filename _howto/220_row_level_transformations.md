@@ -19,7 +19,7 @@ The idea is quite simple: on a row, take one or more cell(s), apply a function, 
 {% highlight clojure %}
 
 user=> (-> '(["Grafter" "rdf" 3])
-    (derive-column uriify 2))
+            (derive-column uriify 2))
 
 (["Grafter" "rdf" 3 "http://www.grafter-is-the-best.com/rdf"])
 
@@ -36,7 +36,7 @@ And with a function using more than one argument:
 {% highlight clojure %}
 
 user=> (-> '(["Grafter" "rdf" 3 "foo"])
-    (derive-column slug-combine 0 1 2))
+            (derive-column slug-combine 0 1 2))
 
 (["Grafter" "rdf" 3 "foo" "Grafter/rdf/3"])
 
@@ -44,8 +44,51 @@ user=> (-> '(["Grafter" "rdf" 3 "foo"])
 
 ![Data Screenshot](/assets/220_row_level_transformations_4.png)
 
+Note that **order count:**
+
+{% highlight clojure %}
+
+user=> (-> '(["Grafter" "rdf" 3 "foo"])
+            (derive-column slug-combine 1 2 0))
+
+(["Grafter" "rdf" 3 "foo" "rdf/3/Grafter"])
+
+{% endhighlight %}
+
+And as order count, there is a function to change the columns order if needed, swap.
+
 ### swap
-Swap is used to
+Swap is used to swap columns.
+
+![Data Screenshot](/assets/220_row_level_transformations_5.png)
+
+
+![Data Screenshot](/assets/220_row_level_transformations_6.png)
+
+{% highlight clojure %}
+
+user=> (-> '(["Grafter" "rdf" 3])
+            (swap {0 1}))
+
+(["rdf" "Grafter" 3])
+
+{% endhighlight %}
 
 
 ### fuse
+Fuse apply a two-arguments function to two columns, takes the result, put it in the first of the two columns concerned and delete the other one.
+You can use it but **in most of the cases derive-column is a better idea.**
+
+![Data Screenshot](/assets/220_row_level_transformations_7.png)
+
+
+![Data Screenshot](/assets/220_row_level_transformations_8.png)
+
+{% highlight clojure %}
+
+user=> (-> '(["Grafter" "rdf" 3])
+            (fuse slug-combine 0 1))
+
+(["Grafter/rdf" 3])
+
+{% endhighlight %}
