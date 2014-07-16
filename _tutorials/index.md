@@ -19,7 +19,7 @@ Using Grafter can be decomposed in different part:
 
 - There will therefore be a little step: [filter and export](941_filter_import.html)
 
-- And, finally, it's not really in the process but we are going to [wrap every steps in a Leiningen project](951_command_line.html) to be able to graft documents from the command line!
+- And, finally, it's not really in the process but we are going to [wrap every steps in a Leiningen project](951_command_line.html) to be able to graft documents from the command line! It's a good way to review everything we will have done before.
 
 ![process](/assets/index_1.png)
 

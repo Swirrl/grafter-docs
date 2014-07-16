@@ -8,20 +8,8 @@ It's now time to import those quads into a real graph on a Turtle file. BUT if w
 
 ## Filter
 
-### Dependencies
-In a src/cmd-line/filter.clj file.
-
-{% highlight clojure %}
-(ns cmd-line.filter
-  (:require [grafter.rdf.protocols :as pr]
-            [grafter.rdf :refer [prefixer s graph graphify]]
-            [grafter.rdf.validation :refer [blank?]]
-            [grafter.rdf.ontologies.vcard :refer :all]
-            [grafter.rdf.ontologies.os :refer :all]))
-{% endhighlight %}
-
 ### filter-triples
-When checking our dataset we can see that there are missing data in the columns 
+When checking our dataset we can see that there are missing data in the columns
 - Postcode
 - Website
 
@@ -34,21 +22,6 @@ When checking our dataset we can see that there are missing data in the columns
 ## Import
 Now we can import our turtle file.
 
-In a src/cmd-line/core.clj:
-
-{% highlight clojure %}
-(ns cmd-line.core
-  (:use [cmd-line.make-graph] 
-        [cmd-line.prefixers] 
-        [cmd-line.filter] 
-        [cmd-line.pipeline])
-  (:require [cmd-line.filter :refer [filter-triples]]
-            [cmd-line.make-graph :refer [make-life-facilities]]
-            [grafter.rdf.protocols :as pr]
-            [grafter.rdf.sesame :as ses]
-            [grafter.rdf.validation :refer [validate-triples has-blank?]]))
-{% endhighlight %}
-
 {% highlight clojure %}
 (defonce my-repo (-> "./tmp/grafter-sesame-store2" ses/native-store ses/repo))
 
@@ -57,9 +30,9 @@ In a src/cmd-line/core.clj:
         quads (->> quads-seq
                    filter-triples
                    (validate-triples (complement has-blank?)))]
-    
+
     (pr/add (ses/rdf-serializer destination) quads)))
 {% endhighlight %}
 
 ## Conclusion
-Everything should work now! Let's just finish the work by [defining a -main function to use the command line.](951_command_line.html)
+Everything should work now! Let's just finish the work by [defining a Leiningen project to wrap all those code bits and to graft from the command line.](951_command_line.html)
