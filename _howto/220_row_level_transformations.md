@@ -92,3 +92,27 @@ user=> (-> '(["Grafter" "rdf" 3])
 (["Grafter/rdf" 3])
 
 {% endhighlight %}
+
+### drop-rows
+
+Drop rows can be useful to remove a header for example. Simply give the number of rows you want to drop as argument.
+
+![Data Screenshot](/assets/220_row_level_transformations_9.png)
+
+![Data Screenshot](/assets/220_row_level_transformations_10.png)
+
+Result:
+
+![Data Screenshot](/assets/220_row_level_transformations_11.png)
+
+{% highlight clojure %}
+
+user=> (-> '( ["Grafter" "rdf" 3]
+              ["PMD" "opendata" 2]
+              ["Drafter" "data" 1])
+            (drop-rows 2))
+
+(["Drafter" "data" 1])
+
+
+{% endhighlight %}
