@@ -2,10 +2,11 @@
 layout: page
 title: Tutorials
 ---
+# Tutorials
 
 This example aims, with a concrete case, both to present you how you can use Grafter for your RDFization projects and to help you understand what is happening in the engine.
 
-# Tutorials overview
+## Tutorials overview
 
 Using Grafter can be decomposed in different part:
 

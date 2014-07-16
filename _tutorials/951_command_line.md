@@ -171,7 +171,7 @@ The pipeline function is going to require some Grafter functions:
 - _: identity
 - date-time: uses the [clj-time](https://github.com/clj-time/clj-time)'s date-time
 
-And also every prefixies we have defined [at the last step](911_prefixies.html)
+And also every prefixes we have defined [at the last step](911_making_uri.html)
 
 
 {% highlight clojure %}
