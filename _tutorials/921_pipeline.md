@@ -5,10 +5,9 @@ title: The Pipeline function
 
 # Pipeline
 
-## Principle
 As its name indicates, the pipeline function, aims to link the data we are working on and the graph we want. Basically, pipeline modifies, for each row of the CSV file we are working on, the columns, so we can access or add the exact data we need.
 
-Behind this there is the Grafter philosophy of [transformations and preservation of source data.](101_transformations.html)
+Behind this there is the Grafter philosophy of [transformations and preservation of source data.](/howto/101_transformations.html)
 
 
 ### Data
@@ -16,31 +15,6 @@ For each row the process will be the same so I will just show the two first line
 
 ![Data Screenshot](/assets/921_pipeline_1.png)
 
-### Dependencies
-The whole code will be in a src/cmd-line/pipeline.clj file.
-
-The pipeline function is going to require some Grafter functions:
-
-- parse-csv: simply uses the [Clojure.java.io API reader function](http://clojure.github.io/clojure/clojure.java.io-api.html) to parse our csv file
-- drop-rows: drops the first n rows from the CSV
-- swap: swaps two columns
-- derive-column: adds a new column to the end of the row which is derived from already existing columns
-- mapc: takes an array of functions and maps each to the equivalent column position for every row
-- fuse: merges columns
-- _: identity
-- date-time: uses the [clj-time](https://github.com/clj-time/clj-time)'s date-time
-
-And also every prefixies we have defined [at the last step](911_prefixies.html)
-
-
-{% highlight clojure %}
-(ns cmd-line.pipeline
-  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
-            [grafter.parse :refer [date-time]]
-            [cmd-line.prefixers :refer :all]))
-{% endhighlight %}
-
-## Step by step process
 
 ### Parse CSV and header
 First step is to parse the csv and drop the header:
@@ -135,6 +109,8 @@ cmd-line.prefixers=> (_ "museums")
 {% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_10.png)
+
+It's important to remember that finally, **we want an RDF graph so we have to build, here, RDF type!**
 
 We have changed a lot of things, but each transformation is easy to understand and what is important is that you can apply easily different transofrmations to each column.
 
@@ -278,4 +254,4 @@ cmd-line.prefixers=> (str "http://linked.glasgow.gov.uk/data/glasgow-life-attend
 
 ## Conclusion
 
-We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graphs](931_graph.html)
+We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graph fragments.](931_graph.html)

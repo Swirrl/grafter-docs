@@ -8,9 +8,15 @@ title: Making URI
 There is no code difficulties here, what could be complicated is: how familiar are you with the data you are working on? How clear the graph you want is in your mind? And are you used to RDF, ontologies and that kind of things.
 For our example we already have the graph we want so we just need to search for every piece of text that we do not already have in our CSV file and define it...
 
-Just for more readability, here is what we've got and what we want once again:
+Just for more readability, here is what we've got:
 
-![Data Screenshot](/assets/911_prefixies_1.png)
+{% highlight CSV %}
+
+"Museums", "Riverside Museum", 48521, September, 2013, "100 Pointhouse Place", "Glasgow", "G3 8RS", "http://www.glasgowlife.org.uk/museums/riverside/Pages/default.aspx"
+
+{% endhighlight %}
+
+and what we want:
 
 {% highlight turtle %}
 <http://linked.glasgow.gov.uk/id/urban-assets/museums/riverside-museum> <http://www.w3.org/2000/01/rdf-schema#label> "Riverside Museum"@en ;
@@ -33,33 +39,9 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 	a <http://purl.org/linked-data/cube#Observation> .
 {% endhighlight %}
 
-## Dependencies
-In a src/cmd-line/prefixers.clj file.
 
-We are going to need every ontologies defined in Grafter, some functions from grafter.parse grafter.protocols and grafter.js. We also need the [Clojure algo.monads API](http://clojure.github.io/algo.monads/) and the clojure string API:
-
-{% highlight clojure %}
-(ns cmd-line.prefixers
-  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
-           [grafter.rdf.protocols :as pr]
-           [clojure.string :as st]
-           [grafter.rdf :refer [prefixer s]]
-           [grafter.rdf.ontologies.rdf :refer :all]
-           [grafter.rdf.ontologies.void :refer :all]
-           [grafter.rdf.ontologies.dcterms :refer :all]
-           [grafter.rdf.ontologies.vcard :refer :all]
-           [grafter.rdf.ontologies.pmd :refer :all]
-           [grafter.rdf.ontologies.qb :refer :all]
-           [grafter.rdf.ontologies.os :refer :all]
-           [grafter.rdf.ontologies.sdmx-measure :refer :all]
-           [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
-           [grafter.js :refer [js-fn]]
-           [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
-
-{% endhighlight %}
-
-## Base prefixies
-Base prefixies are all defined on the same pattern, using the Grafter's prefixer function:
+## Base prefixes
+Base prefixes are all defined on the same pattern, using the Grafter's prefixer function:
 
 {% highlight clojure %}
 (def base-uri (prefixer "http://linked.glasgow.gov.uk"))
@@ -151,4 +133,4 @@ cmd-line.prefixers=> (slugify-facility "Foo bAr")
 {% endhighlight %}
 
 
-Phew, that's done! Now we can [transform our data...](921_pipeline.html)
+[Now we can transform our data! That's the nice part of this tutorial!](921_pipeline.html)

@@ -2,7 +2,9 @@
 layout: page
 title: Data cleaning
 ---
+# Data cleaning
 
+This is almost a preparation for data cleaning: we are going to define what will be useful for our next data transformations. We are going to need to remove blanks around a string, to create RDF types, to replace comma or blanks, to parse, to convert and so on...
 
 
 ## Monads
@@ -46,8 +48,7 @@ Here are every definition that we will have to use:
                                               (lift-1 (prefixer "http://data.ordnancesurvey.co.uk/id/postcodeunit/"))]))
   (def url                       (lift-1 #(java.net.URL. %)))
   (def prefix-monthly-attendance (m-chain [(lift-1 date-slug)
-                                             (lift-1 (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))]))
-  (def prefix-facility           (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/")))
+                                             (lift-1 (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))])))
 {% endhighlight %}
 
 And now we can understand how everything works:
@@ -95,10 +96,7 @@ cmd-line.prefixers=> (uriify-pcode "G0 431 ")
 cmd-line.prefixers=> (url "http://www.swirrl.com")
 #<URL http://www.swirrl.com>
 
-;; prefix-monthly-attendance
-  FIXME
 
-;; prefix-facility
-cmd-line.prefixers=> (prefix-facility "foo")
-"http://linked.glasgow.gov.uk/data/glasgow-life-attendances/foo"
 {% endhighlight %}
+
+[Now we can define how to make URI...](911_making_uri.html)

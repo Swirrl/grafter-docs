@@ -25,6 +25,53 @@ TOFIX: and in project.clj:
   :plugins [[s3-wagon-private "1.1.2"]])
 {% endhighlight %}
 
+## Dependencies Prefixers
+In a src/cmd-line/prefixers.clj file.
+
+We are going to need every ontologies defined in Grafter, some functions from grafter.parse grafter.protocols and grafter.js. We also need the [Clojure algo.monads API](http://clojure.github.io/algo.monads/) and the clojure string API:
+
+{% highlight clojure %}
+(ns cmd-line.prefixers
+  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
+           [grafter.rdf.protocols :as pr]
+           [clojure.string :as st]
+           [grafter.rdf :refer [prefixer s]]
+           [grafter.rdf.ontologies.rdf :refer :all]
+           [grafter.rdf.ontologies.void :refer :all]
+           [grafter.rdf.ontologies.dcterms :refer :all]
+           [grafter.rdf.ontologies.vcard :refer :all]
+           [grafter.rdf.ontologies.pmd :refer :all]
+           [grafter.rdf.ontologies.qb :refer :all]
+           [grafter.rdf.ontologies.os :refer :all]
+           [grafter.rdf.ontologies.sdmx-measure :refer :all]
+           [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
+           [grafter.js :refer [js-fn]]
+           [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
+{% endhighlight %}
+
+## Dependencies Pipeline
+The whole code will be in a src/cmd-line/pipeline.clj file.
+
+The pipeline function is going to require some Grafter functions:
+
+- parse-csv: simply uses the [Clojure.java.io API reader function](http://clojure.github.io/clojure/clojure.java.io-api.html) to parse our csv file
+- drop-rows: drops the first n rows from the CSV
+- swap: swaps two columns
+- derive-column: adds a new column to the end of the row which is derived from already existing columns
+- mapc: takes an array of functions and maps each to the equivalent column position for every row
+- fuse: merges columns
+- _: identity
+- date-time: uses the [clj-time](https://github.com/clj-time/clj-time)'s date-time
+
+And also every prefixies we have defined [at the last step](911_prefixies.html)
+
+
+{% highlight clojure %}
+(ns cmd-line.pipeline
+  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
+            [grafter.parse :refer [date-time]]
+            [cmd-line.prefixers :refer :all]))
+{% endhighlight %}
 
 
 # Command Line

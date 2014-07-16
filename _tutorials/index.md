@@ -23,4 +23,5 @@ Using Grafter can be decomposed in different part:
 
 ![process](/assets/index_1.png)
 
-**[Start the tutorial!](905_general.html)**
+
+**You can skip to the [Pipeline](921_pipeline.html)  directly or [start the tutorial from the beginning!](905_general.html)**
