@@ -3,10 +3,10 @@ layout: page
 title: General
 ---
 
-# Example Glasgow life facilities
-This example aims, with a concrete case, both to present you how you can use Grafter for your RDFization projects and to help you understand what is happening in the engine.
+# General
 
 ## Data presentation
+
 We are going to use the dataset "test-data/glasgow-life-facilities.csv".
 Data looks like this:
 ![Data Screenshot](/assets/905_general_1.png)
@@ -36,4 +36,4 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 {% endhighlight %}
 
 
-[Now let's clean some data!](908_cleaning.html)
+[Now let's clean those data!](908_cleaning.html)
