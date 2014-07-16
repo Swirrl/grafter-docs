@@ -64,7 +64,9 @@ So you just have to check the final graph and define every bases of uri:
 (def attendance (prefixer "http://linked.glasgow.gov.uk/data/facility_attendance"))
 (def urban:ontology (urban "ontology"))
 (def sd (prefixer "http://data.opendatascotland.org/def/statistical-dimensions/"))
+(def prefix-facility (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))
 {% endhighlight %}
+
 
 
 ## Useful functions
