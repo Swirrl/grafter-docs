@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Graph
+title: Make graph fragments
 ---
 
-# Graph
+# Make graph fragments
 
 We [now have every thing we needed](921_pipeline.html) to make our graphs!
 
