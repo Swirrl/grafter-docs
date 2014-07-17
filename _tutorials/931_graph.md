@@ -60,6 +60,12 @@ Now we can add our first graph, just by comparing with the final graph:
           processed-rows)))
 {% endhighlight %}
 
+Just to represent yourself what it can be, after integration of the graph in [PublishMyData](http://www.swirrl.com/publishmydata), our glasgow life facilities graph will look like this:
+
+![pmd screenshot](/assets/931_graph_1.png)
+
+![pmd screenshot](/assets/931_graph_2.png)
+
 ## Glasgow life attendances graph
 And the second graph:
 
@@ -95,6 +101,9 @@ And the second graph:
 
           processed-rows)))
 {% endhighlight %}
+
+![pmd screenshot](/assets/931_graph_3.png)
+
 
 ## Conclusion
 
