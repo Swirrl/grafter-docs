@@ -10,9 +10,9 @@ This example aims, with a concrete case, both to present you how you can use Gra
 
 Using Grafter can be decomposed in different part:
 
-- The first part of the process is going to be some [data cleaning](908_cleaning.html). Not the funniest part but is almost  an necessary step for each project.
+- The first part of the process is going to be some [data cleaning](908_cleaning.html). Not the funniest part but often a necessary step for each project
 
-- The second part is going to be the [definition of every prefixes and the making of URI](911_making_uri.html) we are going to need for our triples
+- The second part is going to be the [definition of every prefixes and the making of URIs](911_making_uri.html) we are going to need for our triples
 
 - **Then we will [work and transform the data](921_pipeline.html) we have, to make them usable. This is the most interessting part, it is the engine of the Grafter's process!**
 
