@@ -3,6 +3,11 @@ layout: page
 title: Quick Start
 ---
 
-# PUBLISHERS HOMEPAGE
+# Quick Start
 
-Hello, world, i am the landing page of the publishers section
+- [Leiningen](810_leiningen.html)
+
+- [Environment](820_env.html)
+
+- [First steps](830_first_steps.html)
+
