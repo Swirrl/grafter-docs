@@ -27,12 +27,7 @@ TOFIX
   :plugins [[s3-wagon-private "1.1.2"]])
 {% endhighlight %}
 
-Finally you can install the dependencies:
-{% highlight shell %}
-$ lein deps
-{% endhighlight %}
-
-And start playing with the REPL:
+Then you can start developing and working with the Clojure REPL:
 {% highlight shell %}
 $ lein repl
 {% endhighlight %}
