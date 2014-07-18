@@ -9,6 +9,7 @@ As its name indicates, the pipeline function, aims to link the data we are worki
 
 Behind this there is the Grafter philosophy of [transformations and preservation of source data.](/howto/101_transformations.html)
 
+We are going to use some functions and prefixes that are defined later in this tutorial, but that are "less interesting". When I can a give some examples so you can understand everything and focus on the way Pipeline works. This part and the Create Graph part are the most important, others are just "making things work".
 
 ### Data
 For each row the process will be the same so I will just show the two first lines:
@@ -40,7 +41,7 @@ Next we would like to get the type: in this case we want to have: "museums". Ins
 
 ![Swap Screenshot](/assets/921_pipeline_5.png)
 
-We have defined uriify-type function before:
+We will define uriify-type function later, here is what it does:
 
 {% highlight clojure %}
 cmd-line.prefixers=> (uriify-type "Museums")
@@ -254,4 +255,4 @@ cmd-line.prefixers=> (str "http://linked.glasgow.gov.uk/data/glasgow-life-attend
 
 ## Conclusion
 
-We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graph fragments.](931_graph.html)
+We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graph fragments.](907_graph.html)

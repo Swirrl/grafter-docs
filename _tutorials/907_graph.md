@@ -5,9 +5,6 @@ title: Make graph fragments
 
 # Make graph fragments
 
-We [now have every thing we needed](921_pipeline.html) to make our graphs!
-
-
 ## Graphify
 The idea here is tu use the Grafter function 'graphify' on each row processed on the pipeline function. We map each row -so we can call directly each column on our triples, and, then, we write sequence quads:
 
@@ -107,4 +104,5 @@ And the second graph:
 
 ## Conclusion
 
-Almost there! We now just need to [filter our triples, export them](941_filter_import.html) and see how to ["lein" everything!](951_command_line.html)
+The Pipeline function and this one are really the most important, but the work is not over! There are still some [data cleaning](908_cleaning.html), some [URI making](911_making_uri.html), some
+[filtering and export](941_filter_import.html) and, finally, see how to ["lein" everything!](951_command_line.html)

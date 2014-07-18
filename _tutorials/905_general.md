@@ -36,4 +36,4 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 {% endhighlight %}
 
 
-[Now let's clean those data!](908_cleaning.html)
+[Now let's clean those data!](906_pipeline.html)
