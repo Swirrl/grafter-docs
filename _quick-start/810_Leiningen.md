@@ -5,26 +5,19 @@ title: Leiningen
 
 # Leiningen
 
-Grafter uses [Leiningen](http://leiningen.org) for project automation and declarative configuration.
-
-> **[grafter "0.1.0"]**
-
+You can simply use Grafter in a [Leiningen](http://leiningen.org) project by adding <code> :dependencies <strong> [grafter "0.1.0"] </strong></code> to <code> project.clj </code>
 
 ## Download
-
-If you already have Leiningen
-
 You can [download Leiningen](http://leiningen.org) from their website:
 
-Or you can use [HomeBrew](http://brew.sh):
-
+Or using [HomeBrew](http://brew.sh):
 {% highlight shell %}
 $ brew install leiningen
 {% endhighlight %}
 
 ## project
 
-Once you have Leiningen, let's create a new project
+Once you have Leiningen, create a new project:
 
 {% highlight shell %}
 $ lein new test-graft
