@@ -1,6 +1,6 @@
 ---
 layout: page
-title: General
+title: Transformations and the art of preserving source data
 ---
 
 #General
@@ -17,3 +17,4 @@ You probably don't really want to modify source data, there are a lot of reasons
 - And so on...
 
 Grafter philosophy is to give you the freedom to choose not to alter source data!
+

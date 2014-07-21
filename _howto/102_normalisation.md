@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Grafter's data philosophy
+title: Normalization / Denormalization
 ---
-
-# Grafter's data philosophy
 
 ## Rows, rows, rows
 

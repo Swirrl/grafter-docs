@@ -10,6 +10,7 @@ Here we provide some how to guides on performing common tasks with Grafter.
 ## General
 
 - [Transformations and the art of preserving source data](101_transformations.html)
+- [Normalisation / denormalisation](102_normalisation.html)
 
 ## Row & Cell level
 
