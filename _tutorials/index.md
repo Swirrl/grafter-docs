@@ -10,6 +10,10 @@ This example aims, with a concrete case, both to present you how you can use Gra
 
 Using Grafter can be decomposed in different part:
 
+### The philosophy
+
+- Learn how to [prepare and understand](902_philosophy.html) the data you want to work with the Grafter way.
+
 ### Main steps
 
 - **[Work and transform the data](906_pipeline.html)**, to make them usable. This is the most interessting part, it is the engine of the Grafter's process!
