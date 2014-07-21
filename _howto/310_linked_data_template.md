@@ -8,26 +8,7 @@ title: Build a Linked Data template
 ## How to build a Linked Data template
 
 ### Graphify
-
-As a first step: we define explicits names:
-
-{% highlight clojure %}
-(defn make-linked-data-template
-  (let [processed-rows]
-
-         ((graphify [name street-address city postcode ref-facility-uri]
-                    (...))
-                    processed-rows)))
-{% endhighlight %}
-
-![Linked Data template](/assets/310_linked_data_template_1.png)
-
-and we get an easy access to data in our graph fragments definition.
-
-![Linked Data template](/assets/310_linked_data_template_2.png)
-
-### Graph
-And then we can our template easily. We just need [to choose our ontologies](420_ontology_choice.html) and define the graph structure we want:
+We can define our template easily using the graphify function. We just need [to choose our ontologies](420_ontology_choice.html) and define, in the graphify function, the graph structure we want:
 
 {% highlight clojure %}
 (defn make-linked-data-template
@@ -49,3 +30,22 @@ And then we can our template easily. We just need [to choose our ontologies](420
 {% endhighlight %}
 
 ![Linked Data template](/assets/310_linked_data_template_3.png)
+
+### Names
+
+As a first step: we have defined explicit names for our columns:
+
+{% highlight clojure %}
+(defn make-linked-data-template
+  (let [processed-rows]
+
+         ((graphify [name street-address city postcode ref-facility-uri]
+                    (...))
+                    processed-rows)))
+{% endhighlight %}
+
+![Linked Data template](/assets/310_linked_data_template_1.png)
+
+and we get an easy access to data in our graph fragments definition.
+
+![Linked Data template](/assets/310_linked_data_template_2.png)
