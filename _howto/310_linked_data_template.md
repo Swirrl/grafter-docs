@@ -9,42 +9,43 @@ title: Build a Linked Data template
 
 ### Graphify
 
+As a first step: we define explicits names:
+
+{% highlight clojure %}
+(defn make-linked-data-template
+  (let [processed-rows]
+
+         ((graphify [name street-address city postcode ref-facility-uri]
+                    (...))
+                    processed-rows)))
+{% endhighlight %}
+
 ![Linked Data template](/assets/310_linked_data_template_1.png)
 
-TOFIX
-{% highlight clojure %}
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
-
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri].....................
-{% endhighlight %}
+and we get an easy access to data in our graph fragments definition.
 
 ![Linked Data template](/assets/310_linked_data_template_2.png)
 
 ### Graph
+And then we can our template easily. We just need [to choose our ontologies](420_ontology_choice.html) and define the graph structure we want:
 
-TOFIX
 {% highlight clojure %}
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
+(defn make-linked-data-template
+  (let [processed-rows]
 
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri]
+         ((graphify [name street-address city postcode ref-facility-uri]
 
                     (graph (base-graph "glasgow-life-facilities")
                           [ref-facility-uri
                             [rdfs:label (rdfstr name)]
-                            [vcard:hasUrl website]
-                            [rdf:a (urban "Museum")]
-                            [rdf:a (urban "LeisureFacility")]
                             [vcard:hasAddress [[rdf:a vcard:Address]
                                               [rdfs:label street-address]
                                               [vcard:street-address street-address]
                                               [vcard:locality city]
                                               [vcard:country-name (rdfstr "Scotland")]
-                                              [vcard:postal-code postcode]
-                                              [os:postcode postcode-uri]]]]).....................
+                                              [vcard:postal-code postcode]]]])
+                    (graph...))
+                    processed-rows)))
 {% endhighlight %}
 
 ![Linked Data template](/assets/310_linked_data_template_3.png)
