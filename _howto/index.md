@@ -31,3 +31,6 @@ Here we provide some how to guides on performing common tasks with Grafter.
 ## Miscelaneous Tips & Tricks
 
 - [The art of lookup tables](510_lookup_tables.html)
+
+## Example
+- [Glasgow Life Facilities tutorial](/tutorials/905_general.html)
