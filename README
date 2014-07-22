@@ -5,3 +5,9 @@ bundle exec jekyll serve --watch
 Smooth Yak policy:
 - to use syntax colouring, we require Pygments https://pypi.python.org/pypi/Pygments
 - locally, maybe use Rouge to get a similar effect?
+
+to deploy, add your key to the server and run:
+`rsync -avz --delete _site/ rails@grafter.org:/home/rails/sites/grafter_docs/`
+
+I recommend adding alias to your profile (e.g)
+`alias deploygrafterdocs="rsync -avz --delete _site/ rails@grafter.org:/home/rails/sites/grafter_docs/"`
