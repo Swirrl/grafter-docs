@@ -9,15 +9,10 @@ title: Convert cell level values
 
 Mapc function allows you to transform and modify each cell differently.
 
-Let's take a basic CSV:
+Let's take a basic dataset:
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
 
-{% highlight CSV %}
-
-" Grafter ", "csv", 4
-
-{% endhighlight %}
 
 We would like to remove blanks on the first cell (trim function), uriify the second one and let the third one identical.
 
@@ -27,10 +22,7 @@ We would like to remove blanks on the first cell (trim function), uriify the sec
 {% highlight clojure %}
 user=> (def uriify (prefixer "http://www.grafter-is-the-best.com/"))
 
-user=> (-> '([" Grafter " "rdf" 3])
-    (mapc [trim uriify _]))
-
-(["Grafter" "http://www.grafter-is-the-best.com/rdf" 3])
+user=> (mapc dataset {"A" trim, "B" uriify, "C" identity})
 
 {% endhighlight %}
 
