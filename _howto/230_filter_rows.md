@@ -7,24 +7,16 @@ title: Filter rows
 
 ### drop-rows
 
-Drop rows can be useful to remove a header for example. Simply give the number of rows you want to drop as argument.
+Drop rows may be useful to remove some rows. Simply give the number of rows you want to drop as argument.
+
+{% highlight clojure %}
+
+user=> (drop-rows dataset 2)
+
+{% endhighlight %}
 
 ![Data Screenshot](/assets/230_filter_raws_1.png)
 
 ![Data Screenshot](/assets/230_filter_raws_2.png)
 
-Result:
-
 ![Data Screenshot](/assets/230_filter_raws_3.png)
-
-{% highlight clojure %}
-
-user=> (-> '( ["Grafter" "rdf" 3]
-              ["PMD" "opendata" 2]
-              ["Drafter" "data" 1])
-            (drop-rows 2))
-
-(["Drafter" "data" 1])
-
-
-{% endhighlight %}
