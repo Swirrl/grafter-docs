@@ -45,3 +45,20 @@ grafter.rdf=> (uriify-my-app "grafter" "1")
 "http://www.swirrl.com/grafter/1"
 
 {% endhighlight %}
+
+### slugify
+
+{% highlight clojure %}
+
+user=> (require '[clojure.string :as st])
+
+user=> (defn slugify [string]
+         (-> string
+             st/trim
+             (st/lower-case)
+             (st/replace " " "-")))
+
+user=> (slugify " Foo bAr")
+"foo-bar"
+
+{% endhighlight %}
