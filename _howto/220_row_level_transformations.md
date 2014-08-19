@@ -18,10 +18,7 @@ The idea is quite simple: on a row, take one or more cell(s), apply a function, 
 
 {% highlight clojure %}
 
-user=> (-> '(["Grafter" "rdf" 3])
-            (derive-column uriify 2))
-
-(["Grafter" "rdf" 3 "http://www.grafter-is-the-best.com/rdf"])
+user=> (derive-column dataset "D" ["B"] uriify)
 
 {% endhighlight %}
 
@@ -35,10 +32,7 @@ And with a function using more than one argument:
 
 {% highlight clojure %}
 
-user=> (-> '(["Grafter" "rdf" 3 "foo"])
-            (derive-column slug-combine 0 1 2))
-
-(["Grafter" "rdf" 3 "foo" "Grafter/rdf/3"])
+user=> (derive-column dataset "new-column-name" ["A" "B" "C"] slug-combine)
 
 {% endhighlight %}
 
@@ -48,48 +42,40 @@ Note that **order count:**
 
 {% highlight clojure %}
 
-user=> (-> '(["Grafter" "rdf" 3 "foo"])
-            (derive-column slug-combine 1 2 0))
-
-(["Grafter" "rdf" 3 "foo" "rdf/3/Grafter"])
+user=> (derive-column dataset "new-column-name" ["B" "C" "A"] slug-combine)
 
 {% endhighlight %}
+
+![Data Screenshot](/assets/220_row_level_transformations_42.png)
 
 And as order count, there is a function to change the columns order if needed, swap.
 
 ### swap
 Swap is used to swap columns.
 
+{% highlight clojure %}
+
+user=> (swap dataset "B" "D")
+
+{% endhighlight %}
+
 ![Data Screenshot](/assets/220_row_level_transformations_5.png)
 
 
 ![Data Screenshot](/assets/220_row_level_transformations_6.png)
 
+And you can combine swaps adding an even number of columns :
+
 {% highlight clojure %}
 
-user=> (-> '(["Grafter" "rdf" 3])
-            (swap {0 1}))
-
-(["rdf" "Grafter" 3])
+user=> (swap dataset "B" "D" "D" "A")
 
 {% endhighlight %}
-
-
-### fuse
-Fuse apply a two-arguments function to two columns, takes the result, put it in the first of the two columns concerned and delete the other one.
-You can use it but **in most of the cases derive-column is a better idea.**
 
 ![Data Screenshot](/assets/220_row_level_transformations_7.png)
 
 
 ![Data Screenshot](/assets/220_row_level_transformations_8.png)
 
-{% highlight clojure %}
 
-user=> (-> '(["Grafter" "rdf" 3])
-            (fuse slug-combine 0 1))
-
-(["Grafter/rdf" 3])
-
-{% endhighlight %}
-
+![Data Screenshot](/assets/220_row_level_transformations_9.png)
