@@ -17,6 +17,6 @@ You can simply use Grafter in a Leiningen project by adding it to your <code>:de
 
 {% highlight clojure %}
 
-:dependencies [grafter "0.1.0"]
+:dependencies [grafter "0.2.0"]
 
 {% endhighlight %}

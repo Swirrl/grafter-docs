@@ -13,8 +13,6 @@ $ cd test-graft
 
 And set the dependencies to use Grafter: in <code>project.clj</code>:
 
-TOFIX
-
 {% highlight clojure %}
 (defproject test-graft "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
@@ -22,9 +20,9 @@ TOFIX
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.1.0"]]
-  :main test-graft.core
-  :plugins [[s3-wagon-private "1.1.2"]])
+                 [grafter "0.2.0"]]
+  :main glasgow-life-facilities-2.core
+  :plugins [[s3-wagon-private "1.1.2"]]
 {% endhighlight %}
 
 Then you can start developing and working with the Clojure REPL:
@@ -32,4 +30,4 @@ Then you can start developing and working with the Clojure REPL:
 $ lein repl
 {% endhighlight %}
 
-Now, you can either check our [HowTo](/howto/index.html) section if you already have something in mind, or go directly to the [Tutorials](tutorials/index.html) section!
+Now, you can either check our [HowTo](/howto/index.html) section if you already have something in mind, or go directly to the [Tutorials](/tutorials/index.html) section!
