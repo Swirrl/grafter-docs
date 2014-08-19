@@ -1,12 +1,11 @@
-
 ---
 layout: page
 title: Transformations and the art of preserving source data
 ---
 
-#General
+# General
 
-##Transformations and the art of preserving source data
+## Transformations and the art of preserving source data
 
 You probably don't really want to modify source data, there are a lot of reasons why:
 
