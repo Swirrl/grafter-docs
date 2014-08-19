@@ -122,15 +122,15 @@ cmd-line.prefixers=> (uriify-type "Community Facility")
   (str (.getYear date) "-" (.getMonthOfYear date) "/"))
 {% endhighlight %}
 
-#### slugify-facility
+#### slugify
 {% highlight clojure %}
-(def slugify-facility
-  (js-fn "function(name) {
-              var lower = name.toLowerCase();
-              return lower.replace(/\\ /g, '-');
-         }"))
+(defn slugify [string]
+  (-> string
+      st/trim
+      (st/lower-case)
+      (st/replace " " "-")))
 
-cmd-line.prefixers=> (slugify-facility "Foo bAr")
+cmd-line.prefixers=> (slugify " Foo bAr")
 "foo-bar"
 {% endhighlight %}
 
