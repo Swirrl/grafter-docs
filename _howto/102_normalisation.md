@@ -18,12 +18,14 @@ Then you probably want to "normalize" the table, which means "put the data into 
 
 ![normalization](/assets/902_philo_2.png)
 
-One way to do this is using the Grafter's "normalize" function:
+Grafter doesn’t natively support normalisation, or reshape, but because grafter is built on incanter you can do it like this:
+
 
 {% highlight clojure %}
 
-(coming soon in Grafter)
+user=> (require ‘(incanter.core :refer [melt]))
+
+user=> (-> dataset
+          (melt column-to-normalise-key)
 
 {% endhighlight %}
-
-Waiting for it to arrive in Grafter, you may want to try [Incanter/melt](http://liebke.github.io/incanter/)
