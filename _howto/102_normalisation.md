@@ -22,18 +22,8 @@ One way to do this is using the Grafter's "normalize" function:
 
 {% highlight clojure %}
 
-grafter.csv=> (def csv
-                 [["grafter version" "release" "grafted csv 2014" "grafted csv 2015" "grafted csv 2016"]
-                  [1 2014 50000 200000 25000]
-                  [2 2015 300000 700000 1000000]])
-
-grafter.csv=> (normalise csv [2 3 4])
-
-( [1 2014 "grafted csv 2014" 50000]
-  [1 2014 "grafted csv 2015" 200000]
-  [1 2014 "grafted csv 2016" 25000]
-  [2 2015 "grafted csv 2014" 300000]
-  [2 2015 "grafted csv 2015" 700000]
-  [2 2015 "grafted csv 2016" 1000000])
+(coming soon in Grafter)
 
 {% endhighlight %}
+
+Waiting for it to arrive in Grafter, you may want to try [Incanter/melt](http://liebke.github.io/incanter/)
