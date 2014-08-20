@@ -14,24 +14,30 @@ When checking our dataset we can see that there are missing data in the columns
 - Website
 
 {% highlight clojure %}
+
 (defn filter-triples [triples]
   (filter #(not (and (#{vcard:postal-code os:postcode vcard:hasUrl} (pr/predicate %1))
                      (blank? (pr/object %1)))) triples))
+
 {% endhighlight %}
 
 ## Import
 Now we can import our turtle file.
 
 {% highlight clojure %}
-(defonce my-repo (-> "./tmp/grafter-sesame-store2" ses/native-store ses/repo))
 
-(defn import-life-facilities [quads-seq destination]
+(defn import-life-facilities
+  [quads-seq destination]
   (let [now (java.util.Date.)
         quads (->> quads-seq
                    filter-triples
                    (validate-triples (complement has-blank?)))]
 
     (pr/add (ses/rdf-serializer destination) quads)))
+
+(defn -main [path output]
+  (import-life-facilities (make-life-facilities path) output))
+
 {% endhighlight %}
 
 ## Conclusion

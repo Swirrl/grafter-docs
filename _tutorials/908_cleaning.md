@@ -9,7 +9,7 @@ This is almost a preparation for data cleaning: we are going to define what will
 
 ## Monads
 
-If you don't know about monad yet I recommand [this explication](http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/) and/or [the documentation](http://clojure.github.io/algo.monads/)
+If you don't know about monad yet I recommand [this explanation](http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/) and/or [the documentation](http://clojure.github.io/algo.monads/)
 
 Here are every definition that we will have to use:
 
