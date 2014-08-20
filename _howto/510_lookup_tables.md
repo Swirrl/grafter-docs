@@ -7,13 +7,29 @@ title: Lookup tables
 
 ## The art of lookup tables
 
-Let's say you are working on a dataset and you need some data from another dataset. You need what we call a lookup table. Build-lookup-table
+Let's say you are working on a dataset and you need some data from another dataset. You need what we call a lookup table. Build-lookup-table returns a function that goes pick the data you want in the other dataset.
 
 ## build-lookup-table
 
+build-lookup-table takes as argument a dataset, one or several key columns and a value column. It returns a function which takes some key values as argument and returns the corresponding value.
+
+![Data Screenshot](/assets/510_lookup_table_1.png)
+
+We can then pass to this function some key values and it returns the corresponding data in the value column.
+
+![Data Screenshot](/assets/510_lookup_table_2.png)
+
+## Usage
+
+![Data Screenshot](/assets/510_lookup_table_3.png)
+![Data Screenshot](/assets/510_lookup_table_4.png)
+
 {% highlight clojure %}
 
+user=> (let [lookup (build-lookup-table dataset2 ["name" "version"] "comment")]
+          (-> dataset1
+              (derive-column "comment" ["name" "version"] lookup)))
 
 {% endhighlight %}
 
-## Usage
+![Data Screenshot](/assets/510_lookup_table_5.png)
