@@ -7,22 +7,27 @@ title: Leiningen project
 As a step 0, let's configure a Leiningen project:
 
 {% highlight shell %}
-$ lein new cmd-line
-$ cd cmd-line
+
+$ lein new glasgow-life-facilities
+$ cd glasgow-life-facilities
+
 {% endhighlight %}
 
-TOFIX: and in project.clj:
+And in project.clj:
 
 {% highlight clojure %}
-(defproject cmd-line "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+
+(defproject glasgow-life-facilities "0.1.0-SNAPSHOT"
+  :description "Example of RDFization using Grafter 0.2.0 on the csv file
+  Glasgow Life Facilities"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.1.0"]]
-  :main cmd-line.core
+                 [grafter "0.2.0"]]
+  :main glasgow-life-facilities.core
   :plugins [[s3-wagon-private "1.1.2"]])
+
 {% endhighlight %}
 
 And here is what our src/cmd-line/ file should look like:
@@ -44,27 +49,27 @@ And here is what our src/cmd-line/ file should look like:
 
 ### Prefixers dependencies
 
-In src/cmd-line/prefixers.clj
+In src/glasgow-life-facilities/prefixers.clj
 
-We are going to need every ontologies defined in Grafter, some functions from grafter.parse grafter.protocols and grafter.js. We also need the [Clojure algo.monads API](http://clojure.github.io/algo.monads/) and the clojure string API:
 
 {% highlight clojure %}
-(ns cmd-line.prefixers
-  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
-           [grafter.rdf.protocols :as pr]
-           [clojure.string :as st]
-           [grafter.rdf :refer [prefixer s]]
-           [grafter.rdf.ontologies.rdf :refer :all]
-           [grafter.rdf.ontologies.void :refer :all]
-           [grafter.rdf.ontologies.dcterms :refer :all]
-           [grafter.rdf.ontologies.vcard :refer :all]
-           [grafter.rdf.ontologies.pmd :refer :all]
-           [grafter.rdf.ontologies.qb :refer :all]
-           [grafter.rdf.ontologies.os :refer :all]
-           [grafter.rdf.ontologies.sdmx-measure :refer :all]
-           [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
-           [grafter.js :refer [js-fn]]
-           [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
+
+(ns glasgow-life-facilities.prefixers
+  (:require [grafter.rdf.protocols :as pr]
+            [clojure.string :as st]
+            [grafter.rdf :refer [prefixer s]]
+            [grafter.rdf.ontologies.rdf :refer :all]
+            [grafter.rdf.ontologies.void :refer :all]
+            [grafter.rdf.ontologies.dcterms :refer :all]
+            [grafter.rdf.ontologies.vcard :refer :all]
+            [grafter.rdf.ontologies.pmd :refer :all]
+            [grafter.rdf.ontologies.qb :refer :all]
+            [grafter.rdf.ontologies.os :refer :all]
+            [grafter.rdf.ontologies.sdmx-measure :refer :all]
+            [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
+            [grafter.js :refer [js-fn]]
+            [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
+
 {% endhighlight %}
 
 ### Prefixers code
@@ -106,6 +111,12 @@ We are going to need every ontologies defined in Grafter, some functions from gr
 (defn date-slug [date]
   (str (.getYear date) "-" (.getMonthOfYear date) "/"))
 
+(defn slugify [string]
+  (-> string
+      st/trim
+      (st/lower-case)
+      (st/replace " " "-")))
+
 (def slugify-facility
   (js-fn "function(name) {
               var lower = name.toLowerCase();
@@ -117,14 +128,14 @@ We are going to need every ontologies defined in Grafter, some functions from gr
 (with-monad blank-m
   (def rdfstr                    (lift-1 (fn [str] (s str :en))))
   (def replace-comma             (lift-1 (replacer "," ""))  )
-  (def trim                      (lift-1 clojure.string/trim))
+  (def trim                      (lift-1 st/trim))
   (def parse-year                (m-chain [trim replace-comma parse-int]))
   (def parse-attendance          (with-monad identity-m (m-chain [(lift-1 (mapper {"" "0"}))
                                                                      (lift-1 (replacer "," ""))
                                                                      trim
                                                                      parse-int])))
   (def convert-month             (m-chain [trim
-                                              (lift-1 clojure.string/lower-case)
+                                              (lift-1 st/lower-case)
                                               (lift-1 {"january" 1 "jan" 1 "1" 1
                                                        "february" 2 "feb" 2 "2" 2
                                                        "march" 3 "mar" 3 "3" 3
@@ -144,59 +155,56 @@ We are going to need every ontologies defined in Grafter, some functions from gr
   (def post-code                 (m-chain [trim rdfstr]))
   (def uriify-pcode              (m-chain [trim
                                               (lift-1 (replacer " " ""))
-                                              (lift-1 clojure.string/upper-case)
+                                              (lift-1 st/upper-case)
                                               (lift-1 (prefixer "http://data.ordnancesurvey.co.uk/id/postcodeunit/"))]))
   (def url                       (lift-1 #(java.net.URL. %)))
   (def prefix-monthly-attendance (m-chain [(lift-1 date-slug)
                                              (lift-1 (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))])))
 
-
 {% endhighlight %}
-
 
 ## Pipeline
 
 ### Pipeline dependencies
 
-In src/cmd-line/pipeline.clj
-
-The pipeline function is going to require some Grafter functions:
-
-- parse-csv: simply uses the [Clojure.java.io API reader function](http://clojure.github.io/clojure/clojure.java.io-api.html) to parse our csv file
-- drop-rows: drops the first n rows from the CSV
-- swap: swaps two columns
-- derive-column: adds a new column to the end of the row which is derived from already existing columns
-- mapc: takes an array of functions and maps each to the equivalent column position for every row
-- fuse: merges columns
-- _: identity
-- date-time: uses the [clj-time](https://github.com/clj-time/clj-time)'s date-time
-
-And also every prefixes we have defined [at the last step](911_making_uri.html)
-
+In src/glasgow-life-facilities/pipeline.clj
 
 {% highlight clojure %}
-(ns cmd-line.pipeline
-  (:require [grafter.csv :refer [fuse derive-column parse-csv mapc swap drop-rows _]]
+
+(ns glasgow-life-facilities.pipeline
+  (:require [grafter.tabular :refer [column-names derive-column mapc swap drop-rows _]]
+            [grafter.tabular.common :refer [open-all-datasets make-dataset move-first-row-to-header]]
             [grafter.parse :refer [date-time]]
-            [cmd-line.prefixers :refer :all]))
+            [glasgow-life-facilities.prefixers :refer :all]))
+
 {% endhighlight %}
 
 ### Pipeline code
 
 {% highlight clojure %}
-(defn pipeline [path-csv]
- (-> (parse-csv path-csv)
-     (drop-rows 1)
-     (derive-column uriify-type 0)
-     (derive-column slugify-facility 1)
-     (mapc [uriify-facility trim parse-attendance convert-month parse-year address-line city post-code url _ _])
-     (derive-column uriify-refFacility 9 10)
-     (derive-column uriify-pcode 7)
-     (swap {3 4})
-     (fuse date-time 3 4)
-     (derive-column prefix-monthly-attendance 3)
-     (derive-column slug-combine 8 9)
-     (fuse str 12 13)))
+
+(defn pipeline [path]
+  (-> (open-all-datasets path)
+      first
+      (make-dataset ["facility-description" "facility-name" "monthly-attendance" "month" "year" "address" "town" "postcode" "website"])
+      (drop-rows 1)
+      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "name-slug" ["facility-name"] slugify)
+      (mapc {"facility-description" uriify-facility
+             "monthly-attendance" parse-attendance
+             "month" convert-month
+             "year" parse-year
+             "address" address-line
+             "town" city
+             "postcode" post-code
+             "website" url})
+      (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+      (derive-column "postcode-uri" ["postcode"] uriify-pcode)
+      (swap "month" "year")
+      (derive-column "date" ["year" "month"] date-time)
+      (derive-column "prefix-date" ["date"] prefix-monthly-attendance)
+      (derive-column "type-name" ["facility-type" "name-slug"] slug-combine)
+      (derive-column "observation-uri" ["prefix-date" "type-name"] str)))
 
 {% endhighlight %}
 
@@ -204,13 +212,12 @@ And also every prefixes we have defined [at the last step](911_making_uri.html)
 
 ### Make graph dependencies
 
-In src/cmd-line/make_graph.clj
+In src/glasgow-life-facilities/make_graph.clj
 
 {% highlight clojure %}
-(ns cmd-line.make-graph
-  (:require [clojure.string :as st]
-            [grafter.rdf :refer [prefixer s graph graphify]]
-            [grafter.rdf.sesame :as ses]
+
+(ns glasgow-life-facilities.make-graph
+  (:require [grafter.rdf :refer [graph graph-fn]]
             [grafter.rdf.ontologies.rdf :refer :all]
             [grafter.rdf.ontologies.void :refer :all]
             [grafter.rdf.ontologies.dcterms :refer :all]
@@ -219,43 +226,46 @@ In src/cmd-line/make_graph.clj
             [grafter.rdf.ontologies.qb :refer :all]
             [grafter.rdf.ontologies.os :refer :all]
             [grafter.rdf.ontologies.sdmx-measure :refer :all]
-            [cmd-line.prefixers :refer :all]
-            [cmd-line.pipeline :refer [pipeline]]))
+            [glasgow-life-facilities.prefixers :refer :all]
+            [glasgow-life-facilities.pipeline :refer [pipeline]]))
+
 {% endhighlight %}
 
 ### Make graph code
 
 {% highlight clojure %}
 
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
+(defn make-life-facilities [path]
+  (let [dataset (pipeline path)]
 
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri]
+    ((graph-fn [[facility-description facility-name monthly-attendance
+                        year month address town postcode website facility-type
+                        name-slug ref-facility-uri postcode-uri date prefix-date
+                        type-name observation-uri]]
 
-                    (graph (base-graph "glasgow-life-facilities")
-                          [ref-facility-uri
-                            [rdfs:label (rdfstr name)]
-                            [vcard:hasUrl website]
-                            [rdf:a (urban "Museum")]
-                            [rdf:a (urban "LeisureFacility")]
-                            [vcard:hasAddress [[rdf:a vcard:Address]
-                                              [rdfs:label street-address]
-                                              [vcard:street-address street-address]
-                                              [vcard:locality city]
-                                              [vcard:country-name (rdfstr "Scotland")]
-                                              [vcard:postal-code postcode]
-                                              [os:postcode postcode-uri]]]])
+               (graph (base-graph "glasgow-life-facilities")
+                      [ref-facility-uri
+                      [rdfs:label (rdfstr facility-name)]
+                       [vcard:hasUrl website]
+                       [rdf:a (urban "Museum")]
+                       [rdf:a (urban "LeisureFacility")]
+                       [vcard:hasAddress [[rdf:a vcard:Address]
+                                          [rdfs:label address]
+                                          [vcard:street-address address]
+                                          [vcard:locality town]
+                                          [vcard:country-name (rdfstr "Scotland")]
+                                          [vcard:postal-code postcode]
+                                          [os:postcode postcode-uri]]]])
 
-                    (graph (base-graph "glasgow-life-attendances")
-                           [observation-uri
-                            [(glasgow "refFacility") ref-facility-uri]
-                            [(glasgow "numAttendees") attendance]
-                            [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
-                            [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
-                            [rdf:a qb:Observation]]))
+               (graph (base-graph "glasgow-life-attendances")
+                      [observation-uri
+                       [(glasgow "refFacility") ref-facility-uri]
+                       [(glasgow "numAttendees") monthly-attendance]
+                       [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
+                       [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
+                       [rdf:a qb:Observation]]))
 
-          processed-rows)))
+     dataset)))
 
 {% endhighlight %}
 
@@ -263,15 +273,17 @@ In src/cmd-line/make_graph.clj
 ## Filter
 
 ### Filter dependencies
-In src/cmd-line/filter.clj
+
+In src/glasgow-life-facilities/filter.clj
 
 {% highlight clojure %}
-(ns cmd-line.filter
+
+(ns glasgow-life-facilities.filter
   (:require [grafter.rdf.protocols :as pr]
-            [grafter.rdf :refer [prefixer s graph graphify]]
             [grafter.rdf.validation :refer [blank?]]
             [grafter.rdf.ontologies.vcard :refer :all]
             [grafter.rdf.ontologies.os :refer :all]))
+
 {% endhighlight %}
 
 ### Filter code
@@ -281,34 +293,34 @@ In src/cmd-line/filter.clj
 (defn filter-triples [triples]
   (filter #(not (and (#{vcard:postal-code os:postcode vcard:hasUrl} (pr/predicate %1))
                      (blank? (pr/object %1)))) triples))
-
 {% endhighlight %}
 
 ## Core
 
 ### Core dependencies
-In src/cmd-line/core.clj
+
+In src/glasgow-life-facilities/core.clj
 
 {% highlight clojure %}
-(ns cmd-line.core
-  (:use [cmd-line.make-graph]
-        [cmd-line.prefixers]
-        [cmd-line.filter]
-        [cmd-line.pipeline])
-  (:require [cmd-line.filter :refer [filter-triples]]
-            [cmd-line.make-graph :refer [make-life-facilities]]
+
+(ns glasgow-life-facilities.core
+  (:require [grafter.tabular :refer :all]
             [grafter.rdf.protocols :as pr]
             [grafter.rdf.sesame :as ses]
-            [grafter.rdf.validation :refer [validate-triples has-blank?]]))
+            [grafter.rdf.validation :refer [has-blank? validate-triples]]
+            [glasgow-life-facilities.filter :refer [filter-triples]]
+            [glasgow-life-facilities.make-graph :refer [make-life-facilities]]))
+
 {% endhighlight %}
 
 ### import
 
 {% highlight clojure %}
 
-(defonce my-repo (-> "./tmp/grafter-sesame-store2" ses/native-store ses/repo))
+(defonce my-repo (-> "./tmp/grafter-sesame-store-test" ses/native-store ses/repo))
 
-(defn import-life-facilities [quads-seq destination]
+(defn import-life-facilities
+  [quads-seq destination]
   (let [now (java.util.Date.)
         quads (->> quads-seq
                    filter-triples
@@ -323,28 +335,25 @@ In src/cmd-line/core.clj
 Remember in our project.clj there were this line:
 
 {% highlight clojure %}
-:main cmd-line.core
+:main glasgow-life-facilities.core
 {% endhighlight %}
 
 We have to define a -main function, this function will take input and output as argument:
 
 {% highlight clojure %}
-(defn -main [my-csv output]
-  (println "About to graft " my-csv)
 
-  (import-life-facilities (make-life-facilities my-csv) output)
+(defn -main [path output]
+  (import-life-facilities (make-life-facilities path) output)
+  (println path "has been grafted using Grafter 0.2.0!"))
 
-  (println my-csv "has been grafted: " output))
 {% endhighlight %}
 
 ## Test
 
 {% highlight shell %}
 
-$ lein run ./test-data/glasgow-life-facilities.csv glasgow-life-facilities.ttl
-
-About to graft  ./test-data/glasgow-life-facilities.csv
-./test-data/glasgow-life-facilities.csv has been grafted:  glasgow-life-facilities.ttl
+$ lein run ./data/glasgow-life-facilities.csv glasgow-life-facilities.ttl
+./data/glasgow-life-facilities.csv has been grafted using Grafter 0.2.0!
 
 {% endhighlight %}
 
@@ -352,4 +361,4 @@ About to graft  ./test-data/glasgow-life-facilities.csv
 
 ## Conclusion
 
-What's important in this example is the global process and the global philosophy, but must of all, [the pipeline function](921_pipeline.html) is the key!
+What's important in this example is the global process and the global philosophy, but must of all, [the pipeline function](906_pipeline.html) is the key!
