@@ -11,11 +11,7 @@ The idea is quite simple: on a row, take one or more cell(s), apply a function, 
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
 
-{% highlight clojure %}
-
-user=> (derive-column dataset "d" ["b"] uriify)
-
-{% endhighlight %}
+<code>user=> (<a href="http://api.grafter.org/0.2/grafter.tabular.html#var-derive-column" target="_blank">derive-column</a> dataset "d" ["b"] uriify)</code>
 
 ![Data Screenshot](/assets/220_row_level_transformations_1.png)
 
@@ -27,7 +23,7 @@ And with a function using more than one argument:
 
 {% highlight clojure %}
 
-user=> (derive-column dataset "new-column-name" ["a" "b" "c"] slug-combine)
+user=> ( derive-column dataset "new-column-name" ["a" "b" "c"] slug-combine)
 
 {% endhighlight %}
 
