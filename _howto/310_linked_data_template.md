@@ -12,7 +12,8 @@ We can define our templates easily using the graph-fn function. We just need [to
 
 {% highlight clojure %}
 
-((graph-fn [[name street-address city postcode ref-facility-uri]] ;; row binding
+(def my-template
+  ((graph-fn [[name street-address city postcode ref-facility-uri]] ;; row binding
 
            (graph (base-graph "glasgow-life-facilities")
              [ref-facility-uri
@@ -24,7 +25,11 @@ We can define our templates easily using the graph-fn function. We just need [to
                                   [vcard:country-name (rdfstr "Scotland")]
                                   [vcard:postal-code postcode]]]])
             (graph...))
-  dataset)
+  dataset))
+
+(-> my-dataset
+    my-pipeline
+    my-template)
 {% endhighlight %}
 
 ![Linked Data template](/assets/310_linked_data_template_3.png)
