@@ -11,16 +11,13 @@ The idea is quite simple: on a row, take one or more cell(s), apply a function, 
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
 
-  derive-column:
-
-
-![Data Screenshot](/assets/220_row_level_transformations_1.png)
-
 {% highlight clojure %}
 
-user=> (derive-column dataset "D" ["B"] uriify)
+user=> (derive-column dataset "d" ["b"] uriify)
 
 {% endhighlight %}
+
+![Data Screenshot](/assets/220_row_level_transformations_1.png)
 
 
 ![Data Screenshot](/assets/220_row_level_transformations_2.png)
@@ -28,13 +25,14 @@ user=> (derive-column dataset "D" ["B"] uriify)
 
 And with a function using more than one argument:
 
-![Data Screenshot](/assets/220_row_level_transformations_3.png)
-
 {% highlight clojure %}
 
-user=> (derive-column dataset "new-column-name" ["A" "B" "C"] slug-combine)
+user=> (derive-column dataset "new-column-name" ["a" "b" "c"] slug-combine)
 
 {% endhighlight %}
+
+![Data Screenshot](/assets/220_row_level_transformations_3.png)
+
 
 ![Data Screenshot](/assets/220_row_level_transformations_4.png)
 
@@ -42,7 +40,7 @@ Note that **order count:**
 
 {% highlight clojure %}
 
-user=> (derive-column dataset "new-column-name" ["B" "C" "A"] slug-combine)
+user=> (derive-column dataset "new-column-name" ["b" "c" "a"] slug-combine)
 
 {% endhighlight %}
 
@@ -55,7 +53,7 @@ Swap is used to swap columns.
 
 {% highlight clojure %}
 
-user=> (swap dataset "B" "D")
+user=> (swap dataset "b" "d")
 
 {% endhighlight %}
 
@@ -68,7 +66,7 @@ And you can combine swaps adding an even number of columns :
 
 {% highlight clojure %}
 
-user=> (swap dataset "B" "D" "D" "A")
+user=> (swap dataset "b" "d" "d" "a")
 
 {% endhighlight %}
 
