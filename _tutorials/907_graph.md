@@ -5,16 +5,18 @@ title: Make graph fragments
 
 # Make graph fragments
 
-## Graphify
-The idea here is tu use the Grafter function 'graphify' on each row processed on the pipeline function. We map each row -so we can call directly each column on our triples, and, then, we write sequence quads:
+## Graph-fn
+The idea here is tu use the Grafter function 'graph-fn' on each row processed on the pipeline function. We bind the header - so we can call directly each column on our triples, and, then, we write sequence quads:
 
 {% highlight clojure %}
 
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
+defn make-life-facilities [path]
+  (let [dataset (pipeline path)]
 
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri]
+    ((graph-fn [[facility-description facility-name monthly-attendance
+                        year month address town postcode website facility-type
+                        name-slug ref-facility-uri postcode-uri date prefix-date
+                        type-name observation-uri]]
 
                     (graph (base-graph "glasgow-life-facilities")
                           [**triples**])
@@ -22,7 +24,8 @@ The idea here is tu use the Grafter function 'graphify' on each row processed on
                     (graph (base-graph "glasgow-life-attendances")
                            [**triples**]))
 
-          processed-rows)))
+          dataset)))
+
 {% endhighlight %}
 
 ## Glasgow life facilities graph
@@ -31,30 +34,33 @@ Now we can add our first graph, just by comparing with the final graph:
 
 {% highlight clojure %}
 
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
+(defn make-life-facilities [path]
+  (let [dataset (pipeline path)]
 
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri]
+    ((graph-fn [[facility-description facility-name monthly-attendance
+                        year month address town postcode website facility-type
+                        name-slug ref-facility-uri postcode-uri date prefix-date
+                        type-name observation-uri]]
 
-                    (graph (base-graph "glasgow-life-facilities")
-                          [ref-facility-uri
-                            [rdfs:label (rdfstr name)]
-                            [vcard:hasUrl website]
-                            [rdf:a (urban "Museum")]
-                            [rdf:a (urban "LeisureFacility")]
-                            [vcard:hasAddress [[rdf:a vcard:Address]
-                                              [rdfs:label street-address]
-                                              [vcard:street-address street-address]
-                                              [vcard:locality city]
-                                              [vcard:country-name (rdfstr "Scotland")]
-                                              [vcard:postal-code postcode]
-                                              [os:postcode postcode-uri]]])
+               (graph (base-graph "glasgow-life-facilities")
+                      [ref-facility-uri
+                      [rdfs:label (rdfstr facility-name)]
+                       [vcard:hasUrl website]
+                       [rdf:a (urban "Museum")]
+                       [rdf:a (urban "LeisureFacility")]
+                       [vcard:hasAddress [[rdf:a vcard:Address]
+                                          [rdfs:label address]
+                                          [vcard:street-address address]
+                                          [vcard:locality town]
+                                          [vcard:country-name (rdfstr "Scotland")]
+                                          [vcard:postal-code postcode]
+                                          [os:postcode postcode-uri]]]])
 
                     (graph (base-graph "glasgow-life-attendances")
                            [**triples**]))
 
-          processed-rows)))
+          dataset)))
+
 {% endhighlight %}
 
 Just to represent yourself what it can be, after integration of the graph in [PublishMyData](http://www.swirrl.com/publishmydata), our glasgow life facilities graph will look like this:
@@ -68,35 +74,38 @@ And the second graph:
 
 {% highlight clojure %}
 
-(defn make-life-facilities [csv-path]
-  (let [processed-rows (pipeline csv-path)]
+(defn make-life-facilities [path]
+  (let [dataset (pipeline path)]
 
-         ((graphify [facility-uri name attendance date street-address city postcode website facility-type name-uri ref-facility-uri
-                     postcode-uri observation-uri]
+    ((graph-fn [[facility-description facility-name monthly-attendance
+                        year month address town postcode website facility-type
+                        name-slug ref-facility-uri postcode-uri date prefix-date
+                        type-name observation-uri]]
 
-                    (graph (base-graph "glasgow-life-facilities")
-                          [ref-facility-uri
-                            [rdfs:label (rdfstr name)]
-                            [vcard:hasUrl website]
-                            [rdf:a (urban "Museum")]
-                            [rdf:a (urban "LeisureFacility")]
-                            [vcard:hasAddress [[rdf:a vcard:Address]
-                                              [rdfs:label street-address]
-                                              [vcard:street-address street-address]
-                                              [vcard:locality city]
-                                              [vcard:country-name (rdfstr "Scotland")]
-                                              [vcard:postal-code postcode]
-                                              [os:postcode postcode-uri]]])
+               (graph (base-graph "glasgow-life-facilities")
+                      [ref-facility-uri
+                      [rdfs:label (rdfstr facility-name)]
+                       [vcard:hasUrl website]
+                       [rdf:a (urban "Museum")]
+                       [rdf:a (urban "LeisureFacility")]
+                       [vcard:hasAddress [[rdf:a vcard:Address]
+                                          [rdfs:label address]
+                                          [vcard:street-address address]
+                                          [vcard:locality town]
+                                          [vcard:country-name (rdfstr "Scotland")]
+                                          [vcard:postal-code postcode]
+                                          [os:postcode postcode-uri]]]])
 
-                    (graph (base-graph "glasgow-life-attendances")
-                           [observation-uri
-                            [(glasgow "refFacility") ref-facility-uri]
-                            [(glasgow "numAttendees") attendance]
-                            [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
-                            [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
-                            [rdf:a qb:Observation]]))
+               (graph (base-graph "glasgow-life-attendances")
+                      [observation-uri
+                       [(glasgow "refFacility") ref-facility-uri]
+                       [(glasgow "numAttendees") monthly-attendance]
+                       [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
+                       [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
+                       [rdf:a qb:Observation]]))
 
-          processed-rows)))
+     dataset)))
+
 {% endhighlight %}
 
 ![pmd screenshot](/assets/931_graph_3.png)
