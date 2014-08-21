@@ -20,9 +20,11 @@ We would like to remove blanks on the first cell (trim function), uriify the sec
 
 
 {% highlight clojure %}
-user=> (def uriify (prefixer "http://www.grafter-is-the-best.com/"))
-{% endhighlight %}
 
-<code>user=> (<a href="http://api.grafter.org/0.2/grafter.tabular.html#var-mapc" target="_blank">mapc</a> dataset {"A" trim, "B" uriify, "C" identity})</code>
+user=> (def uriify (prefixer "http://www.grafter-is-the-best.com/"))
+
+user=> (mapc dataset {"A" trim, "B" uriify, "C" identity})
+
+{% endhighlight %}
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_2.png)
