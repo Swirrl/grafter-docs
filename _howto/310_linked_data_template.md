@@ -16,7 +16,7 @@ title: Build a Linked Data template
 {% highlight clojure %}
 
 (def my-template
-  ((graph-fn [[name street-address city postcode ref-facility-uri]] ;; row binding
+  (graph-fn [[name street-address city postcode ref-facility-uri]] ;; row binding
 
            (graph (base-graph "glasgow-life-facilities")
              [ref-facility-uri
@@ -27,8 +27,7 @@ title: Build a Linked Data template
                                   [vcard:locality city]
                                   [vcard:country-name (rdfstr "Scotland")]
                                   [vcard:postal-code postcode]]]])
-            (graph...))
-  dataset))
+            (graph...)))
 
 (-> my-dataset
     my-pipeline
