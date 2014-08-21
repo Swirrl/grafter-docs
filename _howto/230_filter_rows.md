@@ -7,7 +7,7 @@ title: Filter rows
 
 ### drop-rows
 
-Drop rows may be useful to remove some rows. Simply give the number of rows you want to drop as argument.
+[drop-rows](http://api.grafter.org/0.2/grafter.tabular.html#var-drop-rows){:target="_blank"} may be useful to remove some rows. Simply give the number of rows you want to drop as argument.
 
 {% highlight clojure %}
 

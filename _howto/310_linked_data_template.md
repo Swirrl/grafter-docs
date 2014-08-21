@@ -8,7 +8,10 @@ title: Build a Linked Data template
 ## How to build a Linked Data template
 
 ### graph-fn
-We can define our templates easily using the graph-fn function. We just need [to choose our ontologies](420_ontology_choice.html) and define, in the graph-fn function, the graph structure we want:
+
+[graph-fn](http://api.grafter.org/0.2/grafter.rdf.html#var-graph-fn){:target="_blank"} allows us to define our templates easily. We just need [to choose our ontologies](420_ontology_choice.html) and define, in the graph-fn function, the graph structure we want.
+
+[graph](http://api.grafter.org/0.2/grafter.rdf.html#var-graph){:target="_blank"} takes, as arguments, an URI and the triples.
 
 {% highlight clojure %}
 

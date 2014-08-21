@@ -7,7 +7,7 @@ title: Convert cell level values
 
 ### mapc
 
-Mapc function allows you to transform and modify each cell differently.
+[mapc](http://api.grafter.org/0.2/grafter.tabular.html#var-mapc){:target="_blank"} function allows you to transform and modify each cell differently.
 
 Let's take a basic dataset:
 
