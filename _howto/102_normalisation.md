@@ -1,14 +1,16 @@
 ---
 layout: page
-title: Normalization / Denormalization
+title: Normalise datasets
 ---
 
-## Rows, rows, rows
+## How to normalise datasets
+
+### Rows, rows, rows
 
 If there were one thing to understand from the beginning that would be **Grafter works with rows!**
 Indeed, Grafter parses rows, transform and modify data at a row level and create graph fragments from rows. All the useful data have to be at the row level!
 
-## Normalization / Denormalization
+### Normalization / Denormalization
 
 As an example of this rows oriented process, imagine that a part of your data are in the header (here, the year for each observation):
 
