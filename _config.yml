@@ -37,6 +37,9 @@ collections:
       label: Tutorials
       output: true
 
+    github:
+      label: GitHub
+
     api:
       label: Grafter API Docs
 
