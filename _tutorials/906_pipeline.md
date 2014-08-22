@@ -16,9 +16,8 @@ For each row the process will be the same so I will just show the two first line
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first))
+(defn pipeline [dataset]
+  (-> dataset))
 
 {% endhighlight %}
 
@@ -30,9 +29,8 @@ First step is to modify the column names so we can easily work with them and the
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -48,9 +46,8 @@ Next we would like to get the type of the facility: in this case we want to have
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -65,7 +62,7 @@ Next we would like to get the type of the facility: in this case we want to have
 We will define uriify-type function later, here is what it does:
 
 {% highlight clojure %}
-cmd-line.prefixers=> (uriify-type "Museums")
+user=> (uriify-type "Museums")
 "museums"
 {% endhighlight %}
 
@@ -77,9 +74,8 @@ We are going to need to have the name in an nice format to make URI. Same way to
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -106,9 +102,8 @@ This one is a bit different: we will use mapc to apply a different function to e
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -166,9 +161,8 @@ We have changed a lot of things, but each transformation is easy to understand a
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -202,9 +196,8 @@ user=> (uriify-refFacility "museums" "riverside-museum")
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -236,9 +229,8 @@ First the idea is to swap column "month" and column "year": by doing this we wil
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -267,9 +259,8 @@ Then we can derive-column applying date-time:
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -306,9 +297,8 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
@@ -340,9 +330,8 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name"
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
