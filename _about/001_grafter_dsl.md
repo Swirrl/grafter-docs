@@ -49,11 +49,11 @@ The [Grafter Graph DSL](http://api.grafter.org/0.2/grafter.rdf.html){:target="_b
 
 {% highlight clojure %}
 
-(def template
+(def glasgow-life-facilities-template
   (graph-fn [[facility-description facility-name monthly-attendance
-                        year month address town postcode website facility-type
-                        name-slug ref-facility-uri postcode-uri date prefix-date
-                        type-name observation-uri]]
+              year month address town postcode website facility-type
+              name-slug ref-facility-uri postcode-uri date prefix-date
+              type-name observation-uri]]
 
             (graph (base-graph "glasgow-life-facilities")
                    [ref-facility-uri
@@ -81,13 +81,14 @@ The [Grafter Graph DSL](http://api.grafter.org/0.2/grafter.rdf.html){:target="_b
 
 ## Composition
 
-Those two parts of the core DSL can then be composed easily:
+Those two parts of the core DSL can then be composed easily and the whole process of RDFization will look like this:
 
 {% highlight clojure %}
 
-(-> (open-all-datasets "path/glasgow-life-facilities.csv")
+(-> (open-all-datasets path)
     first
     pipeline
-    template)
+    glasgow-life-facilities-template
+    (import-life-facilities output))
 
 {% endhighlight %}
