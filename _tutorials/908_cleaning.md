@@ -14,17 +14,25 @@ If you don't know about monad yet I recommand [this explanation](http://onclojur
 Here are every definition that we will have to use:
 
 {% highlight clojure %}
+
+(def clean-type {"Museums" "museums"
+                  "Arts" "arts-centres"
+                  "Community Facility" "community-facilities"
+                  "Libraries" "libraries"
+                  "Music" "music-venues"
+                  "Sport Centres" "sports-centres"})
+
 (with-monad blank-m
   (def rdfstr                    (lift-1 (fn [str] (s str :en))))
   (def replace-comma             (lift-1 (replacer "," ""))  )
-  (def trim                      (lift-1 clojure.string/trim))
+  (def trim                      (lift-1 st/trim))
   (def parse-year                (m-chain [trim replace-comma parse-int]))
   (def parse-attendance          (with-monad identity-m (m-chain [(lift-1 (mapper {"" "0"}))
                                                                      (lift-1 (replacer "," ""))
                                                                      trim
                                                                      parse-int])))
   (def convert-month             (m-chain [trim
-                                              (lift-1 clojure.string/lower-case)
+                                              (lift-1 st/lower-case)
                                               (lift-1 {"january" 1 "jan" 1 "1" 1
                                                        "february" 2 "feb" 2 "2" 2
                                                        "march" 3 "mar" 3 "3" 3
@@ -44,11 +52,12 @@ Here are every definition that we will have to use:
   (def post-code                 (m-chain [trim rdfstr]))
   (def uriify-pcode              (m-chain [trim
                                               (lift-1 (replacer " " ""))
-                                              (lift-1 clojure.string/upper-case)
+                                              (lift-1 st/upper-case)
                                               (lift-1 (prefixer "http://data.ordnancesurvey.co.uk/id/postcodeunit/"))]))
   (def url                       (lift-1 #(java.net.URL. %)))
   (def prefix-monthly-attendance (m-chain [(lift-1 date-slug)
                                              (lift-1 (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))])))
+
 {% endhighlight %}
 
 And now we can understand how everything works:

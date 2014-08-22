@@ -36,7 +36,11 @@ Now we can import our turtle file.
     (pr/add (ses/rdf-serializer destination) quads)))
 
 (defn -main [path output]
-  (import-life-facilities (make-life-facilities path) output))
+  (-> (open-all-datasets path)
+      first
+      pipeline
+      glasgow-life-facilities-template
+      (import-life-facilities output)))
 
 {% endhighlight %}
 

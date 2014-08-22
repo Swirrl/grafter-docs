@@ -40,40 +40,32 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 {% endhighlight %}
 
 
-## Base prefixes
+## URI
 Base prefixes are all defined on the same pattern, using the Grafter's prefixer function:
 
 {% highlight clojure %}
+
 (def base-uri (prefixer "http://linked.glasgow.gov.uk"))
 
-cmd-line.prefixers=> (base-uri "/blah")
+user=> (base-uri "/blah")
 "http://linked.glasgow.gov.uk/blah"
+
 {% endhighlight %}
 
 So you just have to check the final graph and define every bases of uri:
 
 {% highlight clojure %}
+
 (def base-uri (prefixer "http://linked.glasgow.gov.uk"))
 (def base-graph (prefixer (base-uri "/graph/")))
-
 (def glasgow (prefixer "http://linked.glasgow.gov.uk/def/"))
 (def urban (prefixer "http://linked.glasgow.gov.uk/def/urban-assets/"))
 (def urban-id (prefixer "http://linked.glasgow.gov.uk/id/urban-assets/"))
 (def ont-graph "http://linked.glasgow.gov.uk/graph/vocab/urban-assets/ontology")
-
 (def attendance (prefixer "http://linked.glasgow.gov.uk/data/facility_attendance"))
 (def urban:ontology (urban "ontology"))
 (def sd (prefixer "http://data.opendatascotland.org/def/statistical-dimensions/"))
-(def prefix-facility (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))
-{% endhighlight %}
 
-
-
-## Useful functions
-We will also need some functions to transform and adapt data
-
-#### uriify-facility
-{% highlight clojure %}
 (def uriify-facility {"Museums" (urban "Museum")
                       "Arts" (urban "ArtsCentre")
                       "Community Facility" (urban "CommunityFacility")
@@ -81,58 +73,51 @@ We will also need some functions to transform and adapt data
                       "Music" (urban "MusicVenue")
                       "Sport Centres" (urban "SportsCentre")})
 
-cmd-line.prefixers=> (uriify-facility "Libraries")
-"http://linked.glasgow.gov.uk/def/urban-assets/Library"
-{% endhighlight %}
+(def prefix-facility (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))
 
-#### uriify-refFacility
-{% highlight clojure %}
-(defn uriify-refFacility [type name]
+(defn uriify-ref-facility [type name]
   (str (urban-id type) "/" name))
 
-cmd-line.prefixers=> (uriify-refFacility "foo" "bar")
+{% endhighlight %}
+
+{% highlight clojure %}
+
+user=> (uriify-facility "Libraries")
+"http://linked.glasgow.gov.uk/def/urban-assets/Library"
+
+user=> (uriify-ref-facility "foo" "bar")
 "http://linked.glasgow.gov.uk/id/urban-assets/foo/bar"
+
 {% endhighlight %}
 
-#### slug-combine
+
+## Slugify
+
 {% highlight clojure %}
-(defn slug-combine [& args]
-  (apply str (interpose "/" args)))
 
-cmd-line.prefixers=> (slug-combine "foo" "bar" "baz")
-"foo/bar/baz"
-{% endhighlight %}
-
-#### uriify-type
-{% highlight clojure %}
-(def uriify-type {"Museums" "museums"
-                  "Arts" "arts-centres"
-                  "Community Facility" "community-facilities"
-                  "Libraries" "libraries"
-                  "Music" "music-venues"
-                  "Sport Centres" "sports-centres"})
-
-cmd-line.prefixers=> (uriify-type "Community Facility")
-"community-facilities"
-{% endhighlight %}
-
-#### date-slug
-{% highlight clojure %}
-(defn date-slug [date]
-  (str (.getYear date) "-" (.getMonthOfYear date) "/"))
-{% endhighlight %}
-
-#### slugify
-{% highlight clojure %}
 (defn slugify [string]
   (-> string
       st/trim
       (st/lower-case)
       (st/replace " " "-")))
 
-cmd-line.prefixers=> (slugify " Foo bAr")
-"foo-bar"
+(defn slug-combine [& args]
+  (apply str (interpose "/" args)))
+
+(defn date-slug [date]
+  (str (.getYear date) "-" (.getMonthOfYear date) "/"))
+
 {% endhighlight %}
 
+
+{% highlight clojure %}
+
+user=> (slug-combine "foo" "bar" "baz")
+"foo/bar/baz"
+
+user=> (slugify " Foo bAr")
+"foo-bar"
+
+{% endhighlight %}
 
 [Now you can see how to filter and export](941_filter_import.html)

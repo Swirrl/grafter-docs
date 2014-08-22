@@ -67,7 +67,6 @@ In src/glasgow-life-facilities/prefixers.clj
             [grafter.rdf.ontologies.os :refer :all]
             [grafter.rdf.ontologies.sdmx-measure :refer :all]
             [grafter.parse :refer [lift-1 blank-m replacer mapper parse-int date-time]]
-            [grafter.js :refer [js-fn]]
             [clojure.algo.monads :refer [m-chain m-bind m-result with-monad identity-m]]))
 
 {% endhighlight %}
@@ -76,14 +75,14 @@ In src/glasgow-life-facilities/prefixers.clj
 
 {% highlight clojure %}
 
+;;; URI
+
 (def base-uri (prefixer "http://linked.glasgow.gov.uk"))
 (def base-graph (prefixer (base-uri "/graph/")))
-
 (def glasgow (prefixer "http://linked.glasgow.gov.uk/def/"))
 (def urban (prefixer "http://linked.glasgow.gov.uk/def/urban-assets/"))
 (def urban-id (prefixer "http://linked.glasgow.gov.uk/id/urban-assets/"))
 (def ont-graph "http://linked.glasgow.gov.uk/graph/vocab/urban-assets/ontology")
-
 (def attendance (prefixer "http://linked.glasgow.gov.uk/data/facility_attendance"))
 (def urban:ontology (urban "ontology"))
 (def sd (prefixer "http://data.opendatascotland.org/def/statistical-dimensions/"))
@@ -95,21 +94,13 @@ In src/glasgow-life-facilities/prefixers.clj
                       "Music" (urban "MusicVenue")
                       "Sport Centres" (urban "SportsCentre")})
 
-(defn uriify-refFacility [type name]
+(def prefix-facility (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))
+
+(defn uriify-ref-facility [type name]
   (str (urban-id type) "/" name))
 
-(defn slug-combine [& args]
-  (apply str (interpose "/" args)))
 
-(def uriify-type {"Museums" "museums"
-                  "Arts" "arts-centres"
-                  "Community Facility" "community-facilities"
-                  "Libraries" "libraries"
-                  "Music" "music-venues"
-                  "Sport Centres" "sports-centres"})
-
-(defn date-slug [date]
-  (str (.getYear date) "-" (.getMonthOfYear date) "/"))
+;;; Slugify
 
 (defn slugify [string]
   (-> string
@@ -117,13 +108,21 @@ In src/glasgow-life-facilities/prefixers.clj
       (st/lower-case)
       (st/replace " " "-")))
 
-(def slugify-facility
-  (js-fn "function(name) {
-              var lower = name.toLowerCase();
-              return lower.replace(/\\ /g, '-');
-         }"))
+(defn slug-combine [& args]
+  (apply str (interpose "/" args)))
 
-(def prefix-facility (prefixer "http://linked.glasgow.gov.uk/data/glasgow-life-attendances/"))
+(defn date-slug [date]
+  (str (.getYear date) "-" (.getMonthOfYear date) "/"))
+
+
+;;; Data cleaning
+
+(def clean-type {"Museums" "museums"
+                  "Arts" "arts-centres"
+                  "Community Facility" "community-facilities"
+                  "Libraries" "libraries"
+                  "Music" "music-venues"
+                  "Sport Centres" "sports-centres"})
 
 (with-monad blank-m
   (def rdfstr                    (lift-1 (fn [str] (s str :en))))
@@ -183,12 +182,11 @@ In src/glasgow-life-facilities/pipeline.clj
 
 {% highlight clojure %}
 
-(defn pipeline [path]
-  (-> (open-all-datasets path)
-      first
+(defn pipeline [dataset]
+  (-> dataset
       (make-dataset ["facility-description" "facility-name" "monthly-attendance" "month" "year" "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -198,7 +196,7 @@ In src/glasgow-life-facilities/pipeline.clj
              "town" city
              "postcode" post-code
              "website" url})
-      (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+      (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
       (derive-column "postcode-uri" ["postcode"] uriify-pcode)
       (swap "month" "year")
       (derive-column "date" ["year" "month"] date-time)
@@ -226,8 +224,7 @@ In src/glasgow-life-facilities/make_graph.clj
             [grafter.rdf.ontologies.qb :refer :all]
             [grafter.rdf.ontologies.os :refer :all]
             [grafter.rdf.ontologies.sdmx-measure :refer :all]
-            [glasgow-life-facilities.prefixers :refer :all]
-            [glasgow-life-facilities.pipeline :refer [pipeline]]))
+            [glasgow-life-facilities.prefixers :refer :all]))
 
 {% endhighlight %}
 
@@ -235,37 +232,33 @@ In src/glasgow-life-facilities/make_graph.clj
 
 {% highlight clojure %}
 
-(defn make-life-facilities [path]
-  (let [dataset (pipeline path)]
+(def glasgow-life-facilities-template
+  (graph-fn [[facility-description facility-name monthly-attendance
+              year month address town postcode website facility-type
+              name-slug ref-facility-uri postcode-uri date prefix-date
+              type-name observation-uri]]
 
-    ((graph-fn [[facility-description facility-name monthly-attendance
-                        year month address town postcode website facility-type
-                        name-slug ref-facility-uri postcode-uri date prefix-date
-                        type-name observation-uri]]
+            (graph (base-graph "glasgow-life-facilities")
+                   [ref-facility-uri
+                    [rdfs:label (rdfstr facility-name)]
+                    [vcard:hasUrl website]
+                    [rdf:a (urban "Museum")]
+                    [rdf:a (urban "LeisureFacility")]
+                    [vcard:hasAddress [[rdf:a vcard:Address]
+                                       [rdfs:label address]
+                                       [vcard:street-address address]
+                                       [vcard:locality town]
+                                       [vcard:country-name (rdfstr "Scotland")]
+                                       [vcard:postal-code postcode]
+                                       [os:postcode postcode-uri]]]])
 
-               (graph (base-graph "glasgow-life-facilities")
-                      [ref-facility-uri
-                      [rdfs:label (rdfstr facility-name)]
-                       [vcard:hasUrl website]
-                       [rdf:a (urban "Museum")]
-                       [rdf:a (urban "LeisureFacility")]
-                       [vcard:hasAddress [[rdf:a vcard:Address]
-                                          [rdfs:label address]
-                                          [vcard:street-address address]
-                                          [vcard:locality town]
-                                          [vcard:country-name (rdfstr "Scotland")]
-                                          [vcard:postal-code postcode]
-                                          [os:postcode postcode-uri]]]])
-
-               (graph (base-graph "glasgow-life-attendances")
-                      [observation-uri
-                       [(glasgow "refFacility") ref-facility-uri]
-                       [(glasgow "numAttendees") monthly-attendance]
-                       [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
-                       [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
-                       [rdf:a qb:Observation]]))
-
-     dataset)))
+            (graph (base-graph "glasgow-life-attendances")
+                   [observation-uri
+                    [(glasgow "refFacility") ref-facility-uri]
+                    [(glasgow "numAttendees") monthly-attendance]
+                    [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
+                    [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
+                    [rdf:a qb:Observation]])))
 
 {% endhighlight %}
 
@@ -309,7 +302,8 @@ In src/glasgow-life-facilities/core.clj
             [grafter.rdf.sesame :as ses]
             [grafter.rdf.validation :refer [has-blank? validate-triples]]
             [glasgow-life-facilities.filter :refer [filter-triples]]
-            [glasgow-life-facilities.make-graph :refer [make-life-facilities]]))
+            [glasgow-life-facilities.make-graph :refer [glasgow-life-facilities-template]]
+            [glasgow-life-facilities.pipeline :refer [pipeline]]))
 
 {% endhighlight %}
 
@@ -317,7 +311,7 @@ In src/glasgow-life-facilities/core.clj
 
 {% highlight clojure %}
 
-(defonce my-repo (-> "./tmp/grafter-sesame-store-test" ses/native-store ses/repo))
+(defonce my-repo (-> "./tmp/grafter-sesame-store-2" ses/native-store ses/repo))
 
 (defn import-life-facilities
   [quads-seq destination]
@@ -343,7 +337,11 @@ We have to define a -main function, this function will take input and output as 
 {% highlight clojure %}
 
 (defn -main [path output]
-  (import-life-facilities (make-life-facilities path) output)
+  (-> (open-all-datasets path)
+      first
+      pipeline
+      glasgow-life-facilities-template
+      (import-life-facilities output))
   (println path "has been grafted using Grafter 0.2.0!"))
 
 {% endhighlight %}

@@ -42,7 +42,7 @@ First step is to modify the column names so we can easily work with them and the
 
 ### Type
 
-Next we would like to get the type of the facility: in this case we want to have: "museums". Instead of modifying source data we will just add a new column with the modified data. Basically we take the column "facility-description" data, apply the function uriify-type, and add the result to a new column called "facility-type":
+Next we would like to get the type of the facility: in this case we want to have: "museums". Instead of modifying source data we will just add a new column with the modified data. Basically we take the column "facility-description" data, apply the function clean-type, and add the result to a new column called "facility-type":
 
 {% highlight clojure %}
 
@@ -52,17 +52,17 @@ Next we would like to get the type of the facility: in this case we want to have
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)))
+      (derive-column "facility-type" ["facility-description"] clean-type)))
 
 
 {% endhighlight %}
 
 ![Swap Screenshot](/assets/921_pipeline_5.png)
 
-We will define uriify-type function later, here is what it does:
+We will define clean-type function later, here is what it does:
 
 {% highlight clojure %}
-user=> (uriify-type "Museums")
+user=> (clean-type "Museums")
 "museums"
 {% endhighlight %}
 
@@ -80,7 +80,7 @@ We are going to need to have the name in an nice format to make URI. Same way to
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)))
 
 {% endhighlight %}
@@ -108,7 +108,7 @@ This one is a bit different: we will use mapc to apply a different function to e
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -167,7 +167,7 @@ We have changed a lot of things, but each transformation is easy to understand a
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -177,7 +177,7 @@ We have changed a lot of things, but each transformation is easy to understand a
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)))
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)))
 
 {% endhighlight %}
 
@@ -185,7 +185,7 @@ We have changed a lot of things, but each transformation is easy to understand a
 
 {% highlight clojure %}
 
-user=> (uriify-refFacility "museums" "riverside-museum")
+user=> (uriify-ref-facility "museums" "riverside-museum")
 "http://linked.glasgow.gov.uk/id/urban-assets/museums/riverside-museum"
 
 {% endhighlight %}
@@ -202,7 +202,7 @@ user=> (uriify-refFacility "museums" "riverside-museum")
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -212,7 +212,7 @@ user=> (uriify-refFacility "museums" "riverside-museum")
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
        (derive-column "postcode-uri" ["postcode"] uriify-pcode)))
 
 {% endhighlight %}
@@ -235,7 +235,7 @@ First the idea is to swap column "month" and column "year": by doing this we wil
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -245,7 +245,7 @@ First the idea is to swap column "month" and column "year": by doing this we wil
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
        (derive-column "postcode-uri" ["postcode"] uriify-pcode)
        (swap "month" "year")))
 
@@ -265,7 +265,7 @@ Then we can derive-column applying date-time:
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -275,7 +275,7 @@ Then we can derive-column applying date-time:
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
        (derive-column "postcode-uri" ["postcode"] uriify-pcode)
        (swap "month" "year")
        (derive-column "date" ["year" "month"] date-time)))
@@ -303,7 +303,7 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -313,7 +313,7 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
        (derive-column "postcode-uri" ["postcode"] uriify-pcode)
        (swap "month" "year")
        (derive-column "date" ["year" "month"] date-time)
@@ -336,7 +336,7 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
                       "monthly-attendance" "month" "year"
                       "address" "town" "postcode" "website"])
       (drop-rows 1)
-      (derive-column "facility-type" ["facility-description"] uriify-type)
+      (derive-column "facility-type" ["facility-description"] clean-type)
       (derive-column "name-slug" ["facility-name"] slugify)
       (mapc {"facility-description" uriify-facility
              "monthly-attendance" parse-attendance
@@ -346,7 +346,7 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
              "town" city
              "postcode" post-code
              "website" url})
-       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-refFacility)
+       (derive-column "ref-facility-uri" ["facility-type" "name-slug"] uriify-ref-facility)
        (derive-column "postcode-uri" ["postcode"] uriify-pcode)
        (swap "month" "year")
        (derive-column "date" ["year" "month"] date-time)

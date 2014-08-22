@@ -10,10 +10,8 @@ The idea here is tu use the Grafter function 'graph-fn' on each row processed on
 
 {% highlight clojure %}
 
-defn make-life-facilities [path]
-  (let [dataset (pipeline path)]
-
-    ((graph-fn [[facility-description facility-name monthly-attendance
+(def glasgow-life-facilities-template
+    (graph-fn [[facility-description facility-name monthly-attendance
                         year month address town postcode website facility-type
                         name-slug ref-facility-uri postcode-uri date prefix-date
                         type-name observation-uri]]
@@ -24,7 +22,7 @@ defn make-life-facilities [path]
                     (graph (base-graph "glasgow-life-attendances")
                            [**triples**]))
 
-          dataset)))
+          dataset))
 
 {% endhighlight %}
 
@@ -34,10 +32,8 @@ Now we can add our first graph, just by comparing with the final graph:
 
 {% highlight clojure %}
 
-(defn make-life-facilities [path]
-  (let [dataset (pipeline path)]
-
-    ((graph-fn [[facility-description facility-name monthly-attendance
+(def glasgow-life-facilities-template
+    (graph-fn [[facility-description facility-name monthly-attendance
                         year month address town postcode website facility-type
                         name-slug ref-facility-uri postcode-uri date prefix-date
                         type-name observation-uri]]
@@ -57,9 +53,7 @@ Now we can add our first graph, just by comparing with the final graph:
                                           [os:postcode postcode-uri]]]])
 
                     (graph (base-graph "glasgow-life-attendances")
-                           [**triples**]))
-
-          dataset)))
+                           [**triples**])))
 
 {% endhighlight %}
 
@@ -74,9 +68,7 @@ And the second graph:
 
 {% highlight clojure %}
 
-(defn make-life-facilities [path]
-  (let [dataset (pipeline path)]
-
+(def glasgow-life-facilities-template
     ((graph-fn [[facility-description facility-name monthly-attendance
                         year month address town postcode website facility-type
                         name-slug ref-facility-uri postcode-uri date prefix-date
@@ -102,9 +94,7 @@ And the second graph:
                        [(glasgow "numAttendees") monthly-attendance]
                        [qb:dataSet "http://linked.glasgow.gov.uk/data/glasgow-life-attendances"]
                        [(sd "refPeriod") "http://reference.data.gov.uk/id/month/2013-09"]
-                       [rdf:a qb:Observation]]))
-
-     dataset)))
+                       [rdf:a qb:Observation]]))))
 
 {% endhighlight %}
 
