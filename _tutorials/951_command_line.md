@@ -24,9 +24,8 @@ And in project.clj:
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.2.0"]]
-  :main glasgow-life-facilities.core
-  :plugins [[s3-wagon-private "1.1.2"]])
+                 [grafter "0.2.0-SNAPSHOT"]]
+  :main glasgow-life-facilities.core)
 
 {% endhighlight %}
 
