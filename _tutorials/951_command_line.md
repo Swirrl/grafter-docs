@@ -312,8 +312,6 @@ In src/glasgow-life-facilities/core.clj
 
 {% highlight clojure %}
 
-(defonce my-repo (-> "./tmp/grafter-sesame-store-2" ses/native-store ses/repo))
-
 (defn import-life-facilities
   [quads-seq destination]
   (let [now (java.util.Date.)
