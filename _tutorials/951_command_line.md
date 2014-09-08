@@ -3,6 +3,8 @@ layout: page
 title: Leiningen project
 ---
 
+You can [download the CSV file used in this tutorial in GitHub](https://github.com/Swirrl/grafter-rdf-example/blob/master/data/glasgow-life-facilities.csv)
+
 # Leiningen project
 As a step 0, let's configure a Leiningen project:
 
