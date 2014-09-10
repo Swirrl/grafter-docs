@@ -17,6 +17,7 @@
 .pmd_box_full{ @extend .col-md-12; }
 .pmd_box_has_sidebar{ @extend .col-md-9; }
 .pmd_box_sidebar{ @extend .col-md-3; }
+.pmd_box_half{@extend .col-md-6;}
 
 /* ==========================================================================
 	DOCUMENTATION STYLES
@@ -60,8 +61,9 @@ header, footer {
 	}
 	ul {
 		list-style-type: none;
-		margin: 0;
+		margin: 0 auto;
 		padding: 0;
+		text-align:center;
 	}
 	li {
 		display: inline;
@@ -110,4 +112,8 @@ th, td{
 thead, th {
 	font-weight: normal;
 	background: #fafafa;
+}
+
+img {
+	max-width:100%;
 }

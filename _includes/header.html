@@ -2,11 +2,9 @@
 	<div class="pmd_wrapper">
 		<div class="pmd_row">
 			<div class="pmd_box_full">
-				<h1>
-					<a href="/">Grafter Documentation</a>
-				</h1>
 				<nav>
 					<ul>
+						<li><a href="/"><strong>Grafter</strong></a></li>
 						{% for c in site.collections %}
 							{% comment %}
 								WORKAROUND: c is [key,object], so we need to pull out its contents.
@@ -14,8 +12,8 @@
 							{% assign collection = c.last%}
 							<li>{% include _link_to_collection_home.html %}</li>
 						{% endfor %}
-                        <li><a href="http://api.grafter.org/" target="_blank">Grafter API Docs</a></li>
-                        <li><a href="http://github.com/swirrl/grafter" target="_blank">GitHub</a></li>
+						<li><a href="http://api.grafter.org/" target="_blank">API Docs</a></li>
+						<li><a href="http://github.com/swirrl/grafter" target="_blank">GitHub</a></li>
 					</ul>
 				</nav>
 			</div>
