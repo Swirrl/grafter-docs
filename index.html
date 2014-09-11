@@ -1,16 +1,15 @@
 ---
 layout: home
 ---
-<div class="pmd_wrapper" style="padding-bottom:36px;">
+<div class="pmd_wrapper" style="padding-bottom:10px;">
 	<div class="pmd_row">
 		<div class="pmd_box_full" style="text-align:center;">
 			<img src="/assets/logo_transparent.png" alt="Grafter!"/>
-			<h1 style="font-weight:bold;
-			margin-bottom:0;">Produce high quality Linked Data</h1> 
-			<h3>Grafter is an Open Source suite
-			<br>of Linked Data tools
-			<br>for both developers and non-experts</h3>
-			<a id="go" href="/quick-start/810_Leiningen.html">
+			<h1 style="font-weight:bold; margin-bottom:0;">Produce high quality Linked Data</h1> 
+			<h3>Grafter is the Open Source 
+        <br>suite of Linked Data tools for
+        <br> both developers and non-experts</h3>
+			<a id="go" href="/quick-start/810_install_grafter.html">
 				Try Grafter
 				<small>0.2.0-SNAPSHOT</small>
 			</a>
@@ -40,10 +39,10 @@ layout: home
           <br><a href="/howto/1022_datasets.html">See how.</a></p>
 				<h4>Collaboration and sharing</h4>
 				<p>If you're not an expert or you don't need to work at a low level, it's easy to reuse templates.
-          <br><a href="/tutorials/941_filter_import.html">Check it out.</a></p>
+          <br><a href="/about/001_grafter_dsl.html">Check it out.</a></p>
 				<h4>High quality Linked Data</h4>
 				<p>Performance, control and separation of concerns assures high quality.
-          <br><a href="/tutorials/951_command_line.html">Try it now.</a></p>
+          <br><a href="/about/index.html">Learn more.</a></p>
 				<h4>Complete integration (coming soon)</h4>
 				<p>An importer is coming so Grafter will be totally integrated into your workflow.</p>
 			</div>
@@ -65,8 +64,10 @@ layout: home
 			<div class="pmd_box_full">
         <div class="pmd_box_half">
 	        <h2>Getting started</h2>  
-	          <p><code>:dependencies [grafter "0.2.0-SNAPSHOT"]</code></p>
-	          <p>You don't know a lot about Clojure and Leiningen? <br>Check our <a href="/quick-start/index.html">QuickStart!</a></p>
+            {% highlight clojure %}
+              :dependencies [grafter "0.2.0-SNAPSHOT"]
+            {% endhighlight %}
+	          <p>You don't know a lot about Clojure and Leiningen? <br>Check out our <a href="/quick-start/index.html">QuickStart!</a></p>
         </div>
 	      <div class="pmd_box_half">
 	        <h2>Frequently-needed tasks</h2>

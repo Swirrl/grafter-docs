@@ -20,8 +20,7 @@ And set the dependencies to use Grafter: in <code>project.clj</code>:
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.2.0-SNAPSHOT"]]
-  :main glasgow-life-facilities-2.core
+                 [grafter "0.2.0-SNAPSHOT"]])
 
 {% endhighlight %}
 
