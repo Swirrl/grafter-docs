@@ -11,11 +11,8 @@ layout: home
 			of Linked Data tools
 			<br>for both developers
 			and non expert</h3>
-		</div>
-    <button class="go" style="">
-      <h2>Try Grafter</h2>
-      <p>0.2.0-SNAPSHOT</p>
-    </button>
+		  <a class="btn" href="/quick-start/810_Leiningen.html">Try Grafter</a>
+    </div>
 	</div>
 </div>
 
@@ -26,60 +23,58 @@ layout: home
 				<img src="/assets/demo-edit.png" />
 			</div>
 		</div>
-		<div class="pmd_row">
+		<!-- <div class="pmd_row">
 			<div class="pmd_box_full">
 				<h2>Why Grafter?</h2>
-			</div>
-		</div>
+			</div> 
+		</div> -->
 		<div class="pmd_row">
 			<div class="pmd_box_half">
-				<h3>Size doesn't matter</h3>
-				<p>Grafter uses Clojure lazy sequences so you can work on any volume of data or on streams without worrying about memory.</p>
-				<h3>All data formats</h3>
-				<p>Grafter allows you to work on all tabular data formats including CSV and Excel.</p>
-				<h3>Collaboration and sharing</h3>
-				<p>If you're not an expert or you don't need to work at a low level, it's easy to reuse templates.</p>
-				<h3>High quality Linked Data</h3>
-				<p>Performance, control and separation of concerns assures high quality.</p>
-				<h3>Complete integration (coming soon)</h3>
+				<h4>Size doesn't matter</h4>
+				<p>Grafter uses Clojure lazy sequences so you can work on any volume of data or on streams without worrying about memory.
+          <br><a href="http://en.wikipedia.org/wiki/Lazy_evaluation" target="_blank">Learn more.</a></p>
+				<h4>All data formats</h4>
+				<p>Grafter allows you to work on all tabular data formats including CSV and Excel.
+          <br><a href="/howto/1022_datasets.html">See how.</a></p>
+				<h4>Collaboration and sharing</h4>
+				<p>If you're not an expert or you don't need to work at a low level, it's easy to reuse templates.
+          <br><a href="/tutorials/941_filter_import.html">Check it out.</a></p>
+				<h4>High quality Linked Data</h4>
+				<p>Performance, control and separation of concerns assures high quality.
+          <br><a href="/tutorials/951_command_line.html">Try it now.</a></p>
+				<h4>Complete integration (coming soon)</h4>
 				<p>An importer is coming so Grafter will be totally integrated into your workflow.</p>
 			</div>
 			<div class="pmd_box_half">
-				<h3>Robustness to changes in data</h3>
-				<p>If your data evolves over time, the changes will be painless with Grafter.</p>
-				<h3>Easy templating</h3>
-				<p>Describe the RDF you want to create using simple templates that look just like Turtle.</p>
-				<h3>Error reporting</h3>
-				<p>Facilities for developers and pipeline builders easily to incorporate error detation into their transformations.</p>
-				<h3>For all users (coming soon)</h3>
+				<h4>Robustness to changes in data</h4>
+				<p>If your data evolves over time, the changes will be painless with Grafter.
+          <br><a href="/tutorials/906_pipeline.html">See why.</a></p>
+				<h4>Easy templating</h4>
+				<p>Describe the RDF you want to create using simple templates that look just like Turtle.
+          <br><a href="/howto/310_linked_data_template.html">Check it out.</a></p>
+				<h4>Error reporting</h4>
+				<p>Facilities for developers and pipeline builders easily to incorporate error detation into their transformations.
+          <br><a href="/tutorials/906_pipeline.html">See it in action.</a></p>
+				<h4>For all users (coming soon)</h4>
 				<p>Grafter is suitable for both developers - with its programmable DSL - and Excel experts with its (forthcoming) Excel-like interface.</p>
 			</div>
 		</div>
 		<div class="pmd_row">
 			<div class="pmd_box_full">
-	                      <h2>Getting started</h2>
-	                        
-	                        <p>
-	                          <code> 
-	                            :dependencies [[grafter "0.2.0-SNAPSHOT"]]
-	                          </code>
-	                        </p>
-	                        
-	                        <p>
-	                          You don't know a lot about Clojure and
-	                          Leiningen? Check our <a href="/quick-start/index.html">QuickStart!</a>
-	                          
-	                        </p>
-	                        
-	                        <h2>Frequently-needed tasks</h2>
-	                        <ul>
-	                          <li><a href="/howto/210_convert_cell_level_values.html">Map functions to a dataset columns</a></li>
-	                          <li><a href="/howto/220_row_level_transformations.html">Transform your dataset to get the data you need</a></li>
-	                          <li><a href="/howto/230_filter_rows.html">Filter some rows</a></li>
-	                          <li><a href="/howto/310_linked_data_template.html">Build a linked data template</a></li>
-	                          <li><a href="/howto/index.html">More guides</a></li>
-	                          <li><a href="/tutorials/index.html">Complete tutorial</a></li>
-	                        </ul>
+        <div class="pmd_box_half">
+	        <h2>Getting started</h2>  
+	          <p><code>:dependencies [grafter "0.2.0-SNAPSHOT"]</code></p>
+	          <p>You don't know a lot about Clojure and Leiningen? <br>Check our <a href="/quick-start/index.html">QuickStart!</a></p>
+        </div>
+	      <div class="pmd_box_half">
+	        <h2>Frequently-needed tasks</h2>
+	        <ul>
+	          <li><a href="/howto/220_row_level_transformations.html">Transform your dataset to get the data you need</a></li>
+            <li><a href="/howto/310_linked_data_template.html">Build a Linked Data template</a></li>
+	          <li><a href="/howto/230_filter_rows.html">Filter some rows</a></li>
+            <li><a href="/howto/210_convert_cell_level_values.html">Map functions to a dataset columns</a></li>
+	        </ul>
+        </div>
 			</div>
 		</div>
 	</div>
