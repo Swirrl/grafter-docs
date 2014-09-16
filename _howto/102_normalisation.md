@@ -5,22 +5,20 @@ title: Normalise datasets
 
 ## How to normalise datasets
 
-### Rows, rows, rows
-
-If there were one thing to understand from the beginning that would be **Grafter works with rows!**
-Indeed, Grafter parses rows, transform and modify data at a row level and create graph fragments from rows. All the useful data have to be at the row level!
+A fundamental principle of Grafter is that it works with row data - 
+Grafter parses rows, transforms and modifies data at a row level and creates graph fragments from rows. All the useful data has to be at the row level!
 
 ### Normalization / Denormalization
 
-As an example of this rows oriented process, imagine that a part of your data are in the header (here, the year for each observation):
+As an example of this row-oriented process, imagine that a part of your data is in the header (here, the year for each observation):
 
 ![normalization](/assets/902_philo_1.png)
 
-Then you probably want to "normalize" the table, which means "put the data into rows".
+Then you probably want to "normalise" the table, which means "put the data into rows".
 
 ![normalization](/assets/902_philo_2.png)
 
-Grafter doesn’t natively support normalisation, or reshape, but because grafter is built on incanter you can do it like this:
+Grafter doesn’t natively support normalisation, or reshaping, but because grafter is built on incanter you can do it like this:
 
 
 {% highlight clojure %}

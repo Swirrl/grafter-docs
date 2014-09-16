@@ -7,7 +7,7 @@ title: Quick Start
 
 A ~5 minutes process to get ready to graft!
 
-1. [Using Clojure with Leiningen](810_Leiningen.html)
+1. [Using Clojure with Leiningen](810_install_grafter.html)
 
 1. [Picking a Development Environment](820_env.html)
 

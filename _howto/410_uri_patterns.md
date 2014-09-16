@@ -7,9 +7,9 @@ title: URI patterns
 
 ## URI patterns and the art of the URI
 
-Good URIs are the condition sine qua none of a useful and clear RDFization.
+Good URIs are the a fundamental requirement for an RDF dataset.
 
-### patterns
+### Patterns
 
 Our recommendation would be use, when possible, the more classic URI pattern :
 
@@ -17,7 +17,7 @@ Our recommendation would be use, when possible, the more classic URI pattern :
 
 ### prefixer
 
-[prefixer](http://api.grafter.org/0.2/grafter.rdf.html#var-prefixer){:target="_blank"} is really useful - and really simple to understand / use!
+[prefixer](http://api.grafter.org/0.2/grafter.rdf.html#var-prefixer){:target="_blank"} is a simple way of constructing a URI from a prefix.
 
 {% highlight clojure %}
 
