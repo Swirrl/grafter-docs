@@ -7,7 +7,7 @@ title: Handle datasets
 
 ### open-all-datasets
 
-[open-all-datasets](http://api.grafter.org/0.2/grafter.tabular.html#var-open-all-datasets){:target="_blank"} takes a file path and recursively searches beneath it for dataset-like things, returning a sequence of datasets. In this context a single file can depending on its type be treated as multiple datasets, e.g. an Excel file containing multiple worksheets.
+[open-all-datasets](http://api.grafter.org/0.2/grafter.tabular.html#var-open-all-datasets){:target="_blank"} takes a file path and recursively searches beneath it for dataset-like things, returning a sequence of datasets. In this context a single file can - depending on its type - be treated as multiple datasets e.g. an Excel file containing multiple worksheets.
 
 {% highlight clojure %}
 

@@ -8,11 +8,11 @@ title: General
 ## Data presentation
 
 We are going to use the dataset "test-data/glasgow-life-facilities.csv".
-Data looks like this:
+The data looks like this:
 ![Data Screenshot](/assets/905_general_1.png)
 
 ## What do we want?
-Our goal is to get a Turtle file with triples like this (example for the first raw - Riverside Museum):
+Our goal is to generate a Turtle file with triples like this (example for the first row - Riverside Museum):
 
 {% highlight turtle %}
 <http://linked.glasgow.gov.uk/id/urban-assets/museums/riverside-museum> <http://www.w3.org/2000/01/rdf-schema#label> "Riverside Museum"@en ;
@@ -36,4 +36,4 @@ _:bnode2051 a <http://www.w3.org/2006/vcard/nsAddress> ;
 {% endhighlight %}
 
 
-[Now let's work on those data!](906_pipeline.html)
+[Now let's work on the data!](906_pipeline.html)

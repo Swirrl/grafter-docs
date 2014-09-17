@@ -9,9 +9,9 @@ title: Build a Linked Data template
 
 ### graph-fn
 
-[graph-fn](http://api.grafter.org/0.2/grafter.rdf.html#var-graph-fn){:target="_blank"} allows us to define our templates easily. We just need [to choose our ontologies](420_ontology_choice.html) and define, in the graph-fn function, the graph structure we want.
+[graph-fn](http://api.grafter.org/0.2/grafter.rdf.html#var-graph-fn){:target="_blank"} allows us to define our templates easily. We just need [to choose our ontologies](420_ontology_choice.html) and define the graph structure we want using the graph-fn function.
 
-[graph](http://api.grafter.org/0.2/grafter.rdf.html#var-graph){:target="_blank"} takes, as arguments, an URI and the triples.
+[graph](http://api.grafter.org/0.2/grafter.rdf.html#var-graph){:target="_blank"} requires a URI followed by a sequence of triples.
 
 {% highlight clojure %}
 
@@ -38,7 +38,7 @@ title: Build a Linked Data template
 
 ### Row binding
 
-As a first step: we have defined the binding. Rows are passed to the function one at a time as hash-maps, which can be destructured via Clojure's standard destructuring syntax. Additionally destructuring can be done on row-indicies (when a vector form is supplied) or column names (when a hash-map form is supplied).
+As a first step: we have defined the binding. Rows are passed to the function one at a time as hash-maps, which can be destructured via Clojure's standard destructuring syntax. Additionally, destructuring can be done on row-indicies (when a vector form is supplied) or column names (when a hash-map form is supplied).
 
 {% highlight clojure %}
 

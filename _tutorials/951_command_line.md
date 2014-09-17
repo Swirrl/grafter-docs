@@ -3,7 +3,7 @@ layout: page
 title: Leiningen project
 ---
 
-You can [download the CSV file used in this tutorial in GitHub](https://github.com/Swirrl/grafter-rdf-example/blob/master/data/glasgow-life-facilities.csv)
+You can [download the CSV file used in this tutorial from GitHub](https://github.com/Swirrl/grafter-rdf-example/blob/master/data/glasgow-life-facilities.csv)
 
 # Leiningen project
 As a step 0, let's configure a Leiningen project:
@@ -358,4 +358,4 @@ $ lein run ./data/glasgow-life-facilities.csv glasgow-life-facilities.ttl
 
 ## Conclusion
 
-What's important in this example is the global process and the global philosophy, but must of all, [the pipeline function](906_pipeline.html) is the key!
+What's important in this example is the process and the philosophy, but remember the [pipeline function](906_pipeline.html) is the key!

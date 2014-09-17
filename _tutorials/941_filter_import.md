@@ -4,14 +4,17 @@ title: Filter and import
 ---
 # Filter and import
 
-It's now time to import those quads into a real graph on a Turtle file. BUT if we try now it won't work because of some blanks in our dataset (some missing url basically). When Grafter writes the triples, it validates them and Grafter does not accept missing data. Thus we have to filter those triples so that, if there is a missing data, the whole triple is not written.
+It's now time to import those quads into a real graph or a Turtle file. However if we try to import the data in its current state it will fail due to some missing URIs. Grafter validates the triples before they are written, and it does not accept missing data. Therefore we have to filter out the triples with bad data so we do not attempt to write them.
 
 ## Filter
 
 ### filter-triples
-When checking our dataset we can see that there are missing data in the columns
+When checking our dataset we can see that there is some missing data in the columns
+
 - Postcode
 - Website
+
+We want to remove the triples with bad data in either of these columns.
 
 {% highlight clojure %}
 
@@ -45,4 +48,4 @@ Now we can import our turtle file.
 {% endhighlight %}
 
 ## Conclusion
-Everything should work now! Let's just finish the work by [defining a Leiningen project to wrap all those code bits and to graft from the command line.](951_command_line.html)
+The import should now complete successfully. Finally, we'll [define a Leiningen project](951_command_line.html) so we can graft from the command line.

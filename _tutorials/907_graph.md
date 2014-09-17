@@ -5,8 +5,8 @@ title: Make graph fragments
 
 # Make graph fragments
 
-## Graph-fn
-The idea here is tu use the Grafter function 'graph-fn' on each row processed on the pipeline function. We bind the header - so we can call directly each column on our triples, and, then, we write sequence quads:
+## graph-fn
+The graph-fn function translates a data table created by the pipeline into a sequence of RDF statements. If multiple tables are provided their resulting statements are combined into a single collection. We declare the header and then define the source tables for the sequence quads:
 
 {% highlight clojure %}
 
@@ -57,7 +57,7 @@ Now we can add our first graph, just by comparing with the final graph:
 
 {% endhighlight %}
 
-Just to represent yourself what it can be, after integration of the graph in [PublishMyData](http://www.swirrl.com/publishmydata), our glasgow life facilities graph will look like this:
+Below is what our Glasgow life facilities graph looks like after being imported into [PublishMyData](http://www.swirrl.com/publishmydata).
 
 ![pmd screenshot](/assets/931_graph_1.png)
 
@@ -103,5 +103,4 @@ And the second graph:
 
 ## Conclusion
 
-The Pipeline function and this one are really the most important, but the work is not over! There are still some [data cleaning](908_cleaning.html), some [URI making](911_making_uri.html), some
-[filtering and export](941_filter_import.html) and, finally, see how to ["lein" everything!](951_command_line.html)
+The pipeline and graph-fn functions are the most important, but the work is not over! We still need to [clean the data](908_cleaning.html), [make some URIs](911_making_uri.html) as well as [filter and export](941_filter_import.html). Finally we will show how to ["lein" everything together!](951_command_line.html)

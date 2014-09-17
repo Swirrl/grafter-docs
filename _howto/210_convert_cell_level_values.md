@@ -8,14 +8,14 @@ title: Convert cell level values
 
 ### mapc
 
-[mapc](http://api.grafter.org/0.2/grafter.tabular.html#var-mapc){:target="_blank"} function allows you to transform and modify each cell differently.
+The [mapc](http://api.grafter.org/0.2/grafter.tabular.html#var-mapc){:target="_blank"} function allows you to transform and modify each cell differently.
 
 Let's take a basic dataset:
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
 
 
-We would like to remove blanks on the first cell (trim function), uriify the second one and let the third one identical.
+We would like to remove whitespace around the values in the first column (trim function), uriify the second and leave the third column unmodified.
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_1.png)
 

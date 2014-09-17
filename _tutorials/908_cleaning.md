@@ -4,14 +4,14 @@ title: Data cleaning
 ---
 # Data cleaning
 
-This is almost a preparation for data cleaning: we are going to define what will be useful for our next data transformations. We are going to need to remove blanks around a string, to create RDF types, to replace comma or blanks, to parse, to convert and so on...
+In order to clean the data we need to provide a number of functions for transforming the values in each cell. Some examples operations are removing whitespace around a string, creating RDF types, replacing special characters, parsing and conversion.
 
 
 ## Monads
 
-If you don't know about monad yet I recommand [this explanation](http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/) and/or [the documentation](http://clojure.github.io/algo.monads/)
+If you don't know what monads are, I recommend [this explanation](http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/) and/or [the documentation](http://clojure.github.io/algo.monads/)
 
-Here are every definition that we will have to use:
+Below is all the definitions we need for cleaning the data:
 
 {% highlight clojure %}
 
@@ -108,4 +108,4 @@ cmd-line.prefixers=> (url "http://www.swirrl.com")
 
 {% endhighlight %}
 
-[Now we can define how to make URI...](911_making_uri.html)
+Next we will [construct our URIs](911_making_uri.html)
