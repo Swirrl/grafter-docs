@@ -10,12 +10,12 @@ title: Frequently Asked Questions
 [Incanter](http://incanter.org/) is a great Clojure library for data
 processing, however its focus is on statistical processing.
 
-We like Incanter so much however, we've built Grafter ontop of their
+We like Incanter so much however, we've built Grafter on top of their
 Datasets to help provide interoperability between ETL and statistical
 data tasks.
 
 Our intended focus is more on Extracting, Transforming and Loading
-data; rather than the numerical side which Incanter, like R excels at.
+data rather than the numerical side which Incanter - like R - excels at.
 In particular we are interested in creating pipelines that convert
 tabular data from source files like Spreadsheets and Shapefiles into
 Linked Data.
@@ -30,8 +30,8 @@ alternative to Grafter.  Indeed OpenRefine with the RDF plugin is
 superficially very close to our vision of end user data transformation
 tooling.
 
-Unfortunatley though Open Refine was built primarily to be a desktop
-tool for data cleaning, and though people have tried it is not really
+Unfortunately though, Open Refine was built primarily to be a desktop
+tool for data cleaning, and although people have tried it is not really
 suitable for robust ETL workflows.
 
 The biggest barrier to using Open Refine in ETL is that it's primarily
@@ -41,7 +41,7 @@ are innefficient and unsuitable for our vision of large scale hosted
 conversion.
 
 We believe that ETL needs to be reliable, robust and efficient, and
-that refine does not provide a suitable framework for building a suite
+that OpenRefine does not provide a suitable framework for building a suite
 of complementary tools on top of.
 
 ### Aren't you just remaking Pentaho Data Integration (Kettle)

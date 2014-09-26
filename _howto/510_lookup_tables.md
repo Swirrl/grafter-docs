@@ -7,7 +7,7 @@ title: Lookup tables
 
 ## The art of lookup tables
 
-Let's say you are working on a dataset and you need some data from another dataset. You need what we call a lookup table. Build-lookup-table returns a function that goes pick the data you want in the other dataset.
+Let's say you are working on a dataset and you need some data from another dataset. You need what we call a lookup table. build-lookup-table returns a function that selects the data you want in the other dataset.
 
 ### build-lookup-table
 

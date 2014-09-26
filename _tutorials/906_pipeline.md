@@ -5,11 +5,12 @@ title: The Pipeline function
 
 # Pipeline
 
-As its name indicates, the pipeline function, aims to link the data we are working on and the graph we want. Basically, pipeline modifies, for each row of the CSV file we are working on, the columns, so we can access or add the exact data we need.
+The pipeline function links the data we are working on with the graph we want. It transforms the set of columns in the source table, so we can access or add the exact data we need.
 
-Behind this there is the Grafter philosophy of [transformations and preservation of source data.](/howto/101_transformations.html)
+This adheres to the Grafter philosophy of [transformations and preservation of source data.](/howto/101_transformations.html)
 
-We are going to use some functions and prefixes that are defined later in this tutorial, but that are "less interesting". When I can a give some examples so you can understand everything and focus on the way Pipeline works. This part and the Create Graph part are the most important, others are just "making things work".
+Early in this tutorial, some functions are declared without their definition being given. Example usages of these functions are given to illustrate 
+their meaning, however they only appear as part of a larger example so a full understanding is not required.
 
 ### Data
 For each row the process will be the same so I will just show the two first lines:
@@ -25,7 +26,7 @@ For each row the process will be the same so I will just show the two first line
 
 
 ### Header
-First step is to modify the column names so we can easily work with them and then drop the header.
+First step is to specify the column names so we can easily work with them and then drop the header.
 
 {% highlight clojure %}
 
@@ -70,7 +71,7 @@ user=> (clean-type "Museums")
 
 ### Name
 
-We are going to need to have the name in an nice format to make URI. Same way to do:
+We require the name in a format suitable for inclusion in a URI.
 
 {% highlight clojure %}
 
@@ -153,9 +154,9 @@ user=> (url "http://www.glasgowlife.org.uk/museums/riverside/Pages/default.aspx"
 
 ![Swap Screenshot](/assets/921_pipeline_10.png)
 
-It's important to remember that finally, **we want an RDF graph so we have to build, here, RDF type!**
+It's important to remember that ultimately we want an RDF graph so we have to build an RDF type.
 
-We have changed a lot of things, but each transformation is easy to understand and what is important is that you can apply easily different transofrmations to each column.
+We have changed a lot of things, but each transformation is easy to understand and you can apply different transformations to each column.
 
 ### Facilities uri
 
@@ -224,8 +225,8 @@ user=> (uriify-ref-facility "museums" "riverside-museum")
 
 ### Date time
 
-We are now going to create a nice date-time.
-First the idea is to swap column "month" and column "year": by doing this we will have the year before the month. This is functionnal programming: order counts!
+We are now going to create a date column.
+First the idea is to swap column "month" and column "year": by doing this we will have the year before the month - remember column order is significant!
 
 {% highlight clojure %}
 
@@ -255,7 +256,7 @@ First the idea is to swap column "month" and column "year": by doing this we wil
 
 ![Swap Screenshot](/assets/921_pipeline_142.png)
 
-Then we can derive-column applying date-time:
+Then we can create a new column applying the date-time function.
 
 {% highlight clojure %}
 
@@ -293,7 +294,7 @@ user=> (date-time 2013 9)
 
 ### Monthly attendance
 
-Nothing really new from now, we'll keep using derive-column. Here are the two next steps:
+Nothing new here - we'll keep using derive-column. Here are the two next steps:
 
 {% highlight clojure %}
 
@@ -363,4 +364,4 @@ Nothing really new from now, we'll keep using derive-column. Here are the two ne
 
 ## Conclusion
 
-We now have a much more useful set of data and we are going to be able to use it directly in the next part of this overview with [the creation of the graph fragments.](907_graph.html)
+We now have a much more useful set of data and we are going to be able to use it directly in the next part of this tutorial with [the creation of the graph fragments.](907_graph.html)

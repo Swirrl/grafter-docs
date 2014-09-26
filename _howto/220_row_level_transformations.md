@@ -7,8 +7,8 @@ title: Perform row level transformations
 
 ### derive-column
 
-[derive-column](http://api.grafter.org/0.2/grafter.tabular.html#var-derive-column){:target="_blank"} is the most useful function to perform row level transformations** and should be choice #1. This is Grafter philosophy: transform data without modifying source data.
-The idea is quite simple: on a row, take one or more cell(s), apply a function, and put the result on a new column.
+[derive-column](http://api.grafter.org/0.2/grafter.tabular.html#var-derive-column){:target="_blank"} is the primary function for performing row-level transformations.
+The idea is quite simple: on a row, apply a function to one or more cells and put the result in a new column.
 
 ![Data Screenshot](/assets/210_convert_cell_level_values_0.png)
 
@@ -37,7 +37,7 @@ user=> (derive-column dataset "new-column-name" ["a" "b" "c"] slug-combine)
 
 ![Data Screenshot](/assets/220_row_level_transformations_4.png)
 
-Note that **order count:**
+Note that column order is significant:
 
 {% highlight clojure %}
 
@@ -47,7 +47,7 @@ user=> (derive-column dataset "new-column-name" ["b" "c" "a"] slug-combine)
 
 ![Data Screenshot](/assets/220_row_level_transformations_42.png)
 
-And as order count, there is a function to change the columns order if needed, swap.
+Since column order is important, there is a function to change the columns order if needed: swap.
 
 ### swap
 
@@ -64,7 +64,7 @@ user=> (swap dataset "b" "d")
 
 ![Data Screenshot](/assets/220_row_level_transformations_6.png)
 
-And you can combine swaps adding an even number of columns :
+You can apply a chain of swap operations by providing a sequence of swap pairs:
 
 {% highlight clojure %}
 
