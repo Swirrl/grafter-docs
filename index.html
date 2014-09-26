@@ -5,14 +5,15 @@ layout: home
 	<div class="pmd_row">
 		<div class="pmd_box_full" style="text-align:center;">
 			<img src="/assets/logo_transparent.png" alt="Grafter!"/>
-			<h1 style="font-weight:bold; margin-bottom:0;">Produce high quality Linked Data</h1> 
-			<h3>Grafter is the Open Source 
-        <br>suite of Linked Data tools for
-        <br> both developers and non-experts</h3>
+			<h1 style="font-weight:bold; margin-bottom:0;">Linked Data Manufacturing</h1>
+			<h3>DSLs and APIs for efficient linked data management</h3>
 			<a id="go" href="/quick-start/810_install_grafter.html">
 				Try Grafter
 				<small>0.2.0-SNAPSHOT</small>
 			</a>
+		</div>
+		<div class="pmd_box_full" style="text-align:center;">
+			<p><strong>WARNING</strong> Grafter is a pre-release under active development, many breaking changes are planned.</p>
 		</div>
 	</div>
 </div>
@@ -24,60 +25,59 @@ layout: home
 				<img src="/assets/demo-edit.png" alt="editing pipeline"/>
 			</div>
 		</div>
-		<!-- <div class="pmd_row">
-			<div class="pmd_box_full">
-				<h2>Why Grafter?</h2>
-			</div> 
-		</div> -->
 		<div class="pmd_row">
 			<div class="pmd_box_half">
-				<h4>Size doesn't matter</h4>
-				<p>Grafter uses Clojure lazy sequences so you can work on any volume of data or on streams without worrying about memory.
-          <br><a href="http://en.wikipedia.org/wiki/Lazy_evaluation" target="_blank">Learn more.</a></p>
-				<h4>All data formats</h4>
-				<p>Grafter allows you to work on all tabular data formats including CSV and Excel.
-          <br><a href="/howto/1022_datasets.html">See how.</a></p>
-				<h4>Collaboration and sharing</h4>
-				<p>If you're not an expert or you don't need to work at a low level, it's easy to reuse templates.
-          <br><a href="/about/001_grafter_dsl.html">Check it out.</a></p>
-				<h4>High quality Linked Data</h4>
-				<p>Performance, control and separation of concerns assures high quality.
-          <br><a href="/about/index.html">Learn more.</a></p>
-				<h4>Complete integration (coming soon)</h4>
-				<p>An importer is coming so Grafter will be totally integrated into your workflow.</p>
+				<h4>Easy Linked Data Creation</h4>
+				<p>Grafters DSL makes it easy to transform tabular data into Linked Data</p>
+				<p><a href="/tutorials">See an example</a></p>
 			</div>
 			<div class="pmd_box_half">
-				<h4>Robustness to changes in data</h4>
-				<p>If your data evolves over time, the changes will be painless with Grafter.
-          <br><a href="/tutorials/906_pipeline.html">See why.</a></p>
-				<h4>Easy templating</h4>
-				<p>Describe the RDF you want to create using simple templates that look just like Turtle.
-          <br><a href="/howto/310_linked_data_template.html">Check it out.</a></p>
-				<h4>Error reporting</h4>
-				<p>Facilities for developers and pipeline builders easily to incorporate error detation into their transformations.
-          <br><a href="/tutorials/906_pipeline.html">See it in action.</a></p>
-				<h4>For all users (coming soon)</h4>
-				<p>Grafter is suitable for both developers - with its programmable DSL - and Excel experts with its (forthcoming) Excel-like interface.</p>
+				<h4>Data formats</h4>
+				<p>Grafter currently supports processing CSV and Excel files, with additional formats including Geo formats & shape files coming soon.</p>
+				<p><a href="/howto/1022_datasets.html">See how</a></p>
+			</div>
+		</div>
+		<div class="pmd_row">
+			<div class="pmd_box_half">
+				<h4>Separation of concerns</h4>
+				<p>Grafter's design has a clear separation of concerns, disentangling tabular data processing from graph conversion and loading.</p>
+				<p><a href="/about/index.html">Learn more</a></p>
+			</div>
+			<div class="pmd_box_half">
+				<h4>Incanter Interoperability</h4>
+				<p>Grafter uses <a href="http://incanter.org/">Incanter's</a> datasets, making it easy to incororate advanced statistical processing features with your data transformation pipelines.</p>
+			</div>
+		</div>
+		<div class="pmd_row">
+			<div class="pmd_box_half">
+				<h4>Stream Processing</h4>
+				<p>Grafter transformations build on Clojure's laziness, meaning you can process large amounts of data without worrying about memory.</p>
+				<p><a href="http://en.wikipedia.org/wiki/Lazy_evaluation" target="_blank">Learn more</a></p>
+			</div>
+			<div class="pmd_box_half">
+				<h4>Linked Data templates</h4>
+				<p>Describe the Linked Data you want to create using simple templates that look feel like <a href="http://en.wikipedia.org/wiki/Turtle_%28syntax%29">Turtle.</a></p>
+				<p><a href="/tutorials/906_pipeline.html">See it in action</a></p>
 			</div>
 		</div>
 		<div class="pmd_row">
 			<div class="pmd_box_full">
-        <div class="pmd_box_half">
-	        <h2>Getting started</h2>  
-            {% highlight clojure %}
-              :dependencies [grafter "0.2.0-SNAPSHOT"]
-            {% endhighlight %}
-	          <p>You don't know a lot about Clojure and Leiningen? <br>Check out our <a href="/quick-start/index.html">QuickStart!</a></p>
-        </div>
-	      <div class="pmd_box_half">
-	        <h2>Frequently-needed tasks</h2>
-	        <ul>
-	          <li><a href="/howto/220_row_level_transformations.html">Transform your dataset to get the data you need</a></li>
-            <li><a href="/howto/310_linked_data_template.html">Build a Linked Data template</a></li>
-	          <li><a href="/howto/230_filter_rows.html">Filter some rows</a></li>
-            <li><a href="/howto/210_convert_cell_level_values.html">Map functions to a dataset columns</a></li>
-	        </ul>
-        </div>
+				<div class="pmd_box_half">
+					<h2>Getting started</h2>
+					{% highlight clojure %}
+					:dependencies [grafter "0.2.0-SNAPSHOT"]
+					{% endhighlight %}
+					<p>You don't know a lot about Clojure and Leiningen? <br>Check out our <a href="/quick-start/index.html">QuickStart!</a></p>
+				</div>
+				<div class="pmd_box_half">
+					<h2>Frequently-needed tasks</h2>
+					<ul>
+						<li><a href="/howto/220_row_level_transformations.html">Transform your dataset to get the data you need</a></li>
+						<li><a href="/howto/310_linked_data_template.html">Build a Linked Data template</a></li>
+						<li><a href="/howto/230_filter_rows.html">Filter some rows</a></li>
+						<li><a href="/howto/210_convert_cell_level_values.html">Map functions to a dataset columns</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
