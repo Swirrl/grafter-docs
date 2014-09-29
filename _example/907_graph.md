@@ -3,7 +3,7 @@ layout: page
 title: 3. Build the graph
 ---
 
-# Make graph fragments
+# Making graph fragments
 
 ## graph-fn
 The graph-fn function translates a data table created by the pipeline into a sequence of RDF statements. If multiple tables are provided their resulting statements are combined into a single collection. We declare the header and then define the source tables for the sequence quads:
