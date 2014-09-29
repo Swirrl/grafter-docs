@@ -8,8 +8,9 @@ title: Frequently Asked Questions
 ### Who made Grafter?
 
 Grafter was built by [Swirrl](http://swirrl.com/) a specialist in
-publishing Open, Linked Data.  Grafter is being developed as part of
-the European FP7 funded [Dapaas project](http://project.dapaas.eu/).
+publishing linked open data.  It is being developed as part of the
+European FP7 funded [Dapaas](http://project.dapaas.eu/) and
+[Open Cube](http://www.opencube-project.eu/) projects.
 
 ### How does this relate to Incanter?
 
