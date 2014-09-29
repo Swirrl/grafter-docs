@@ -5,6 +5,12 @@ title: Frequently Asked Questions
 
 # Frequently Asked Questions
 
+### Who made Grafter?
+
+Grafter was built by [Swirrl](http://swirrl.com/) a specialist in
+publishing Open, Linked Data.  Grafter is being developed as part of
+the European FP7 funded [Dapaas project](http://project.dapaas.eu/).
+
 ### How does this relate to Incanter?
 
 [Incanter](http://incanter.org/) is a great Clojure library for data
@@ -27,8 +33,8 @@ area.
 
 We love OpenRefine and spent a long time assessing it as an
 alternative to Grafter.  Indeed OpenRefine with the RDF plugin is
-superficially very close to our vision of end user data transformation
-tooling.
+superficially very close to our vision of an end user data
+transformation tooling.
 
 Unfortunately though, Open Refine was built primarily to be a desktop
 tool for data cleaning, and although people have tried it is not really
