@@ -1,8 +1,8 @@
 
 # Site settings
-title: Grafter - Open Source suite of tools for high quality Linked Data
+title: Grafter - Linked Data Machine Tools
 email: hello@swirrl.com
-description: "Documentation for Grafter"
+description: "Grafter - Linked Data Manufacturing"
 #baseurl: "/grafter-docs"
 baseurl: ""
 url: "http://developer.swirrl.com"
@@ -36,4 +36,3 @@ collections:
     tutorials:
       label: Tutorials
       output: true
-
