@@ -1,14 +1,20 @@
 ---
 layout: page
-title: General
+title: 1. Look at the Data
 ---
 
-# General
+# Look at the Data
 
-## Data presentation
+The first step of any Data transformation is to investigate the data
+you have, and decide how you want to represent it.
 
-We are going to use the dataset "test-data/glasgow-life-facilities.csv".
-The data looks like this:
+We are going to use a real dataset consisting of attendance data for
+some of Glasgow's civic facilities (such as Museums, Galleries and
+Libraries).
+
+[The data](https://github.com/Swirrl/grafter-rdf-example/blob/master/data/glasgow-life-facilities.csv)
+looks like this:
+
 ![Data Screenshot](/assets/905_general_1.png)
 
 ## What do we want?

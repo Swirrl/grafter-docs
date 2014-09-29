@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The Pipeline function
+title: 2. Define a Pipeline
 ---
 
 # Pipeline
@@ -9,7 +9,7 @@ The pipeline function links the data we are working on with the graph we want. I
 
 This adheres to the Grafter philosophy of [transformations and preservation of source data.](/howto/101_transformations.html)
 
-Early in this tutorial, some functions are declared without their definition being given. Example usages of these functions are given to illustrate 
+Early in this tutorial, some functions are declared without their definition being given. Example usages of these functions are given to illustrate
 their meaning, however they only appear as part of a larger example so a full understanding is not required.
 
 ### Data

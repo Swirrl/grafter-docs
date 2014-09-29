@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Make graph fragments
+title: 3. Build the graph
 ---
 
 # Make graph fragments
@@ -57,12 +57,6 @@ Now we can add our first graph, just by comparing with the final graph:
 
 {% endhighlight %}
 
-Below is what our Glasgow life facilities graph looks like after being imported into [PublishMyData](http://www.swirrl.com/publishmydata).
-
-![pmd screenshot](/assets/931_graph_1.png)
-
-![pmd screenshot](/assets/931_graph_2.png)
-
 ## Glasgow life attendances graph
 And the second graph:
 
@@ -97,10 +91,3 @@ And the second graph:
                        [rdf:a qb:Observation]]))))
 
 {% endhighlight %}
-
-![pmd screenshot](/assets/931_graph_3.png)
-
-
-## Conclusion
-
-The pipeline and graph-fn functions are the most important, but the work is not over! We still need to [clean the data](908_cleaning.html), [make some URIs](911_making_uri.html) as well as [filter and export](941_filter_import.html). Finally we will show how to ["lein" everything together!](951_command_line.html)

@@ -1,29 +1,26 @@
 ---
 layout: page
-title: Tutorials
+title: Grafter Example
 ---
-# Tutorials
+# Example
 
-This example demonstrates how you can use Grafter for your RDFization projects and helps you understand what is happening in the engine.
+This illustrative example shows how you can use Grafter to manufacture Linked Data from a source CSV file.
 
-## Tutorials overview
+Developing a Grafter transformation involves several tasks:
 
-Using Grafter can be decomposed into a number of tasks:
+## Main steps
 
-### Main steps
-
-- **[Work and transform the data](906_pipeline.html)**, to make it usable. This is the heart of the Grafter workflow.
+- **[Specify a pipeline](906_pipeline.html)**, of tabular transformations. This is the heart of the Grafter workflow.
 
 - **[Create the graphs fragments](907_graph.html)** we want.
 
-### Other steps
-- [Clean data](908_cleaning.html).
+## Other steps
 
 - [Define prefixes and make the URIs](911_making_uri.html) we need for our triples.
 
 - [Filter and export](941_filter_import.html) the graph fragments.
 
-- [Package the steps in a Leiningen project](951_command_line.html) to be able to graft documents from the command line! It's a good way to review everything done previously.
+- [Package your transformation as a Leiningen project](951_command_line.html) to be able to graft documents from the command line!
 
 ![process](/assets/index_1.png)
 

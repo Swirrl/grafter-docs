@@ -33,6 +33,6 @@ collections:
       label: How To
       output: true
 
-    tutorials:
-      label: Tutorials
+    example:
+      label: Example
       output: true

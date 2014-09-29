@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Leiningen project
+title: 6. Leiningen project
 ---
 
 You can [download the CSV file used in this tutorial from GitHub](https://github.com/Swirrl/grafter-rdf-example/blob/master/data/glasgow-life-facilities.csv)

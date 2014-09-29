@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Building URIs
+title: 4. Building URIs
 ---
 
 ## Building URIs
