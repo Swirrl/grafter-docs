@@ -2,7 +2,7 @@
 # Site settings
 title: Grafter - Linked Data Machine Tools
 email: hello@swirrl.com
-description: "Grafter - Linked Data Manufacturing"
+description: "Grafter - Linked Data Manufacturing - Industrial-strength RDF production"
 #baseurl: "/grafter-docs"
 baseurl: ""
 url: "http://developer.swirrl.com"
