@@ -10,8 +10,10 @@ The Grafter project is maintained and sponsored by
 Grafter is an integral part of our work and we're keen to grow and
 support an active community of users and developers.
 
+## Join the Mailing List
+
 We're open to participation and supporting users and developers via
-our [public Grafter Users mailing list](https://groups.google.com/forum/?hl=en-GB#!forum/grafter-users).
+our public [Grafter Users Mailing List](https://groups.google.com/forum/?hl=en-GB#!forum/grafter-users).
 
 ## Contributing to Grafter
 
