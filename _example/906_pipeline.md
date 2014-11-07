@@ -13,7 +13,7 @@ Early in this tutorial, some functions are declared without their definition bei
 their meaning, however they only appear as part of a larger example so a full understanding is not required.
 
 ### Data
-For each row the process will be the same so I will just show the two first lines:
+For each row the process will be the same, here are the first two lines:
 
 {% highlight clojure %}
 
