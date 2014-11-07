@@ -21,7 +21,7 @@ Here we provide some "how to" guides on performing common tasks with Grafter.
 
 ## Graph level
 
-- [How to build a Linked Data template](310_linked_data_template.html)
+- [How to build a linked data template](310_linked_data_template.html)
 
 ## Data modelling
 

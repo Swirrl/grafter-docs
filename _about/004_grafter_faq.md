@@ -9,7 +9,7 @@ title: Frequently Asked Questions
 
 Grafter was built by [Swirrl](http://swirrl.com/) a specialist in
 publishing linked open data.  It is being developed as part of the
-European FP7 funded [Dapaas](http://project.dapaas.eu/) and
+European FP7 funded [DaPaaS](http://project.dapaas.eu/) and
 [Open Cube](http://www.opencube-project.eu/) projects.
 
 ### How does this relate to Incanter?
@@ -25,9 +25,9 @@ Our intended focus is more on Extracting, Transforming and Loading
 data rather than the numerical side which Incanter - like R - excels at.
 In particular we are interested in creating pipelines that convert
 tabular data from source files like Spreadsheets and Shapefiles into
-Linked Data.
+linked data.
 
-In the future we hope to be able to provide additional tooling in this
+in the future we hope to be able to provide additional tooling in this
 area.
 
 ### Aren't you just remaking Google/Open Refine?

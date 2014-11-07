@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Build a Linked Data template
+title: Build a linked data template
 ---
 
 # Graph level
 
-## How to build a Linked Data template
+## How to build a linked data template
 
 ### graph-fn
 

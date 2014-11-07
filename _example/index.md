@@ -4,7 +4,7 @@ title: Grafter Example
 ---
 # Example
 
-This illustrative example shows how you can use Grafter to manufacture Linked Data from a source CSV file.
+This illustrative example shows how you can use Grafter to manufacture linked data from a source CSV file.
 
 Developing a Grafter transformation involves several tasks:
 
@@ -25,4 +25,4 @@ Developing a Grafter transformation involves several tasks:
 ![process](/assets/index_1.png)
 
 
-[Start the tutorial!](905_general.html)
+[Look at the example!](905_general.html)
