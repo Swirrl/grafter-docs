@@ -13,6 +13,4 @@ You will need to download and [install Leiningen](http://leiningen.org) from the
 ## Add Grafter to dependencies
 You can simply use Grafter in a Leiningen project by adding it to your <code>:dependencies</code> in <code>project.clj</code>:
 
-{% highlight clojure %}
-  :dependencies [grafter "0.2.0-SNAPSHOT"]
-{% endhighlight %}
+[![Clojars Project](http://clojars.org/grafter/latest-version.svg)](http://clojars.org/grafter)
