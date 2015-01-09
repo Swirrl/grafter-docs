@@ -9,6 +9,6 @@ Requires collection to be assigned to an item from site.collections before this 
 {% for document in collection.docs %}
 	{% assign file = (document.url | split:"/" | last) %}
 	{% if file == "index.html" %}
-		<a href={{ document.url }}>{{ collection.label }}</a>
+		<a href={{ document.url }}>{{ collection.name }}</a>
 	{% endif %}
 {% endfor %}

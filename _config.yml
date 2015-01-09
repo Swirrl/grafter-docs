@@ -22,17 +22,17 @@ sass:
 # Collections
 collections:
     about:
-      label: About Grafter
+      name: About Grafter
       output: true
 
-    quick-start:
-      label: Quick Start Guide
+    getting-started:
+      name: Getting Started
       output: true
 
     howto:
-      label: How To
+      name: How To
       output: true
 
-    example:
-      label: Example
-      output: true
+    # example:
+    #   label: Example
+    #   output: false

@@ -95,6 +95,24 @@ code, pre code, pre{
 	color: #000;
 }
 
+.terminal-wrapper {
+	width:100%;
+	overflow-x: scroll;
+	height: auto;
+	padding: 12px;
+	background: #222;
+	color: #6f0;
+	font-family: inconsolata, monospace;
+	font-size: 0.9em;
+	line-height: 1em;
+	margin-bottom: 1em;
+}
+
+.terminal-inner {
+	width: auto;
+	white-space: pre;
+}
+
 table {
 	border-collapse: collapse;
 	margin: 24px 0;
