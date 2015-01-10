@@ -162,6 +162,15 @@ $ cat output.nt
 &lt;http://my-domain.com/id/Bob&gt; &lt;http://xmlns.com/foaf/0.1/name&gt; "Bob" .</div>
 </div>
 
+Its also worth mentioning that the Grafter plugin can also load inputs
+from URL's e.g.
+
+<div class="terminal-wrapper">
+  <div class="terminal-inner">lein grafter run test-project.pipeline/convert-persons-data-to-graph "https://raw.githubusercontent.com/Swirrl/grafter-template/master/resources/leiningen/new/grafter/example-data.csv" output.nt
+https://raw.githubusercontent.com/Swirrl/grafter-template/master/resources/leiningen/new/grafter/example-data.csv --[test-project.pipeline/convert-persons-data-to-graph]--> output.nt</div>
+</div>
+
+
 Now you know how to list and run pipelines defined in a Grafter
 project, lets take an in depth look at how these transformations have
 been expressed with Grafter.
