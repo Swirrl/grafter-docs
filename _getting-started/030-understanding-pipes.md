@@ -1,9 +1,9 @@
 ---
 layout: page
-title: 3. Understanding Pipelines
+title: 3. Understanding Pipes
 ---
 
-# Understanding Pipelines
+# Understanding Pipes
 
 *This is the third part of the Grafter Getting Started Guide.*
 
@@ -139,6 +139,9 @@ Next up enter `(-> (read-dataset "./data/example-data.csv") (drop-rows
 |   Bob | m | 63 |</div>
 </div>
 
+*Note that the `#_=>` shouldn't be entered as its inserted by the REPL
+to keep your code aligned.*
+
 You'll see that this removes the header row from the data, we can then
 choose to set our own headers by issuing a call to `make-dataset`:
 
@@ -151,4 +154,49 @@ choose to set our own headers by issuing a call to `make-dataset`:
 |-------+------+---------|
 | Alice |    f |      34 |
 |   Bob |    m |      63 |</div>
+</div>
+
+`make-dataset` is interesting because it is main purpose is to
+construct new datasets from Clojure sequences, e.g. you can convert a
+sequence of sequences into a dataset like so:
+
+<div class="terminal-wrapper">
+<div class="terminal-inner">test-project.pipeline=> (make-dataset [[1 2 3] [4 5 6]])
+
+| a | b | c |
+|---+---+---|
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |</div>
+</div>
+
+And if you want to explicitly set the column names you can by
+supplying a sequence of column names as its final argument:
+
+<div class="terminal-wrapper">
+<div class="terminal-inner">test-project.pipeline=> (make-dataset [[1 2 3] [4 5 6]] [:first :second :third])
+
+| :first | :second | :third |
+|--------+---------+--------|
+|      1 |       2 |      3 |
+|      4 |       5 |      6 |</div>
+</div>
+
+*If you're curious why the column names argument is in a different
+position when we used Clojure's `->` macro, you should read up on
+using [thread-first](http://clojuredocs.org/clojure.core/-%3E).*
+
+The approach taken so far in this pipe has been to remove the header
+row and explicitly set it to known values.  You can also supply a
+function to `make-dataset` to move the first row from the data into
+your headings for you.  Grafter defines a function for this job which
+is `move-first-row-to-header` and it can be used like this:
+
+<div class="terminal-wrapper">
+<div class="terminal-inner">test-project.pipeline=> (-> (make-dataset [["one" "two" "three"] [1 2 3] [4 5 6]])
+                   #_=>     (make-dataset move-first-row-to-header))
+
+| one | two | three |
+|-----+-----+-------|
+|   1 |   2 |     3 |
+|   4 |   5 |     6 |</div>
 </div>
