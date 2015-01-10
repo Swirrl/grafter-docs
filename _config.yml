@@ -29,9 +29,9 @@ collections:
       name: Getting Started
       output: true
 
-    howto:
-      name: How To
-      output: true
+    # howto:
+    #   name: How To
+    #   output: true
 
     # example:
     #   label: Example
