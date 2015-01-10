@@ -200,3 +200,15 @@ is `move-first-row-to-header` and it can be used like this:
 |   1 |   2 |     3 |
 |   4 |   5 |     6 |</div>
 </div>
+
+Column names can be used by you, the Grafter developer, to get a
+handle on the data, and identify each cell as grafter is iterating
+through all the rows.  Consequently if you derive your column names
+from the data you need to be sure that they're not going to change
+when the data is updated.
+
+Obviously some column names are variable and expected to change, for
+example you might have a spreadsheet of years.  There are ways to
+handle situations like this via functions like `melt`, or by
+addressing columns with ranges and sequences.  This is a more advanced
+topic for another day.
