@@ -31,6 +31,74 @@ defgraft definitions, and list them.
 
 A graft is any function defined with Grafters `defgraft`, that can convert 0 or more `datasettable` arguments into an `RDF` graph output.
 
+Dataset's are how Grafter represents tabular data, and `datasettables`
+are said to be any type which Grafter can coerce into a `Dataset`.  This
+includes for example Strings representing file paths or URLs,
+`java.io.File` objects, `java.net.URI` and `URL` objects, along with
+`InputStream`s and `Reader`s, and various others.  Importantly
+`Dataset`s are also `datasettable`.
 
+Grafter supports all main RDF serialisations including turtle
+(`.ttl`), n-triples (`.nt`), trig (`.trig`), trix (`.trix`), n-quads
+(`.nq`) and RDF XML (`.rdf`).  Again the desired format is infered by
+grafter from the file extension.
+
+Typically a `defgraft` definition will as its first action use a Grafters `pipe`, apply a `make-graph` function, creating `RDF` triples from the `Dataset`, and possibly, apply one or more filters to get rid of triples with missing data.
+
+Its important to note that graft's are functions from `datasettable* -> graph` and that so long as a graft meets this contract it can be used by the Grafter plugin and other Grafter services.
 
 ## Running Transformations at the Clojure REPL
+
+The best way to understand Grafter is to play with it at the Clojure
+REPL.  If you already have a Clojure environment with good editor
+integration then you should start a REPL there, otherwise you can
+start a basic REPL by running:
+
+<div class="terminal-wrapper">
+  <div class="terminal-inner">$ lein repl
+nREPL server started on port 63955 on host 127.0.0.1 - nrepl://127.0.0.1:63955
+REPL-y 0.3.5, nREPL 0.2.6
+Clojure 1.6.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+ Results: Stored in vars *1, *2, *3, an exception in *e
+
+test-project.pipeline=&gt;</div>
+</div>
+
+You should now see the Clojure REPL started in your projects pipeline namespace.  First lets try running the graft `convert-persons-data-to-graph`:
+
+<div class="terminal-wrapper">
+  <div class="terminal-inner">
+test-project.pipeline=&gt; (convert-persons-data-to-graph "./data/example-data.csv")
+
+(#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 male>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})
+
+test-project.pipeline=&gt;
+</div>
+</div>
+
+Here you can see how the graft transformed the file path into a list of `quads` ready to be exported in a RDF graph by Grafter. The return value of the complete graft should always be a list of `quads` otherwise you'll likely get an error if you run the pipeline in other contexts.
+
+As we can see a `quad` is quite similar to a `RDF triple`. It's a Clojure's `hash-map` which contains three keys `:s`, `:p` and `o`, corresponding to a triple `subject`, `predicate` and `object` and one key `c` corresponding to the graph.
+
+Lets investigate the grafts steps one by one so we can see what's going on. It starts with a pipe. If you havn't yet, you can read the [understanding pipes section](./030-understanding-pipes-html).
+
+<div class="terminal-wrapper">
+  <div class="terminal-inner">
+test-project.pipeline=&gt; (convert-persons-data "./data/example-data.csv")
+
+| :name |   :sex | :age |                   :person-uri |
+|-------+--------+------+-------------------------------|
+| Alice | female |   34 | http://my-domain.com/id/Alice |
+|   Bob |   male |   63 |   http://my-domain.com/id/Bob |
+
+test-project.pipeline=&gt;
+</div>
+</div>
+
+
