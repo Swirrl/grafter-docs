@@ -31,7 +31,7 @@ essentially all they do is define a function.  However `defpipe` in
 addition to defining a normal Clojure function, also advertises that
 function to the plugin and other Grafter services.
 
-For example if you run the command `lein grafter list pipe` the plugin
+For example if you run the command `lein grafter list pipes` the plugin
 will search the projects classpath for any clj files with valid
 defpipe definitions, and list them.
 
