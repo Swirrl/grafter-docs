@@ -47,6 +47,32 @@ Typically a `defgraft` definition will as its first action use a Grafters `pipe`
 
 Its important to note that graft's are functions from `datasettable* -> graph` and that so long as a graft meets this contract it can be used by the Grafter plugin and other Grafter services.
 
+## How make-graph works?
+
+Our `graft` composes two steps: 
+
+* the `pipe` modifies, for each row of the tabular file we are working on, the columns, so we can access or add the exact data we need for our templates. 
+* `make-graph` declares our graph template: it destructures each row and convert it into an RDF graph. 
+
+Lets give a look to the `make-graph` definition:
+
+{% highlight clojure %}
+
+(def make-graph
+  (graph-fn [{:keys [name sex age person-uri gender]}]
+            (graph (base-graph "example")
+                   [person-uri
+                    [rdf:a foaf:Person]
+                    [foaf:gender sex]
+                    [foaf:age age]
+                    [foaf:name (s name)]])))
+
+{% endhighlight %}
+
+The `graph-fn` form takes as arguments, the column names we'll need in our graphs, and one or more graph definition using the `graph` function.
+
+The `graph` function allows us to define, in a natural way, how our graph will be. We describe for each row the triples: `[subject [predicate object]]`
+
 ## Running Transformations at the Clojure REPL
 
 ### First example
