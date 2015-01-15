@@ -7,7 +7,7 @@ title: 2. Running Pipelines
 
 *This is the second part of the Grafter Getting Started Guide.*
 
-In this example you'll see how a grafter can be used to:
+In this section you'll see how a grafter can be used to:
 
 - Clean tabular data
 - Convert a CSV file into an Excel file or vice versa

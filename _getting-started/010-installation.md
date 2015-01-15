@@ -7,13 +7,32 @@ title: 1. Creating a Grafter Project
 
 *This is part one of the Grafter Getting Started Guide.*
 
+In this section you'll learn:
+
+- About the dependencies required to use Grafter
+- How to create a new Grafter project
+- How Grafter projects are structured
+
+## Prerequisites for Grafter
+
 _NOTE_ before you can follow this guide you will need to have
 installed
 [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 7 or 8 and [Leiningen](http://leiningen.org/), Clojure's build tool.
 
-Now you've got Leiningen, its really easy to create the Grafter
-project template.  At the command line simply run:
+Grafter, like Clojure is cross platform, and should work on any
+platform which can run a Java Virtual Machine.
+
+On Linux you should also be able to install OpenJDK via your package
+manager.
+
+## Create a project from our template
+
+Once you've got Leiningen installed, it's really easy to create the
+Grafter project template.  You shouldn't need to install anything
+else, as leiningen will do everything from now on:
+
+At the command line simply run:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">$ lein new grafter test-project</div>
