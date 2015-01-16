@@ -50,7 +50,7 @@ After running the above command you should see the following output
 indicating that the project has been created:
 
 <div class="terminal-wrapper">
-  <div class="terminal-inner">$ lein new grafter test-project
+  <div class="terminal-inner">$ lein new grafter test-project --snapshot
             ___           __ _
            / __|_ _ __ _ / _| |_ ___ _ _
           | (_ | '_/ _` |  _|  _/ -_) '_|
