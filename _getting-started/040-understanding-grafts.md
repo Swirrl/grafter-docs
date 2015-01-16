@@ -88,13 +88,13 @@ Quads.  For example if we redefine `mygraphfn`:
      (->Quad "http://foo" "http://bar" (row "b") "http://graph-one")]
 
     [(->Quad "http://foo" "http://bar" (row "c") "http://graph-two")]))
-{% endhighlight %}}
+{% endhighlight %}
 
 And then call it at the REPL:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">test-project.pipeline> test-project.pipeline> (mygraphfn one-row-ds))
-  ;; => (#grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 1, :c "http://graph-one"} #grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 2, :c "http://graph-one"} #grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 3, :c "http://graph-two"})</div>
+;; => (#grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 1, :c "http://graph-one"} #grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 2, :c "http://graph-one"} #grafter.rdf.protocols.Quad{:s "http://foo", :p "http://bar", :o 3, :c "http://graph-two"})</div>
   </div>
 
 We can see that mygraphfn has returned a single flat sequence of
@@ -111,7 +111,7 @@ So lets take a look at `graph`:
 <div class="terminal-wrapper">
   <div class="terminal-inner">test-project.pipeline=> (graph "http://graph-uri.com/"
                    #_=>        ["http://subject" ["http://predicate/" 1]])
-                   (#grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 2, :c "http://graph-uri.com/"})</div>
+;; => (#grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 2, :c "http://graph-uri.com/"})</div>
 </div>
 
 The `graph` function takes a URI for the graph name, and a turtle-like
@@ -125,10 +125,10 @@ terseness of this format:
 
 <div class="terminal-wrapper">
 <div class="terminal-inner">test-project.pipeline=> (graph "http://graph-uri.com/"
-                  #_=>         ["http://subject" ["http://property/" 1]
+                   #_=>        ["http://subject" ["http://property/" 1]
                                                  ["http://property/" 2]])
 
-(#grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 1, :c "http://graph-uri.com/"} #grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 2, :c "http://graph-uri.com/"})</div>
+;; => (#grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 1, :c "http://graph-uri.com/"} #grafter.rdf.protocols.Quad{:s "http://subject", :p "http://property/", :o 2, :c "http://graph-uri.com/"})</div>
 </div>
 
 As you can see because of the type definitions `graph` forms like this
@@ -136,7 +136,7 @@ work with `graph-fn` really nicely.  Allowing you to not just generate
 linked data from the source data, but also the graph uri's where you
 store it.
 
-# Defining Graft Pipelines with defgraft
+## Defining Graft Pipelines with defgraft
 
 So now that we know how to convert tabular data row by row into graph
 data we can look at what a graft actually is, and how it differs from
@@ -206,52 +206,19 @@ Pipeline                                                     Type      Arguments
 test-project.pipeline/convert-persons-data-to-graph          graft     data-file            ;; A pipeline that converts the persons data sheet into graph data.</div>
 </div>
 
-## What is a graft?
-
-A graft is any function defined with Grafters `defgraft`, that can
-convert 0 or more `datasettable` arguments into linked data quads
-(which in turn define a graph of data).
-
-Dataset's are how Grafter represents tabular data, and `datasettables`
-are said to be any type which Grafter can coerce into a `Dataset`.  This
-includes for example Strings representing file paths or URLs,
-`java.io.File` objects, `java.net.URI` and `URL` objects, along with
-`InputStream`s and `Reader`s, and various others.  Importantly
-`Dataset`s are also `datasettable`.
-
 Grafter supports all main RDF serialisations including turtle
 (`.ttl`), n-triples (`.nt`), trig (`.trig`), trix (`.trix`), n-quads
-(`.nq`) and RDF XML (`.rdf`).  Again the desired format is infered by
-grafter from the file extension.
+(`.nq`) and RDF XML (`.rdf`).  You can find information on how to use
+graft pipelines to generate these serialisations from the command line
+in [part two](/getting-started/020-running-pipelines.html).
 
-Typically a `defgraft` definition will as its first action use a Grafters `pipe`, apply a `make-graph` function, creating `RDF` triples from the `Dataset`, and possibly, apply one or more filters to get rid of triples with missing data.
+Grafter also
+[provides](http://api.grafter.org/0.3/grafter.rdf.io.html#var-rdf-serializer)
+API [functions](http://api.grafter.org/0.3/grafter.rdf.html#var-add)
+for accessing this functionality, however that is beyond the scope of
+this article.
 
-Its important to note that graft's are functions from `datasettable* -> graph` and that so long as a graft meets this contract it can be used by the Grafter plugin and other Grafter services.
-
-## Running Transformations at the Clojure REPL
-
-### First example
-
-The best way to understand Grafter is to play with it at the Clojure
-REPL.  If you already have a Clojure environment with good editor
-integration then you should start a REPL there, otherwise you can
-start a basic REPL by running:
-
-<div class="terminal-wrapper">
-  <div class="terminal-inner">$ lein repl
-nREPL server started on port 63955 on host 127.0.0.1 - nrepl://127.0.0.1:63955
-REPL-y 0.3.5, nREPL 0.2.6
-Clojure 1.6.0
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-    Exit: Control+D or (exit) or (quit)
- Results: Stored in vars *1, *2, *3, an exception in *e
-
-test-project.pipeline=&gt;</div>
-</div>
+### Running a graft at the REPL
 
 You should now see the Clojure REPL started in your projects pipeline namespace.  First lets try running the graft `convert-persons-data-to-graph`:
 
@@ -260,8 +227,6 @@ You should now see the Clojure REPL started in your projects pipeline namespace.
 test-project.pipeline=&gt; (convert-persons-data-to-graph "./data/example-data.csv")
 
 (#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 male>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})
-
-test-project.pipeline=&gt;
 </div>
 </div>
 
@@ -280,7 +245,6 @@ test-project.pipeline=&gt; (convert-persons-data "./data/example-data.csv")
 | Alice | female |   34 | http://my-domain.com/id/Alice |
 |   Bob |   male |   63 |   http://my-domain.com/id/Bob |
 
-test-project.pipeline=&gt;
 </div>
 </div>
 
@@ -316,11 +280,7 @@ test-project.pipeline=&gt; new-data-example
 |-------+-----+-----|
 |  name | sex | age |
 | Alice |   f |  34 |
-|   Bob |     |  63 |
-
-
-test-project.pipeline=&gt;
-</div>
+|   Bob |     |  63 |</div>
 </div>
 
 We can test our `pipe` just for fun:
@@ -333,10 +293,7 @@ test-project.pipeline=&gt; (convert-persons-data new-data-example)
 | :name |   :sex | :age |                   :person-uri |
 |-------+--------+------+-------------------------------|
 | Alice | female |   34 | http://my-domain.com/id/Alice |
-|   Bob |        |   63 |   http://my-domain.com/id/Bob |
-
-test-project.pipeline=&gt;
-</div>
+|   Bob |        |   63 |   http://my-domain.com/id/Bob |</div>
 </div>
 
 And if we use our `graft`:
@@ -346,27 +303,18 @@ And if we use our `graft`:
 
 test-project.pipeline=&gt; (convert-persons-data-to-graph new-data-example)
 
-(#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o nil, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})
-
-test-project.pipeline=&gt;
-</div>
+(#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o nil, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})</div>
 </div>
 
 We can notice a `quad` with a missing `object`: `#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o nil, :c "http://my-domain.com/graph/example"}`.
 
 Since the `defgraft` form is based on `composition`, we can add a filter to remove triples with a nil `object`. First lets define a pretty simple filter:
 
-
 <div class="terminal-wrapper">
   <div class="terminal-inner">
-
 test-project.pipeline=&gt; (defn missing-data-filter [triples]
                           (filter #(not (nil? (pr/object %))) triples))
-#'test-project.pipeline/missing-data-filter
-
-test-project.pipeline=&gt;
-
-</div>
+#'test-project.pipeline/missing-data-filter</div>
 </div>
 
 And then we create the new `graft`:
@@ -376,22 +324,21 @@ And then we create the new `graft`:
 
 test-project.pipeline=&gt; (defgraft convert-persons-data-to-graph-with-filter
                          convert-persons-data make-graph missing-data-filter)
-#'test-project.pipeline/convert-persons-data-to-graph-with-filter
-
-test-project.pipeline=&gt;
-</div>
+#'test-project.pipeline/convert-persons-data-to-graph-with-filter</div>
 </div>
 
 And test it:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">
-
 test-project.pipeline=&gt; (convert-persons-data-to-graph-with-filter new-data-example)
-(#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})
-
-test-project.pipeline=&gt;
-</div>
+(#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})</div>
 </div>
 
 And there isn't any `nil` object anymore!
+
+Congratulations, you've just reached the end of the Grafter quick
+start guide.  We hope you've enjoyed it and found it informative.  We
+have only touched on a fraction of what is possible with Grafter, so
+please dig deeper and feel free to contribute to ask questions and
+contribute in the Grafter & Clojure community.
