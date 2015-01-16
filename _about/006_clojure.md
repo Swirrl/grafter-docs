@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Clojure
+title: Setting up a Clojure Environment
 ---
 
 # Environment
