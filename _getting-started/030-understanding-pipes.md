@@ -130,6 +130,27 @@ Its important to note that pipe's are functions from `datasettable* ->
 dataset` and that so long as a pipe meets this contract it can be used
 by the Grafter plugin and other Grafter services.
 
+The great thing about pipes is that they can be chained together, one
+after the other, through standard function composition.  i.e. you can
+write code like the following:
+
+{% highlight clojure %}
+(defpipe joined-pipe [data-file]
+  (-> (read-dataset data-file)
+       another-pipe
+       yet-another-pipe))
+{% endhighlight %}
+
+In Clojure you can also compose pipes like this:
+
+{% highlight clojure %}
+   (comp third-pipe second-pipe first-pipe) ;; => returns a function which is a pipe
+{% endhighlight %}
+
+However, as with all uses of `comp` for pipes to fit together this
+cleanly all the pipes after the first must accept exactly one
+argument.
+
 Pipes should always call `read-dataset` on their arguments, to
 guarantee that a `defpipe` can be called by the plugin (which will
 typically supply it with a file path as a `String`) or by other
