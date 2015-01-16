@@ -3,6 +3,8 @@ layout: page
 title: 3. Understanding Pipes
 ---
 
+**NOTE: This guide covers Grafter 0.3.0-SNAPSHOT**
+
 # Understanding Pipes
 
 *This is the third part of the Grafter Getting Started Guide.*

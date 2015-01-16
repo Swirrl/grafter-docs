@@ -3,6 +3,8 @@ layout: page
 title: 2. Running Pipelines
 ---
 
+**NOTE: This guide covers Grafter 0.3.0-SNAPSHOT**
+
 # Running Pipeline Transformations
 
 *This is the second part of the Grafter Getting Started Guide.*

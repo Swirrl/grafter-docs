@@ -3,6 +3,8 @@ layout: page
 title: 1. Creating a Grafter Project
 ---
 
+**NOTE: This guide covers Grafter 0.3.0-SNAPSHOT**
+
 # Creating a Grafter project
 
 *This is part one of the Grafter Getting Started Guide.*
