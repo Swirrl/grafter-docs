@@ -132,23 +132,28 @@ terseness of this format:
 </div>
 
 As you can see because of the type definitions `graph` forms like this
-work with `graph-fn` really nicely.  Allowing you to not just derive
-data from source data, but also the graphs where you put it.
+work with `graph-fn` really nicely.  Allowing you to not just generate
+linked data from the source data, but also the graph uri's where you
+store it.
 
-# TODO...
+# Defining Graft Pipelines with defgraft
 
-Our `graft` composes two steps:
+So now that we know how to convert tabular data row by row into graph
+data we can look at what a graft actually is, and how it differs from
+a pipe.
 
-* the `pipe` modifies, for each row of the tabular file we are working on, the columns, so we can access or add the exact data we need for our templates.
-* `make-graph` declares our graph template: it destructures each row and convert it into an RDF graph.
+Grafts are a kind of pipeline, which have a different shape to pipes.
+Where a pipe converts a `Datasetable* -> Dataset` a graft formally has
+the following type `((Datasetable* -> Dataset) -> [Quad])`.  i.e. its
+a pipe with an additional step that converts a Dataset to a sequence
+of Quads.  The sequence of quads can then be said to represent a
+linked data graph.
 
-Lets give a look to the `make-graph` definition:
-
-The `graph-fn` form takes as arguments, the column names we'll need in our graphs, and one or more graph definition using the `graph` function.
-
-The `graph` function allows us to define, in a natural way, how our graph will be. We describe for each row the triples: `[subject [predicate object]]`
-
-# defgraft
+Because Grafter tries its utmost to be lazy, grafts essentially take a
+dataset containing a lazy sequence of rows, and convert it into a lazy
+sequence of quads.  This laziness property means you can perform
+streaming operations on vast quantities of data with efficient memory
+usage.
 
 Lets take a look at the form of a `defgraft` definition:
 
@@ -174,17 +179,32 @@ Lets take a look at the example defined in the `pipeline.clj` file:
 
 The first argument after the optional docstring must be a `pipe`,
 i.e. it must be a function defined by `defpipe` that goes from
-`Datasetable* -> Dataset`.
+`Datasetable* -> Dataset`.  The final required argument must then be a
+a function that can convert a `Dataset -> [Quad]`.  This is then
+composed on to the end of the pipe making a graft.  Here you'll notice
+that the most common type of function to put here is the one returned
+by `graph-fn`.
 
-After this a graft form must then reference a graph template, which is
-essentially a function that when applied to a `Dataset` row returns a
-sequence of linked data statements otherwise known as Quads.
+Finally after the graph converting function, you can supply any number
+of functions of type `[Quad] -> [Quad]`.  Typically these are used as
+filters, to strip out quads that contain various values you don't want
+to let through.
 
-For example if you run the command `lein grafter list grafts` the
-plugin will search the projects classpath for any clj files with valid
-defgraft definitions, and list them.
+`defgraft` like `defpipe` promotes the function it defines to the
+outside tooling, such as the plugin.  For example if you run the
+command `lein grafter list grafts` the plugin will search the projects
+classpath for any clj files with valid `defgraft` definitions, and
+list them.
 
-`defgraft` is necessary as it allows Grafter to distinguish `grafts` from ordinary functions.
+If you do this, you'll notice that even though the graft didn't
+explicitly declare any arguments, they will where possible be infered
+from the pipes arguments.
+
+<div class="terminal-wrapper">
+  <div class="terminal-inner">$ lein grafter list grafts
+Pipeline                                                     Type      Arguments            Description
+test-project.pipeline/convert-persons-data-to-graph          graft     data-file            ;; A pipeline that converts the persons data sheet into graph data.</div>
+</div>
 
 ## What is a graft?
 
