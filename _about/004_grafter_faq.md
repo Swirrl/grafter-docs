@@ -27,15 +27,22 @@ In particular we are interested in creating pipelines that convert
 tabular data from source files like Spreadsheets and Shapefiles into
 linked data.
 
-in the future we hope to be able to provide additional tooling in this
-area.
+One of the main differences between Grafter and Incanter is that
+Grafter strongly emphasises the need for defining operations as lazy
+(stream-like) operations, where as Incanter typically follows an eager
+loading approach.
+
+Because ETL is often defining transformations on large datasets, we
+believe that where possible the whole Extract, Transform and Load
+operation should be done in a single pass, without loading whole
+Datasets into memory.
 
 ### Aren't you just remaking Google/Open Refine?
 
 We love OpenRefine and spent a long time assessing it as an
 alternative to Grafter.  Indeed OpenRefine with the RDF plugin is
-superficially very close to our vision of an end user data
-transformation tooling.
+superficially very close to our vision of end user data transformation
+tooling.
 
 Unfortunately though, Open Refine was built primarily to be a desktop
 tool for data cleaning, and although people have tried it is not really
@@ -50,6 +57,8 @@ conversion.
 We believe that ETL needs to be reliable, robust and efficient, and
 that OpenRefine does not provide a suitable framework for building a suite
 of complementary tools on top of.
+
+Crucially this requires a well defined layered architecture.
 
 ### Aren't you just remaking Pentaho Data Integration (Kettle)
 
