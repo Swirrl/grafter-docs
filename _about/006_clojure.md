@@ -19,8 +19,10 @@ started quickly with Grafter and Clojure.
 
 ## 1. IntelliJ with Cursive Clojure
 
-IntelliJ with the Cursive Clojure plugin is one of the easiest ways of
-getting a near state of the art Clojure environment going.
+[IntelliJ](http://www.jetbrains.com/idea/) with the
+[Cursive Clojure plugin](https://cursiveclojure.com/) is one of the
+easiest ways of getting a near state of the art Clojure environment
+going.
 
 Given how much time many people spend setting up their Clojure
 environments unless you're already an Emacs user, we recommend this as
