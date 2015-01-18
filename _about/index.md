@@ -7,7 +7,7 @@ title: The Grafter Vision
 
 At the heart of Grafter is a Domain Specific Langauge (DSL) which
 allows the specification of transformation pipelines that convert
-tabular data into linked data formats and the creation of graphs.
+tabular data into either more tabular data or linked data graphs.
 
 The DSL is designed to support a good separation of concerns, and
 acknowledges the reality that even within a single dataset many people
@@ -16,26 +16,44 @@ with different skills and responsibilities may be involved.
 # The Grafter Vision
 
 Grafter has been designed to form the basis of a suite of tools for
-creating linked data out of a variety of source formats.  These tools
-are concerned not only with transformation, but also data cleaning,
-and robust loading with excellent facilities for error handling and
-reporting.
+creating robust ETL processes, for both tabular and graph data.
 
-At the heart of Grafter is a Domain Specific Langauge (DSL) which
-allows the specification of transformation pipelines that convert
-tabular data into linked data formats.
+These tools are concerned not only with transformation, but also data
+cleaning, and robust loading with excellent facilities for error
+handling and reporting.
 
-The DSL is designed to support a good separation of concerns, and
-acknowledges the reality that even within a single dataset many people
-with different skills and responsibilities may be involved.
+Implemented in Clojure, Grafter's core is targeted at software
+developers, however we are planning on building graphical tools
+targeted at spreadsheet users to allow non-programmers to develop
+robust, repeatable transformations.  Our vision is to help enable a
+seamless collaboration between a broad spectrum of users, enabling
+division of labour between transformations built by spreadsheet users
+and developers.
 
-The Grafter suite is designed to allow many people with different
-skill sets to efficiently reuse work and collaborate in the process of
-data linked data conversion and publication.
+Additionally we are developing RESTFUL service wrappers for data
+loading that allow transformations to be packaged as import services.
 
-The Grafter suite is currently a work in progress, but it is envisaged
-to consist of the following tools:
+# The Grafter Roadmap
 
-- The underlying Grafter DSLs
-- The Grafter Import Service
-- A Grafter Transformation Builder
+Grafter is still in the early stages, but is already being used to
+develop large, commercial grade ETL processes for large quantities of
+government data.
+
+In spite of this Grafter's DSL itself is under rapid development and
+is expected to undergo radical changes in the run up to v1.0.0.
+
+In particular we plan on investigating and potentially formalising the
+following features, either in Grafter's core or in external libraries
+in coming releases:
+
+- 1st class error handling features
+- Decomplecting the selection of data from the application of transformation
+- DSL redesign to ensure full coverage of typical ETL operations
+- Ontology loading
+- Review to ensure laziness in all operations that can support it, and
+  providing explicit guarantees of laziness
+- Database adapters for reading/writing to SQL
+- Adapters for non RDF, Graph Databases, such as Datomic and neo4j
+- Integration with core.matrix
+- Transducer and core.async support
+- Creating a library of common, composable transformation functions
