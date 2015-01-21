@@ -12,6 +12,24 @@ publishing linked open data.  It is being developed as part of the
 European FP7 funded [DaPaaS](http://project.dapaas.eu/) and
 [Open Cube](http://www.opencube-project.eu/) projects.
 
+### Why Use Clojure?
+
+Because it's the right tool for the job.  ETL is best thought of as
+pure functions operating on streams of immutable data.  Clojure
+provides many features which in other languages we would need to write
+or develop ourselves.  These include:
+
+- Immutable Data Structures
+- Being built on the JVM gives us access to excellent libraries and
+  performance
+- Lazy sequences
+- Homoiconicity & the ability to process code as data
+
+Yes, this means you have to learn Clojure to learn Grafter.  If you're
+interested in doing this we recommend
+[Clojure for the brave and true](http://www.braveclojure.com/) as a
+fantastic, free, getting started with the language guide.
+
 ### How does this relate to Incanter?
 
 [Incanter](http://incanter.org/) is a great Clojure library for data
