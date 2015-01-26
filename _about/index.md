@@ -57,3 +57,15 @@ in coming releases:
 - Integration with core.matrix
 - Transducer and core.async support
 - Creating a library of common, composable transformation functions
+
+# Previous Grafter Versions
+
+Earlier releases of Grafter should still be left available in the
+public clojars repositories, and we hope to maintain their online API
+documentation.
+
+The latest stable version should always be found by visiting
+[api.grafter.org](http://api.grafter.org/).
+
+- [Latest Grafter API](http://api.grafter.org/)
+- [Grafter v0.2.x API](http://api.grafter.org/0.2/)
