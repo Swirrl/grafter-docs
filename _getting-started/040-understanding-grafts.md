@@ -3,7 +3,7 @@ layout: page
 title: 4. Understanding Grafts
 ---
 
-**NOTE: This guide covers Grafter 0.3.0-SNAPSHOT**
+**NOTE: This guide covers Grafter 0.3.0**
 
 # Understanding Grafts
 
