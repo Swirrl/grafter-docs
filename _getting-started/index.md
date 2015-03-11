@@ -3,7 +3,7 @@ layout: page
 title: Getting Started
 ---
 
-**NOTE: This guide covers Grafter 0.3.0**
+**NOTE: This guide covers Grafter 0.4.0**
 
 # Getting Started
 

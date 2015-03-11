@@ -3,7 +3,7 @@ layout: page
 title: 4. Understanding Grafts
 ---
 
-**NOTE: This guide covers Grafter 0.3.0**
+**NOTE: This guide covers Grafter 0.4.0**
 
 # Understanding Grafts
 
@@ -215,8 +215,8 @@ graft pipelines to generate these serialisations from the command line
 in [part two](/getting-started/020-running-pipelines.html).
 
 Grafter also
-[provides](http://api.grafter.org/0.3/grafter.rdf.io.html#var-rdf-serializer)
-API [functions](http://api.grafter.org/0.3/grafter.rdf.html#var-add)
+[provides](http://api.grafter.org/master/grafter.rdf.io.html#var-rdf-serializer)
+API [functions](http://api.grafter.org/master/grafter.rdf.html#var-add)
 for accessing this functionality, however that is beyond the scope of
 this article.
 

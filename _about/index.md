@@ -64,8 +64,7 @@ Earlier releases of Grafter should still be left available in the
 public clojars repositories, and we hope to maintain their online API
 documentation.
 
-The latest stable version should always be found by visiting
-[api.grafter.org](http://api.grafter.org/).
-
-- [Latest Grafter API](http://api.grafter.org/)
+- [Latest Grafter API](http://api.grafter.org/master/)
+- [Grafter v0.4.x API](http://api.grafter.org/0.4/)
+- [Grafter v0.3.x API](http://api.grafter.org/0.3/)
 - [Grafter v0.2.x API](http://api.grafter.org/0.2/)
