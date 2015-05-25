@@ -9,10 +9,10 @@ title: 3. Understanding Pipes
 
 *This is the third part of the Grafter Getting Started Guide.*
 
-Lets take a look at the main file where both the `pipe` and `graft`
+Let's take a look at the main file where both the `pipe` and `graft`
 transformation pipelines are defined.
 
-Lets start by looking at the `defpipe` definition:
+Let's start by looking at the `defpipe` definition:
 
 {% highlight clojure %}
 (defpipe convert-persons-data
@@ -66,7 +66,7 @@ test-project.pipeline=&gt;</div>
 ### Running a pipe
 
 You should now see the Clojure REPL started in your projects pipeline
-namespace.  First lets try running the pipe `convert-persons-data
+namespace.  First let's try running the pipe `convert-persons-data
 which we ran via the plugin before:
 
 <div class="terminal-wrapper">
@@ -89,8 +89,25 @@ the pipeline in other contexts.
 
 ### Reading a dataset
 
-Lets investigate the pipes steps one by one so we can see what's going
-on.  First lets try using `read-dataset` to open our example file:
+The datasets used by Grafter are interoperable with Incanter Datasets.
+They are either real Incanter Dataset concrete types or simply Clojure
+records that contain collection fields named `:column-names` and `:rows`.
+
+{% highlight clojure %}
+;; A pretty-printed Dataset
+
+{:column-names [:name :age :person-uri],
+ :rows
+ ({:age 34,
+   :person-uri "http://my-domain.com/id/Alice",
+   :name "Alice"}
+  {:age 63,
+   :person-uri "http://my-domain.com/id/Bob",
+   :name "Bob"})}
+{% endhighlight %}
+
+Let's investigate the pipes steps one by one so we can see what's going
+on.  First let's try using `read-dataset` to open our example file:
 
 <div class="terminal-wrapper">
 <div class="terminal-inner">test-project.pipeline=&gt; (read-dataset "./data/example-data.csv")
@@ -201,7 +218,7 @@ datastructures, technically every step in a pipeline creates a new
 dataset.  Thanks to Clojure's persistent datastructures this is an
 efficient operation.
 
-So, lets make those headers:
+So, let's make those headers:
 
 <div class="terminal-wrapper">
 <div class="terminal-inner">test-project.pipeline=> (-> (read-dataset "./data/example-data.csv")
@@ -269,7 +286,7 @@ topic for another day.
 
 ### Derive a new column with derive-column
 
-Next lets use Grafter's `derive-column` to derive a new URI for each
+Next let's use Grafter's `derive-column` to derive a new URI for each
 person in the source data by concatenating a URI prefix with each
 persons name.
 
@@ -282,7 +299,7 @@ added to the dataset in the new column.  Essentially `derive-column`
 is `apply` for `Dataset`s, where the return value is stored in a new
 column.
 
-First lets have a play with it at the REPL:
+First let's have a play with it at the REPL:
 
 <div class="terminal-wrapper">
 <div class="terminal-inner">test-project.pipeline=> (-> (make-dataset [[1 2 3] [4 5 6]] [:a :b :c])
@@ -308,9 +325,9 @@ the end of the dataset we still need to provide a column name:
 |  4 |  5 |  6 | 11 |</div>
 </div>
 
-So lets try and generate a uri, there is a function defined in the
+So let's try and generate a uri, there is a function defined in the
 template for building resource-id URI's already in the
-`test-project.prefix` namespace.  Lets try and call it:
+`test-project.prefix` namespace.  Let's try and call it:
 
 <div class="terminal-wrapper">
 <div class="terminal-inner">test-project.pipeline=> (base-id "foo")
@@ -322,7 +339,7 @@ We can see that this function concatenates its argument to a base
 prefix for us (if you want a different prefix you can redifine the
 function definition in `test-project.prefix`).
 
-So lets try adding using this with our pipeline so far and
+So let's try adding using this with our pipeline so far and
 `derive-column`:
 
 <div class="terminal-wrapper">
