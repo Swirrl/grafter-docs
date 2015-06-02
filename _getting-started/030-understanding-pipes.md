@@ -89,9 +89,12 @@ the pipeline in other contexts.
 
 ### Reading a dataset
 
-The datasets used by Grafter are interoperable with Incanter Datasets.
-They are either real Incanter Dataset concrete types or simply Clojure
-records that contain collection fields named `:column-names` and `:rows`.
+The datasets used by Grafter are interoperable with Incanter Dataset records and
+share the same internal representation.  Like all Clojure records they can be
+thought of as hash maps.  They contain two fields named `:column-names` and
+`:rows`.  Columns are stored as an ordered vector of `:column-names`, whilst
+`:rows` contains a sequence of maps where the keys are from `:column-names` and
+the values are the contentes of that specific cell.
 
 {% highlight clojure %}
 ;; A pretty-printed Dataset
