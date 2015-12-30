@@ -148,7 +148,7 @@ with the three column names `a`, `b` and `c`.
 Typically when building Grafter transformations for flexibility we
 split the pipeline into two parts.  The tabular transformation
 (typically declared as `Dataset -> Dataset`), and the graph
-transformation (typically declared `Dataset` -> `(Seq Statement)`).
+transformation (typically declared `Dataset -> Quads`).
 For short we commonly refer to these as `pipe`s and `graft`s.
 
 Spliting pipelines in this way helps maximise code reuse and aids in

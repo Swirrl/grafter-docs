@@ -157,19 +157,20 @@ Lets take a look at the example defined in the `pipeline.clj` file:
   [dataset]
   (->> dataset convert-persons-data make-graph))
 
-(declare-pipeline convert-persons-data-to-graph [Dataset -> (Seq Statement)]
+(declare-pipeline convert-persons-data-to-graph [Dataset -> Quads]
                   {dataset "The data file to convert into a graph."})
 {% endhighlight %}
 
 Again, we see that a graft is just a normal Clojure function, except
 it is declared with `declare-pipeline` to have the appropriate return
-type of `-> (Seq Statement)`.  Here we receive the same input
-arguments as the `convert-persons-data` transformation, so we can both
-clean the input file (reusing our previous transformation) and lazily
-map each row into an RDF graph.
+type of `-> Quads`, which is an alias to represent a sequence of Quads
+( `[Quad]`).  Here we receive the same input arguments as the
+`convert-persons-data` transformation, so we can both clean the input
+file (reusing our previous transformation) and lazily map each row
+into an RDF graph.
 
 So long as this function meets the contract of a `graft` (returning
-`(Seq Statement)`) we can continue to compose additional functions on
+`Quads`) we can continue to compose additional functions on
 the end.  For example you may wish to filter out certain quads or
 values you don't want to output.
 
