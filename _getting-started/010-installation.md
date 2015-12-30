@@ -3,7 +3,7 @@ layout: page
 title: 1. Creating a Grafter Project
 ---
 
-**NOTE: This guide covers Grafter 0.4.0**
+**NOTE: This guide covers Grafter 0.6.0**
 
 # Creating a Grafter project
 
@@ -87,6 +87,7 @@ The template will have created a project structure like this:
     ├── README.md
     ├── data
     │   └── example-data.csv
+    ├── grafter-config.edn
     ├── project.clj
     └── src
         └── test_project
@@ -105,14 +106,20 @@ dependency on the grafter package, and tells the project to use the
 grafter leiningen plugin, which provides some additional command line
 tools for pipeline developers.
 
+In addition to this the template includes a `grafter-config.edn` file
+which is a manifest specifying which namespaces contain grafter
+pipelines to be loaded.  The leiningen plugin and other tools consult
+this file to load the appropriate pipelines.
+
 {% highlight clojure %}
 (defproject test-project "0.1.0-SNAPSHOT"
   :description "FIXME: this part is for you!"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [grafter "0.3.0"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [grafter "0.6.0"]
+                 [grafter/vocabularies "0.1.3"]
                  [org.slf4j/slf4j-jdk14 "1.7.5"]]
 
   :repl-options {:init (set! *print-length* 200)}

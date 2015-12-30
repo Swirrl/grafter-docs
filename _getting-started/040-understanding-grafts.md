@@ -1,24 +1,24 @@
 ---
 layout: page
-title: 4. Understanding Grafts
+title: 4. Transforming into Graphs
 ---
 
-**NOTE: This guide covers Grafter 0.4.0**
+**NOTE: This guide covers Grafter 0.6.0**
 
-# Understanding Grafts
+# Transforming into Graphs
 
 *This is the fourth part of the Grafter Getting Started Guide*
 
-Lets continue with the main file where both the `pipe`and `graft`
-transformation pipelines are defined.
+Lets continue with the main file where both the tabular and
+graph transformation pipelines are defined.
 
 ## Defining graph mappings with graph-fn
 
-Before we can look at `defgraft` we should understand how we can
-convert a table of results from a `Dataset` to a graph of Linked Data.
-The following code snippet defines a function with `graph-fn` that
-takes each row of data from a `Dataset`, destructures it by column
-name and maps it into a linked data graph with the `graph` function:
+Lets look at how to convert a tabular `Dataset` into a graph, through
+a `graph-fn` template or mapping.  The following code snippet defines
+a function with `graph-fn` that takes each row of data from a
+`Dataset`, destructures it by column name and maps it into a linked
+data graph with the `graph` function:
 
 {% highlight clojure %}
 (def make-graph
@@ -138,69 +138,43 @@ work with `graph-fn` really nicely.  Allowing you to not just generate
 linked data from the source data, but also the graph uri's where you
 store it.
 
-## Defining Graft Pipelines with defgraft
+## Defining Graph Pipelines with declare-pipeline
 
 So now that we know how to convert tabular data row by row into graph
-data we can look at what a graft actually is, and how it differs from
-a pipe.
+data we can look at what makes up a graph transformation.
 
-Grafts are a kind of pipeline, which have a different shape to pipes.
-Where a pipe converts a `Datasetable* -> Dataset` a graft formally has
-the following type `((Datasetable* -> Dataset) -> [Quad])`.  i.e. its
-a pipe with an additional step that converts a Dataset to a sequence
-of Quads.  The sequence of quads can then be said to represent a
-linked data graph.
-
-Because Grafter tries its utmost to be lazy, grafts essentially take a
-dataset containing a lazy sequence of rows, and convert it into a lazy
-sequence of quads.  This laziness property means you can perform
-streaming operations on vast quantities of data with efficient memory
-usage.
-
-Lets take a look at the form of a `defgraft` definition:
-
-{% highlight clojure %}
-
-(defgraft <name>
-  docstring?
-  <pipe> <graph-template> quads-fn*)
-{% endhighlight %}
-
-As you can see looking at the `defgraft` form, it has a very different
-syntax to that of `defpipe`.  But like `defpipe` it just defines a
-function of a specific type which has been exposed to the grafter
-system.
+As with tabular transformations graph transformations are just
+functions, however we call transformations that return a type of `(Seq
+Statement)` grafts.  Transformations wtih this declared return type
+are specially supported by Grafter execution environments to for
+example output the statements in a chosen RDF serialisation.
 
 Lets take a look at the example defined in the `pipeline.clj` file:
 
 {% highlight clojure %}
-(defgraft convert-persons-data-to-graph
+(defn convert-persons-data-to-graph
   "Pipeline to convert the tabular persons data sheet into graph data."
-  convert-persons-data make-graph)
+  [dataset]
+  (->> dataset convert-persons-data make-graph))
+
+(declare-pipeline convert-persons-data-to-graph [Dataset -> (Seq Statement)]
+                  {dataset "The data file to convert into a graph."})
 {% endhighlight %}
 
-The first argument after the optional docstring must be a `pipe`,
-i.e. it must be a function defined by `defpipe` that goes from
-`Datasetable* -> Dataset`.  The final required argument must then be a
-a function that can convert a `Dataset -> [Quad]`.  This is then
-composed on to the end of the pipe making a graft.  Here you'll notice
-that the most common type of function to put here is the one returned
-by `graph-fn`.
+Again, we see that a graft is just a normal Clojure function, except
+it is declared with `declare-pipeline` to have the appropriate return
+type of `-> (Seq Statement)`.  Here we receive the same input
+arguments as the `convert-persons-data` transformation, so we can both
+clean the input file (reusing our previous transformation) and lazily
+map each row into an RDF graph.
 
-Finally after the graph converting function, you can supply any number
-of functions of type `[Quad] -> [Quad]`.  Typically these are used as
-filters, to strip out quads that contain various values you don't want
-to let through.
+So long as this function meets the contract of a `graft` (returning
+`(Seq Statement)`) we can continue to compose additional functions on
+the end.  For example you may wish to filter out certain quads or
+values you don't want to output.
 
-`defgraft` like `defpipe` promotes the function it defines to the
-outside tooling, such as the plugin.  For example if you run the
-command `lein grafter list grafts` the plugin will search the projects
-classpath for any clj files with valid `defgraft` definitions, and
-list them.
-
-If you do this, you'll notice that even though the graft didn't
-explicitly declare any arguments, they will where possible be infered
-from the pipes arguments.
+Functions that return a graph like this have special support in the
+leiningen plugin for example:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">$ lein grafter list grafts
@@ -250,11 +224,11 @@ test-project.pipeline=&gt; (convert-persons-data "./data/example-data.csv")
 </div>
 </div>
 
-Next up enter `(-> (convert-persons-data "./data/example-data.csv") make-graph)`.
+Next up enter `(->> (convert-persons-data "./data/example-data.csv") make-graph)`.
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">
-test-project.pipeline=&gt; (-> (convert-persons-data "./data/example-data.csv")
+test-project.pipeline=&gt; (->> (convert-persons-data "./data/example-data.csv")
                             make-graph)
 
 (#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 female>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/age", :o 34, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Alice", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Alice>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", :o "http://xmlns.com/foaf/0.1/Person", :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o #<io$s$reify__9455 male>, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/age", :o 63, :c "http://my-domain.com/graph/example"} #grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/name", :o #<io$s$reify__9455 Bob>, :c "http://my-domain.com/graph/example"})
@@ -267,7 +241,7 @@ You'll notice that `make-graph` takes a `Dataset`, destructures its header, and 
 
 ### Slightly more complex example
 
-When you work with data you often have to deal with missing data. The `defgraft` form allows us to filter those missing data: **lets play a little bit more with the Clojure's REPL and with Grafter!**
+When you work with data you often have to deal with missing data. *Lets play a little bit more with the REPL and Grafter to see how to do this!*
 
 First lets create a new `Dataset` with a missing data:
 
@@ -285,7 +259,7 @@ test-project.pipeline=&gt; new-data-example
 |   Bob |     |  63 |</div>
 </div>
 
-We can test our `pipe` just for fun:
+We can test our function just for fun:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">
@@ -310,12 +284,12 @@ test-project.pipeline=&gt; (convert-persons-data-to-graph new-data-example)
 
 We can notice a `quad` with a missing `object`: `#grafter.rdf.protocols.Quad{:s "http://my-domain.com/id/Bob", :p "http://xmlns.com/foaf/0.1/gender", :o nil, :c "http://my-domain.com/graph/example"}`.
 
-Since the `defgraft` form is based on `composition`, we can add a filter to remove triples with a nil `object`. First lets define a pretty simple filter:
+To fix this problem we can `remove` triples with a nil `object`. First lets define a pretty simple filter:
 
 <div class="terminal-wrapper">
   <div class="terminal-inner">
 test-project.pipeline=&gt; (defn missing-data-filter [triples]
-                          (filter #(not (nil? (pr/object %))) triples))
+                               (remove #(nil? (pr/object %)) triples))
 #'test-project.pipeline/missing-data-filter</div>
 </div>
 
@@ -324,8 +298,8 @@ And then we create the new `graft`:
 <div class="terminal-wrapper">
   <div class="terminal-inner">
 
-test-project.pipeline=&gt; (defgraft convert-persons-data-to-graph-with-filter
-                         convert-persons-data make-graph missing-data-filter)
+test-project.pipeline=&gt; (defn convert-persons-data-to-graph-with-filter [dataset]
+                              (->> dataset convert-persons-data make-graph missing-data-filter))
 #'test-project.pipeline/convert-persons-data-to-graph-with-filter</div>
 </div>
 

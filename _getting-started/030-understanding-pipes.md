@@ -1,21 +1,20 @@
 ---
 layout: page
-title: 3. Understanding Pipes
+title: 3. Transforming into Tables
 ---
 
-**NOTE: This guide covers Grafter 0.4.0**
+**NOTE: This guide covers Grafter 0.6.0**
 
-# Understanding Pipes
+# Transforming into Tables
 
 *This is the third part of the Grafter Getting Started Guide.*
 
-Let's take a look at the main file where both the `pipe` and `graft`
-transformation pipelines are defined.
+Let's take a look at where both the tabular and graph transformations are defined.
 
-Let's start by looking at the `defpipe` definition:
+Let's start by looking at the tabular definition:
 
 {% highlight clojure %}
-(defpipe convert-persons-data
+(defn convert-persons-data
   "Pipeline to convert tabular persons data into a different tabular format."
   [data-file]
   (-> (read-dataset data-file)
@@ -25,20 +24,33 @@ Let's start by looking at the `defpipe` definition:
       (mapc {:age ->integer
              :sex {"f" (s "female")
                    "m" (s "male")}})))
+
+(declare-pipeline convert-persons-data [Dataset -> Dataset]
+                  {data-file "A data file"})
 {% endhighlight %}
 
-The first thing to notice about `defpipe` forms is that they are
-syntactically identical to Clojure's `defn` form.  This is because
-essentially all they do is define a function.  However `defpipe` in
-addition to defining a normal Clojure function, also advertises that
-function to the plugin and other Grafter services.
+The first thing to notice about grafter transformations is that they
+are just normal Clojure functions.  However you'll notice that below
+the function call there is a `declare-pipeline` call which advertises
+that function to the plugin and other Grafter services, whilst
+providing extra information on the pipelines expected types along with
+doc strings for each argument.
 
-For example if you run the command `lein grafter list pipes` the plugin
-will search the projects classpath for any clj files with valid
-defpipe definitions, and list them.
+The type declaration `Dataset -> Dataset` specifies that this
+transformation converts a `Dataset` (table) into another tabular
+`Dataset`.  (Clojure experts may notice that the type forms in 0.6.0
+are syntactically the same as in core.typed, however we expect to
+change the syntax of these forms in 0.7.0 to follow that of
+prismatic/schema)
 
-`defpipe` is necessary as it allows Grafter to distinguish `pipes`
-from ordinary functions.
+These annotations support extra tooling, such as the leiningen plugin
+which can be run the at the command line with `lein grafter list`.
+The plugin will then display appropriate information about the
+pipeline and use the type declarations to coerce its command line
+arguments into the expected types for the pipeline.
+
+`declare-pipeline` allows this tooling to distinguish top level
+transformation functions from ordinary functions.
 
 ## Working at the Clojure REPL
 
@@ -63,7 +75,7 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
 test-project.pipeline=&gt;</div>
 </div>
 
-### Running a pipe
+### Running a pipeline
 
 You should now see the Clojure REPL started in your projects pipeline
 namespace.  First let's try running the pipe `convert-persons-data
@@ -131,64 +143,17 @@ Notice though that Grafter can't assume that the first row of the data
 are actually the column headings, so it has initialised the dataset
 with the three column names `a`, `b` and `c`.
 
-## Composing Pipes
+## Composing Pipelines
 
-A pipe is any function defined with Grafters `defpipe`, that can
-convert 0 or more `datasettable` arguments into a Grafter/Incanter
-`Dataset` output.
+Typically when building Grafter transformations for flexibility we
+split the pipeline into two parts.  The tabular transformation
+(typically declared as `Dataset -> Dataset`), and the graph
+transformation (typically declared `Dataset` -> `(Seq Statement)`).
+For short we commonly refer to these as `pipe`s and `graft`s.
 
-Dataset's are how Grafter represents tabular data, and `datasettables`
-are said to be any type which Grafter can coerce into a `Dataset`.  This
-includes for example Strings representing file paths or URLs,
-`java.io.File` objects, `java.net.URI` and `URL` objects, along with
-`InputStream`s and `Reader`s, and various others.  Importantly
-`Dataset`s are also `datasettable`.
-
-Typically a `defpipe` definition will as its first action use Grafters
-`read-dataset` function to load the supplied object into a Dataset,
-before passing this `Dataset` through a series of operations.
-
-Its important to note that pipe's are functions from `datasettable* ->
-dataset` and that so long as a pipe meets this contract it can be used
-by the Grafter plugin and other Grafter services.
-
-The great thing about pipes is that they can be chained together, one
-after the other, through standard function composition.  i.e. you can
-write code like the following:
-
-{% highlight clojure %}
-(defpipe joined-pipe [data-file]
-  (-> (read-dataset data-file)
-       another-pipe
-       yet-another-pipe))
-{% endhighlight %}
-
-In Clojure you can also compose pipes like this:
-
-{% highlight clojure %}
-   (comp third-pipe second-pipe first-pipe) ;; => returns a function which is a pipe
-{% endhighlight %}
-
-However, as with all uses of `comp` for pipes to fit together this
-cleanly all the pipes after the first must accept exactly one
-argument.
-
-Pipes should always call `read-dataset` on their arguments, to
-guarantee that a `defpipe` can be called by the plugin (which will
-typically supply it with a file path as a `String`) or by other
-pipelines which will pass them an already opened `Dataset`.
-
-This works because calling `read-dataset` on a `Dataset` is guaranteed
-to return a `Dataset`; hence `Dataset`s are themselves `datasettable`.
-
-Pipes are typically built as a linear sequence of operations, where
-each operation takes an input dataset and some arguments and returns a
-new `Dataset` with the changes applied.
-
-Usually we compose this sequence of operations together with Clojure's
-thread-first (`->`) macro, which takes the return value of the
-previous step and implicitly plugs it into the first argument of the
-next function call.
+Spliting pipelines in this way helps maximise code reuse and aids in
+debugging as you can easily see what transformed table was generated
+before being converted into an RDF graph.
 
 We will now take a look at building the above pipe step by step.
 
@@ -433,3 +398,30 @@ time like this:
 *NOTE because we're later going to convert this data into linked data
  with a `graft` step, we also make use of the `s` function which
  converts java `String` objects into Linked Data strings.*
+
+
+## Exposing Grafter Services
+
+An important architectural principle of Grafter is that it makes a
+clean separation between a pipelines transformation responsibilities,
+and the execution environment, or service within which it runs.
+
+There are currently several different execution environments available
+for Grafter.  These are:
+
+- The leiningen plugin (Open Source)
+- Grafter Server (Proprietary - but planned to be open sourced)
+- The Graftwerk service wrapper (Proprietary - planned to be opened)
+
+These services, like the leiningen plugin, use information exposed
+through the `declare-pipeline` directive to build a web based forms
+and RESTful services for every declared grafter pipeline.
+
+For example these servers can use the type declarations to build a web
+based form for your pipeline, converting and coercing parameters and
+files from a HTTP request into the objects your pipeline is expecting.
+
+The pipeline never needs to say where to put the output data, as the
+output destination, whether it's a file a SPARQL endpoint or something
+else is the responsibility of the execution environment in which the
+pipeline is run.
