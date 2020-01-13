@@ -11,3 +11,5 @@ to deploy, add your key to the server and run:
 
 I recommend adding alias to your profile (e.g)
 `alias deploygrafterdocs="rsync -avz --delete _site/ rails@grafter.org:/home/rails/sites/grafter_docs/"`
+
+(c) Swirrl IT LTD 2014.  All rights reserved.
